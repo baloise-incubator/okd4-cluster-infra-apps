@@ -2,13 +2,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: incubator-admins
-  annotations:
-    argocd.argoproj.io/sync-options: Validate=false
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
-  - apiGroup: user.openshift.io
+  - apiGroup: rbac.authorization.k8s.io
     kind: Group
     name: incubator-admins
