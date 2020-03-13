@@ -1,0 +1,11 @@
+apiVersion: user.openshift.io/v1
+kind: Group
+metadata:
+  name: incubator-admins
+users:
+  - niiku
+  - CookieMonster70
+  - christiansiegel
+  - danielgrob
+  - joachimprinzbach
+  - mbobzin

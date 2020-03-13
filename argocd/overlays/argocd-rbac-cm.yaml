@@ -5,6 +5,4 @@ metadata:
 data:
   policy.default: 'role:readonly'
   policy.csv: |
-    g, niiku, role:admin
-    g, joachimprinzbach, role:admin
-    g, christiansiegel, role:admin
+    g, incubator-admins, role:admin
