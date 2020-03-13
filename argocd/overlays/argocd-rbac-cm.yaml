@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: argocd-rbac-cm
 data:
+  policy.default: 'role:readonly'
   policy.csv: |
     g, niiku, role:admin
     g, joachimprinzbach, role:admin
