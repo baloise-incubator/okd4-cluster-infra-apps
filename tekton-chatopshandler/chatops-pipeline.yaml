@@ -42,7 +42,7 @@ spec:
   stepTemplate:
     envFrom:
       - secretRef:
-          name: github
+          name: github-token
   steps:
     - name: get-branch-name-step
       image: baloiseincubator/gitopscli:$(inputs.params.gitopscli-version)
