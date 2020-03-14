@@ -43,4 +43,4 @@ spec:
         --organisation $(inputs.params.rootorg) \
         --repository-name $(inputs.params.reponame) \
         --root-organisation baloise-incubator \
-        --root-repository-name okd4-apps-root-config \
+        --root-repository-name okd4-apps-root-config
