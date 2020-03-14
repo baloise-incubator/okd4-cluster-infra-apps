@@ -1,0 +1,132 @@
+{{- if .Values.clair.enabled }}
+apiVersion: {{ template "deployment.apiVersion" . }}
+kind: Deployment
+metadata:
+  name: {{ include "harbor.clair" . }}
+  labels: {{- include "harbor.labels" . | nindent 4 }}
+    app.kubernetes.io/component: clair
+spec:
+  replicas: {{ .Values.clair.replicas }}
+  selector:
+    matchLabels: {{- include "harbor.matchLabels" . | nindent 6 }}
+      app.kubernetes.io/component: clair
+  template:
+    metadata:
+      labels: {{- include "harbor.labels" . | nindent 8 }}
+        app.kubernetes.io/component: clair
+      annotations:
+        checksum/configmap-secret: {{ include (print $.Template.BasePath "/clair-cm-sealed-secret.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/clair-sealed-secret.yaml") . | sha256sum }}
+        {{- if .Values.clair.podAnnotations }}
+        {{- include "harbor.tplValue" (dict "value" .Values.clair.podAnnotations "context" $) | nindent 8 }}
+        {{- end }}
+    spec:
+{{- include "harbor.imagePullSecrets" . | indent 6 }}
+      {{- if .Values.clair.affinity }}
+      affinity: {{- include "harbor.tplValue" (dict "value" .Values.clair.affinity "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.clair.nodeSelector }}
+      nodeSelector: {{- include "harbor.tplValue" (dict "value" .Values.clair.nodeSelector "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.clair.tolerations }}
+      tolerations: {{- include "harbor.tplValue" (dict "value" .Values.clair.tolerations "context" $) | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: clair
+          image: {{ include "harbor.clairImage" . }}
+          imagePullPolicy: {{ .Values.clairImage.pullPolicy | quote }}
+          {{- if .Values.clair.livenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 6061
+            initialDelaySeconds: {{ .Values.clair.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.clair.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.clair.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.clair.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.clair.livenessProbe.failureThreshold }}
+          {{- end }}
+          {{- if .Values.clair.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 6061
+            initialDelaySeconds: {{ .Values.clair.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.clair.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.clair.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.clair.readinessProbe.successThreshold }}
+            failureThreshold: {{ .Values.clair.readinessProbe.failureThreshold }}
+          {{- end }}
+          env:
+            - name: BITNAMI_DEBUG
+              value: {{ ternary "true" "false" .Values.clairImage.debug | quote }}
+            {{- if .Values.clair.httpProxy }}
+            - name: HTTP_PROXY
+              value: {{ .Values.clair.httpProxy }}
+            {{- end }}
+            {{- if .Values.clair.httpsProxy }}
+            - name: HTTPS_PROXY
+              value: {{ .Values.clair.httpsProxy }}
+            {{- end }}
+          {{- if .Values.clair.existingSecret }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.clair.existingSecret }}
+          {{- end }}
+          {{- if .Values.clair.resources }}
+          resources: {{- toYaml .Values.clair.resources | nindent 12 }}
+          {{- end }}
+          ports:
+            - containerPort: 6060
+          volumeMounts:
+            - name: clair-config
+              mountPath: /etc/clair/config.yaml
+              subPath: config.yaml
+        - name: adapter
+          image: {{ include "harbor.clairAdapterImage" . }}
+          imagePullPolicy: {{ .Values.clairAdapterImage.pullPolicy }}
+          {{- if .Values.clair.livenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              path: /probe/healthy
+              port: 8080
+            initialDelaySeconds: {{ .Values.clair.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.clair.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.clair.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.clair.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.clair.livenessProbe.failureThreshold }}
+          {{- end }}
+          {{- if .Values.clair.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: /probe/ready
+              port: 8080
+            initialDelaySeconds: {{ .Values.clair.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.clair.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.clair.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.clair.readinessProbe.successThreshold }}
+            failureThreshold: {{ .Values.clair.readinessProbe.failureThreshold }}
+          {{- end }}
+          env:
+            - name: BITNAMI_DEBUG
+              value: {{ ternary "true" "false" .Values.clairAdapterImage.debug | quote }}
+            - name: SCANNER_CLAIR_URL
+              # To avoid a pod cannot reach itself via service IP when the clusters disable hairpin
+              value: "http://127.0.0.1:6060"
+            - name: SCANNER_STORE_REDIS_URL
+              value: {{ include "harbor.redisForClairAdapter" . }}
+#            - name: SCANNER_CLAIR_DATABASE_URL
+#              value: {{ include "harbor.database.clair" . }}
+          {{- if .Values.clair.adapter.resources }}
+          resources: {{ toYaml .Values.clair.adapter.resources | nindent 12 }}
+          {{- end }}
+          ports:
+            - containerPort: 8080
+      volumes:
+        - name: clair-config
+          secret:
+            secretName: {{ default (include "harbor.clair" .) .Values.clair.existingSecret }}-cm
+            items:
+              - key: config.yaml
+                path: config.yaml
+{{- end }}
