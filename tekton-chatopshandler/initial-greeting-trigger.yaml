@@ -49,8 +49,8 @@ metadata:
 spec:
   serviceAccountName: tekton-chatops-sa
   triggers:
-    - binding:
-        - name: tekton-chatops-greeting-trigger-binding
+    - bindings:
+      - name: tekton-chatops-greeting-trigger-binding
       template:
         name: tekton-chatops-greeting-trigger-template
 ---
