@@ -1,0 +1,71 @@
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: tekton-chatops-greeting-trigger-template
+spec:
+  params:
+    - name: prid
+    - name: reponame
+    - name: prorg
+    - name: action
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        generateName: tekton-chatops-greeting-pipeline-run-
+      spec:
+        pipelineRef:
+          name: tekton-chatops-greeting-pipeline
+        params:
+          - name: prid
+            value: $(params.prid)
+          - name: reponame
+            value: $(params.reponame)
+          - name: action
+            value: $(params.action)
+          - name: prorg
+            value: $(params.prorg)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: tekton-chatops-greeting-trigger-binding
+spec:
+  params:
+    - name: prid
+      value: $(body.pull_request.number)
+    - name: reponame
+      value: $(body.repository.name)
+    - name: action
+      value: $(body.action)
+    - name: prorg
+      value: $(body.repository.owner.login)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: tekton-chatops-greeting-event-listener
+spec:
+  serviceAccountName: tekton-chatops-sa
+  triggers:
+    - binding:
+        name: tekton-chatops-greeting-trigger-binding
+      template:
+        name: tekton-chatops-greeting-trigger-template
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: tekton-chatops-greeting-route
+spec:
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  wildcardPolicy: None
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: el-tekton-chatops-greeting-event-listener
+    weight: 100

@@ -1,0 +1,70 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: tekton-chatops-greeting-pipeline
+spec:
+  params:
+    - name: prid
+    - name: reponame
+    - name: prorg
+    - name: action
+  tasks:
+    - name: perform-chatops-greeting-command
+      taskRef:
+        name: tekton-chatops-greeting-task
+      params:
+        - name: prid
+          value: $(params.prid)
+        - name: reponame
+          value: $(params.reponame)
+        - name: prorg
+          value: $(params.prorg)
+        - name: action
+          value: $(params.action)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: tekton-chatops-greeting-task
+spec:
+  inputs:
+    params:
+      - name: prid
+      - name: reponame
+      - name: prorg
+      - name: action
+      - name: branch
+        default: master
+      - name: gitopscli-version
+        default: v2.1.0
+  stepTemplate:
+    envFrom:
+      - secretRef:
+          name: github
+  steps:
+    - name: run-command
+      image: baloiseincubator/gitopscli:$(inputs.params.gitopscli-version)
+      script: |
+        if [ $(inputs.params.action) = "opened" ]; then
+          gitopscli add-pr-comment \
+          --username incubator-tekton \
+          --password $token \
+          --git-provider github \
+          --git-provider-url https://github.com/ \
+          --organisation $(inputs.params.prorg) \
+          --repository-name $(inputs.params.reponame) \
+          --text='Welcome to Baloise ChatOps based GitOps Bot.<br><br>If you want to enable preview environments for this PullRequest, comment with `/preview`.<br>If you want to disable the preview environment for this PR, comment with `/undeploy`.<br>If you need help or want to see the docs, comment with `/help`.<br><br>At the moment, preview environments do not get redeployed automatically. Simply rewrite `/preview` or contribute the feature.' \
+          --pr-id $(inputs.params.prid)
+        elif [ $(inputs.params.action) = "closed" ]; then
+          gitopscli delete-preview \
+          --username incubator-tekton \
+          --password $token \
+          --git-provider github \
+          --git-provider-url https://github.com/ \
+          --organisation $(inputs.params.prorg) \
+          --repository-name $(inputs.params.reponame) \
+          --branch $(inputs.params.branch) \
+          --create-pr \
+          --auto-merge
+          echo "closed"
+        fi
