@@ -17,6 +17,3 @@ spec:
     name: {{ .Values.service.clusterIP.name }}
     weight: 100
   wildcardPolicy: None
-status:
-  ingress:
-    - routerName: router
