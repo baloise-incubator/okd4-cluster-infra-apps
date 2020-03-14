@@ -1,0 +1,61 @@
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: tekton-syncapps-trigger-template
+spec:
+  params:
+    - name: reponame
+    - name: rootorg
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        generateName: tekton-syncapps-pipeline-run-
+      spec:
+        pipelineRef:
+          name: tekton-syncapps-pipeline
+        params:
+          - name: reponame
+            value: $(params.reponame)
+          - name: rootorg
+            value: $(params.rootorg)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: tekton-syncapps-trigger-binding
+spec:
+  params:
+    - name: reponame
+      value: $(body.repository.name)
+    - name: rootorg
+      value: $(body.repository.owner.login)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: tekton-syncapps-event-listener
+spec:
+  serviceAccountName: tekton-chatops-sa
+  triggers:
+    - bindings:
+      - name: tekton-syncapps-trigger-binding
+      template:
+        name: tekton-syncapps-trigger-template
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: tekton-syncapps-route
+spec:
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  wildcardPolicy: None
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: el-tekton-syncapps-event-listener
+    weight: 100

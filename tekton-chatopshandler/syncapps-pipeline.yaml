@@ -1,0 +1,46 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: tekton-syncapps-pipeline
+spec:
+  params:
+    - name: reponame
+    - name: rootorg
+  tasks:
+    - name: perform-syncapps-command
+      taskRef:
+        name: tekton-syncapps-task
+      params:
+        - name: reponame
+          value: $(params.reponame)
+        - name: rootorg
+          value: $(params.rootorg)
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: tekton-syncapps-task
+spec:
+  inputs:
+    params:
+      - name: reponame
+      - name: rootorg
+      - name: gitopscli-version
+        default: v2.1.0
+  stepTemplate:
+    envFrom:
+      - secretRef:
+          name: github-token
+  steps:
+    - name: run-command
+      image: baloiseincubator/gitopscli:$(inputs.params.gitopscli-version)
+      script: |
+        gitopscli sync-apps \
+        --username incubator-tekton \
+        --password $token \
+        --git-provider github \
+        --git-provider-url https://github.com/ \
+        --organisation $(inputs.params.rootorg) \
+        --repository-name $(inputs.params.reponame) \
+        --root-organisation baloise-incubator \
+        --root-repository-name okd4-apps-root-config \
