@@ -6,6 +6,10 @@ data:
   url: https://argocd.apps.origin.baloise.dev
   users.anonymous.enabled: 'true'
   statusbadge.enabled: 'true'
+  repositories: |
+    - type: helm
+      url: https://registry.baloise.dev/chartrepo/library
+      name: incubator-library
   dex.config: |
     connectors:
       - type: openshift
