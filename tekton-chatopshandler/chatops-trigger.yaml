@@ -54,8 +54,8 @@ metadata:
 spec:
   serviceAccountName: tekton-chatops-sa
   triggers:
-    - binding:
-        name: tekton-chatops-trigger-binding
+    - bindings:
+      - name: tekton-chatops-trigger-binding
       template:
         name: tekton-chatops-trigger-template
 ---
