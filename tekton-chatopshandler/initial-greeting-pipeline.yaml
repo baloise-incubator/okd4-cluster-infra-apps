@@ -92,6 +92,8 @@ spec:
           --password $token \
           --git-provider github \
           --git-provider-url https://github.com/ \
+          --git-user incubator-tekton \
+          --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
           --organisation $(inputs.params.prorg) \
           --repository-name $(inputs.params.reponame) \
           --branch "$branchName" \

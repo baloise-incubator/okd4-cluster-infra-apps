@@ -40,6 +40,8 @@ spec:
         --password $token \
         --git-provider github \
         --git-provider-url https://github.com/ \
+        --git-user incubator-tekton \
+        --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
         --organisation $(inputs.params.rootorg) \
         --repository-name $(inputs.params.reponame) \
         --root-organisation baloise-incubator \
