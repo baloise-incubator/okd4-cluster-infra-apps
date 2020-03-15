@@ -110,7 +110,7 @@ spec:
           --git-provider-url https://github.com/ \
           --organisation $(inputs.params.prorg) \
           --repository-name $(inputs.params.reponame) \
-          --branch $(branchName) \
+          --branch "$branchName" \
           --create-pr \
           --auto-merge
         elif [ $(inputs.params.comment) = "/help" ]; then
