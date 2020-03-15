@@ -97,5 +97,4 @@ spec:
           --branch "$branchName" \
           --create-pr \
           --auto-merge
-          echo "closed"
         fi
