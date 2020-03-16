@@ -79,8 +79,10 @@ spec:
       image: baloiseincubator/gitopscli:$(inputs.params.gitopscli-version)
       script: |
         branchName=$(cat /workspace/branchfile.txt)
-        echo $branchName
-        if [ $(inputs.params.comment) = "/test" ]; then
+        echo "$branchName"
+        comment="$(inputs.params.comment)"
+        echo "$comment"
+        if [ "$comment" = "/test" ]; then
           gitopscli add-pr-comment \
           --username incubator-tekton \
           --password $token \
@@ -90,7 +92,7 @@ spec:
           --repository-name $(inputs.params.reponame) \
           --text='You can <br>use the command `/ping`!' \
           --pr-id $(inputs.params.prid)
-        elif [ $(inputs.params.comment) = "/preview" ]; then
+        elif [ "$comment" = "/preview" ]; then
           gitopscli create-preview \
           --username incubator-tekton \
           --password $token \
@@ -104,7 +106,7 @@ spec:
           --pr-id $(inputs.params.prid) \
           --create-pr \
           --auto-merge
-        elif [ $(inputs.params.comment) = "/undeploy" ]; then
+        elif [ "$comment" = "/undeploy" ]; then
           gitopscli delete-preview \
           --username incubator-tekton \
           --password $token \
@@ -117,7 +119,7 @@ spec:
           --branch "$branchName" \
           --create-pr \
           --auto-merge
-        elif [ $(inputs.params.comment) = "/help" ]; then
+        elif [ "$comment" = "/help" ]; then
           gitopscli add-pr-comment \
           --username incubator-tekton \
           --password $token \
@@ -128,5 +130,5 @@ spec:
           --text='Need help? Find the docs, examples and a F.A.Q.: [Baloise Incubator: GitOps Cli](https://baloise-incubator.github.io/gitopscli/)' \
           --pr-id $(inputs.params.prid)
         else
-          echo $(inputs.params.comment)
+          echo "$comment"
         fi

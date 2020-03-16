@@ -75,8 +75,8 @@ spec:
       image: baloiseincubator/gitopscli:$(inputs.params.gitopscli-version)
       script: |
         branchName=$(cat /workspace/branchfile.txt)
-        echo $branchName
-        if [ $(inputs.params.action) = "opened" ]; then
+        echo "$branchName"
+        if [ "$(inputs.params.action)" = "opened" ]; then
           gitopscli add-pr-comment \
           --username incubator-tekton \
           --password $token \
@@ -86,7 +86,7 @@ spec:
           --repository-name $(inputs.params.reponame) \
           --text='Welcome to Baloise ChatOps based GitOps Bot.<br><br>If you want to enable preview environments for this PullRequest, comment with `/preview`.<br>If you want to disable the preview environment for this PR, comment with `/undeploy`.<br>If you need help or want to see the docs, comment with `/help`.<br><br>At the moment, preview environments do not get redeployed automatically. Simply rewrite `/preview` or contribute the feature.' \
           --pr-id $(inputs.params.prid)
-        elif [ $(inputs.params.action) = "closed" ]; then
+        elif [ "$(inputs.params.action)" = "closed" ]; then
           gitopscli delete-preview \
           --username incubator-tekton \
           --password $token \
