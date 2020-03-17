@@ -380,6 +380,7 @@ spec:
   to:
     kind: Service
     name: tekton-dashboard
+  host: tekton.apps.origin.baloise.dev
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
