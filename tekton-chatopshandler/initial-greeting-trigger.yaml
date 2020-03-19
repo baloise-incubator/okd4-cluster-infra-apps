@@ -26,6 +26,8 @@ spec:
             value: $(params.action)
           - name: prorg
             value: $(params.prorg)
+          - name: branchname
+            value: $(params.branchname)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: TriggerBinding
@@ -41,6 +43,8 @@ spec:
       value: $(body.action)
     - name: prorg
       value: $(body.repository.owner.login)
+    - name: branchname
+      value: $(body.head.ref)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: EventListener

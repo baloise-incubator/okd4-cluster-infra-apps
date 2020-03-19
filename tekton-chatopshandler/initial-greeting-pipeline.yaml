@@ -8,6 +8,7 @@ spec:
     - name: reponame
     - name: prorg
     - name: action
+    - name: branchname
   tasks:
     - name: perform-chatops-greeting-command
       taskRef:
@@ -21,6 +22,8 @@ spec:
           value: $(params.prorg)
         - name: action
           value: $(params.action)
+        - name: branchname
+          value: $(params.branchname)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: Task
@@ -33,6 +36,7 @@ spec:
       - name: reponame
       - name: prorg
       - name: action
+      - name: branchname
       - name: gitopscli-version
         default: v2.1.0
   stepTemplate:
@@ -40,37 +44,6 @@ spec:
       - secretRef:
           name: github-token
   steps:
-    - name: get-branch-name-step
-      image: baloiseincubator/gitopscli:$(inputs.params.gitopscli-version)
-      env:
-        - name: PRID
-          value: "$(inputs.params.prid)"
-        - name: PRORG
-          value: "$(inputs.params.prorg)"
-        - name: REPONAME
-          value: "$(inputs.params.reponame)"
-      script: |
-        #!/usr/bin/env python3
-        import json
-        import http.client
-        import os
-        prid = os.environ['PRID']
-        prorg = os.environ['PRORG']
-        reponame = os.environ['REPONAME']
-        token = os.environ['token']
-        connection = http.client.HTTPSConnection("api.github.com")
-        headers={
-            "Content-type": "application/json",
-            "Authorization": "Bearer " + token,
-            "User-Agent": "TektonCD, the peaceful cat"
-        }
-        connection.request("GET", f"/repos/{prorg}/{reponame}/pulls/{prid}", "", headers)
-        response = connection.getresponse()
-        loaded_json = json.loads(response.read())
-        branchName = loaded_json["head"]["ref"]
-        print(branchName)
-        f = open("/workspace/branchfile.txt","w+")
-        f.write(branchName)
     - name: run-command
       image: baloiseincubator/gitopscli:$(inputs.params.gitopscli-version)
       script: |
