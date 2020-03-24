@@ -1,0 +1,11 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: argocd-redis-ha-haproxy
+spec:
+  template:
+    spec:
+      securityContext:
+        runAsUser: 1000610000
+        runAsNonRoot: true
+        fsGroup: 1000610000
