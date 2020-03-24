@@ -15,5 +15,6 @@ patchesStrategicMerge:
   - overlays/argocd-dex-server-sa.yaml
   - overlays/argocd-rbac-cm.yaml
   - overlays/argocd-redis.yaml
+  - overlays/argocd-redis-ha-haproxy.yaml
   - overlays/argocd-server-deploy.yaml
   - overlays/argocd-repo-server-deploy.yaml
