@@ -38,14 +38,14 @@ spec:
       - name: action
       - name: branchname
       - name: gitopscli-version
-        default: v2.1.0
+        default: v3.0.0
   stepTemplate:
     envFrom:
       - secretRef:
           name: github-token
   steps:
     - name: run-command
-      image: baloiseincubator/gitopscli:$(inputs.params.gitopscli-version)
+      image: baloise/gitopscli:$(inputs.params.gitopscli-version)
       script: |
         branchName=$(cat /workspace/branchfile.txt)
         echo "$branchName"
@@ -54,7 +54,6 @@ spec:
           --username incubator-tekton \
           --password $token \
           --git-provider github \
-          --git-provider-url https://github.com/ \
           --organisation $(inputs.params.prorg) \
           --repository-name $(inputs.params.reponame) \
           --text='Welcome to Baloise ChatOps based GitOps Bot.<br><br>If you want to enable preview environments for this PullRequest, comment with `/preview`.<br>If you want to disable the preview environment for this PR, comment with `/undeploy`.<br>If you need help or want to see the docs, comment with `/help`.<br><br>At the moment, preview environments do not get redeployed automatically. Simply rewrite `/preview` or contribute the feature.' \
@@ -64,7 +63,6 @@ spec:
           --username incubator-tekton \
           --password $token \
           --git-provider github \
-          --git-provider-url https://github.com/ \
           --git-user incubator-tekton \
           --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
           --organisation $(inputs.params.prorg) \

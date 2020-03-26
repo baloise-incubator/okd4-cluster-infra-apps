@@ -26,20 +26,19 @@ spec:
       - name: reponame
       - name: rootorg
       - name: gitopscli-version
-        default: v2.1.0
+        default: v3.0.0
   stepTemplate:
     envFrom:
       - secretRef:
           name: github-token
   steps:
     - name: run-command
-      image: baloiseincubator/gitopscli:$(inputs.params.gitopscli-version)
+      image: baloise/gitopscli:$(inputs.params.gitopscli-version)
       script: |
         gitopscli sync-apps \
         --username incubator-tekton \
         --password $token \
         --git-provider github \
-        --git-provider-url https://github.com/ \
         --git-user incubator-tekton \
         --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
         --organisation $(inputs.params.rootorg) \
