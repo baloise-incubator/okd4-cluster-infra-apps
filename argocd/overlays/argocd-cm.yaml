@@ -3,7 +3,7 @@ metadata:
   name: argocd-cm
 apiVersion: v1
 data:
-  url: https://argocd.apps.origin.baloise.dev
+  url: https://argocd.baloise.dev
   users.anonymous.enabled: 'true'
   statusbadge.enabled: 'true'
   repositories: |
@@ -19,4 +19,4 @@ data:
           issuer: https://api.origin.baloise.dev:6443
           clientID: system:serviceaccount:argocd:argocd-dex-server
           clientSecret: $dex.clientSecret
-          redirectURI: https://argocd.apps.origin.baloise.dev/api/dex/callback
+          redirectURI: https://argocd.baloise.dev/api/dex/callback

@@ -3,7 +3,7 @@ kind: Route
 metadata:
   name: argocd
 spec:
-  host: argocd.apps.origin.baloise.dev
+  host: argocd.baloise.dev
   port:
     targetPort: http
   tls:
