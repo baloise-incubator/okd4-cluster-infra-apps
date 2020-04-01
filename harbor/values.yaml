@@ -456,8 +456,8 @@ externalURL: https://registry.baloise.dev
 ##
 securityContext:
   enabled: true
-  fsGroup: 1000690000
-  runAsUser: 1000690000
+  fsGroup: 1000610000
+  runAsUser: 1000610000
 
 ## The persistence is enabled by default and a default StorageClass
 ## is needed in the k8s cluster to provision volumes dynamicly.
@@ -1237,8 +1237,8 @@ redis:
       enabled: true
 
   securityContext:
-    fsGroup: 1000690000
-    runAsUser: 1000690000
+    fsGroup: 1000610000
+    runAsUser: 1000610000
 
   image:
     registry: docker.io
@@ -1285,8 +1285,8 @@ postgresql:
   volumePermissions:
     enabled: false
   securityContext:
-    fsGroup: 1000690000
-    runAsUser: 1000690000
+    fsGroup: 1000610000
+    runAsUser: 1000610000
   shmVolume:
     enabled: false
 
