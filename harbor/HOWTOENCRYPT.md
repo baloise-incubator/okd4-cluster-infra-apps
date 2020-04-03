@@ -3,7 +3,7 @@ Chartmuseum
 # Chartmuseum
 kubeseal --cert ~/kubeseal/kubeseal.crt -oyaml --namespace=harbor < templates/chartmuseum-secret.yaml.ignore > templates/chartmuseum-sealed-secret.yaml
 # Clair Config Map
-kubeseal --cert ~/skubeseal/kubeseal.crt -oyaml --namespace=harbor < templates/clair-cm-secret.yaml.ignore > templates/clair-cm-sealed-secret.yaml
+kubeseal --cert ~/kubeseal/kubeseal.crt -oyaml --namespace=harbor < templates/clair-cm-secret.yaml.ignore > templates/clair-cm-sealed-secret.yaml
 # Clair
 kubeseal --cert ~/kubeseal/kubeseal.crt -oyaml --namespace=harbor < templates/clair-secret.yaml.ignore > templates/clair-sealed-secret.yaml
 # Core Envvars
