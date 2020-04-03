@@ -5,6 +5,8 @@ metadata:
   labels: {{- include "harbor.labels" . | nindent 4 }}
     app.kubernetes.io/component: registry
 spec:
+  strategy:
+    type: Recreate
   replicas: {{ .Values.registry.replicas }}
   selector:
     matchLabels: {{- include "harbor.matchLabels" . | nindent 6 }}

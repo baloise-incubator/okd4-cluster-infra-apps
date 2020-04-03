@@ -5,6 +5,8 @@ metadata:
   labels: {{- include "harbor.labels" . | nindent 4 }}
     app.kubernetes.io/component: jobservice
 spec:
+  strategy:
+    type: Recreate
   replicas: {{ .Values.jobservice.replicas }}
   selector:
     matchLabels: {{- include "harbor.matchLabels" . | nindent 6 }}
