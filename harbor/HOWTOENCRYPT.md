@@ -17,6 +17,6 @@ kubeseal --cert ~/kubeseal/kubeseal.crt -oyaml --namespace=harbor < templates/jo
 # PostgreSQL
 kubeseal --cert ~/kubeseal/kubeseal.crt -oyaml --namespace=harbor < templates/postgresql-secret.yaml.ignore > templates/postgresql-sealed-secret.yaml
 # Registry
-kubeseal --cert ~/kubeseal/kubeseal.crt -oyaml --namespace=harbor < templates/registry-secret.yaml.ignore > templates/postgresql-sealed-secret.yaml
+kubeseal --cert ~/kubeseal/kubeseal.crt -oyaml --namespace=harbor < templates/registry-secret.yaml.ignore > templates/registry-sealed-secret.yaml
 
 ```
