@@ -6,6 +6,8 @@ metadata:
   labels: {{- include "harbor.labels" . | nindent 4 }}
     app.kubernetes.io/component: clair
 spec:
+  strategy:
+    type: Recreate
   replicas: {{ .Values.clair.replicas }}
   selector:
     matchLabels: {{- include "harbor.matchLabels" . | nindent 6 }}
