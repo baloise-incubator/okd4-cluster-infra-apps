@@ -22,7 +22,7 @@ Replace "$ECRET!" with your github token.
 ## Create and encrypt generic secret
 ```
 kubectl create secret generic github-token \
---from-literal=password=$ECRET! \
+--from-literal=token=$ECRET! \
 --dry-run \
 -oyaml > secret-temporary.yaml
 ```
