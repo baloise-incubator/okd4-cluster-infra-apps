@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/part-of: kubeseal
     app.kubernetes.io/version: v0.12.1
     name: sealed-secrets-controller
-  name: sealed-secrets-controller
+  name: sealed-secrets
   namespace: sealed-secrets
 spec:
   minReadySeconds: 30
