@@ -45,7 +45,7 @@ spec:
     - name: prorg
       value: $(body.repository.owner.login)
     - name: branchname
-      value: $(body.head.ref)
+      value: $(body.pull_request.head.ref)
 ---
 apiVersion: tekton.dev/v1alpha1
 kind: EventListener
