@@ -24,13 +24,13 @@ metadata:
   labels:
     app: tekton-dashboard
   name: tekton-dashboard
-  namespace: tekton-pipelines
+  namespace: openshift-pipelines
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: tekton-dashboard-minimal
-  namespace: tekton-pipelines
+  namespace: openshift-pipelines
 rules:
   - apiGroups:
       - ""
@@ -265,7 +265,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: tekton-dashboard
-    namespace: tekton-pipelines
+    namespace: openshift-pipelines
 ---
 apiVersion: v1
 kind: Service
@@ -275,7 +275,7 @@ metadata:
   labels:
     app: tekton-dashboard
   name: tekton-dashboard
-  namespace: tekton-pipelines
+  namespace: openshift-pipelines
 spec:
   ports:
     - name: http
@@ -291,7 +291,7 @@ metadata:
   labels:
     app: tekton-dashboard-internal
   name: tekton-dashboard-internal
-  namespace: tekton-pipelines
+  namespace: openshift-pipelines
 spec:
   ports:
     - name: http
@@ -308,7 +308,7 @@ metadata:
     app: tekton-dashboard
     version: v0.5.1
   name: tekton-dashboard
-  namespace: tekton-pipelines
+  namespace: openshift-pipelines
 spec:
   replicas: 1
   selector:
@@ -372,7 +372,7 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   name: tekton-dashboard
-  namespace: tekton-pipelines
+  namespace: openshift-pipelines
 spec:
   tls:
     insecureEdgeTerminationPolicy: Redirect
@@ -386,7 +386,7 @@ apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
 metadata:
   name: pipeline0
-  namespace: tekton-pipelines
+  namespace: openshift-pipelines
 spec:
   params:
     - default: /workspace/git-source
@@ -397,7 +397,7 @@ spec:
       description: The directory from which resources are to be applied
       name: apply-directory
       type: string
-    - default: tekton-pipelines
+    - default: openshift-pipelines
       description: The namespace in which to create the resources being imported
       name: target-namespace
       type: string
@@ -424,7 +424,7 @@ apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
   name: pipeline0-task
-  namespace: tekton-pipelines
+  namespace: openshift-pipelines
 spec:
   inputs:
     params:
@@ -436,7 +436,7 @@ spec:
         description: The directory from which resources are to be applied
         name: apply-directory
         type: string
-      - default: tekton-pipelines
+      - default: openshift-pipelines
         description: The namespace where created resources will go
         name: target-namespace
         type: string
