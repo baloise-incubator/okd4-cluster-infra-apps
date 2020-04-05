@@ -47,8 +47,6 @@ spec:
     - name: run-command
       image: baloise/gitopscli:$(inputs.params.gitopscli-version)
       script: |
-        branchName=$(cat /workspace/branchfile.txt)
-        echo "$branchName"
         if [ "$(inputs.params.action)" = "opened" ]; then
           gitopscli add-pr-comment \
           --username incubator-tekton \
@@ -67,7 +65,7 @@ spec:
           --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
           --organisation $(inputs.params.prorg) \
           --repository-name $(inputs.params.reponame) \
-          --branch "$branchName" \
+          --branch $(inputs.params.branchname) \
           --create-pr \
           --auto-merge
         fi
