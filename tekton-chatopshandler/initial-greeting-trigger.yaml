@@ -9,6 +9,7 @@ spec:
     - name: reponame
     - name: prorg
     - name: action
+    - name: branchname
   resourcetemplates:
     - apiVersion: tekton.dev/v1alpha1
       kind: PipelineRun
