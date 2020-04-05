@@ -306,7 +306,7 @@ kind: Deployment
 metadata:
   labels:
     app: tekton-dashboard
-    version: v0.5.1
+    version: v0.6.0
   name: tekton-dashboard
   namespace: openshift-pipelines
 spec:
@@ -324,6 +324,7 @@ spec:
         - args:
             - --https-address=:8443
             - --provider=openshift
+            - --skip-provider-button=true
             - --openshift-service-account=tekton-dashboard
             - --upstream=http://localhost:9097
             - --tls-cert=/etc/tls/private/tls.crt
@@ -342,6 +343,8 @@ spec:
         - env:
             - name: PORT
               value: "9097"
+            - name: READ_ONLY
+              value: "false"
             - name: WEB_RESOURCES_DIR
               value: /var/run/ko/web
             - name: PIPELINE_RUN_SERVICE_ACCOUNT
@@ -350,7 +353,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: gcr.io/tekton-releases/github.com/tektoncd/dashboard/cmd/dashboard@sha256:72fddba6fc9bf53be8cef107880e475cfe6864cb81d5018f96aa85f1941d6de1
+          image: gcr.io/tekton-releases/github.com/tektoncd/dashboard/cmd/dashboard@sha256:7adaaa75759b04a6003a0334e2843582a160b2d95a18943a49bed3b9c047b343
           livenessProbe:
             httpGet:
               path: /health
@@ -382,7 +385,7 @@ spec:
     name: tekton-dashboard
   host: tekton.baloise.dev
 ---
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: pipeline0
@@ -420,27 +423,27 @@ spec:
       taskRef:
         name: pipeline0-task
 ---
-apiVersion: tekton.dev/v1alpha1
+apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: pipeline0-task
   namespace: openshift-pipelines
 spec:
-  inputs:
-    params:
-      - default: /workspace/git-source
-        description: The path to the resource files to apply
-        name: pathToResourceFiles
-        type: string
-      - default: .
-        description: The directory from which resources are to be applied
-        name: apply-directory
-        type: string
-      - default: openshift-pipelines
-        description: The namespace where created resources will go
-        name: target-namespace
-        type: string
-    resources:
+  params:
+    - default: /workspace/git-source
+      description: The path to the resource files to apply
+      name: pathToResourceFiles
+      type: string
+    - default: .
+      description: The directory from which resources are to be applied
+      name: apply-directory
+      type: string
+    - default: openshift-pipelines
+      description: The namespace where created resources will go
+      name: target-namespace
+      type: string
+  resources:
+    inputs:
       - name: git-source
         type: git
   steps:
@@ -452,7 +455,7 @@ spec:
         - $(inputs.params.target-namespace)
       command:
         - kubectl
-      image: lachlanevenson/k8s-kubectl@sha256:6944392a5ab6f762addbe3b3d8fcca7f47abdc44ff6076a6d18dc08510597e30
+      image: lachlanevenson/k8s-kubectl@sha256:95043fa03abd84fe1aed0b72f7991b379fdcd28fa77a1a163ec9ecd04bc33358
       name: kubectl-apply
 
 ---
