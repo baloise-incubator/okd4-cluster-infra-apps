@@ -124,7 +124,7 @@ spec:
           --repository-name $(inputs.params.reponame) \
           --text='Need help? Find the docs, examples and a F.A.Q.: [Baloise Incubator: GitOps Cli](https://baloise-incubator.github.io/gitopscli/)' \
           --pr-id $(inputs.params.prid)
-        elif [[ "$comment" == "/replicas"* ]]; then
+        elif [[ "$comment" = "/replicas"* ]]; then
           replicaCount="${comment//[!0-9]/}"
           gitopscli deploy \
           --username incubator-tekton \
