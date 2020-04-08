@@ -12720,8 +12720,8 @@ spec:
     spec:
       serviceAccountName: kubecost-grafana
       securityContext:
-        fsGroup: 472
-        runAsUser: 472
+        fsGroup: 1000820000
+        runAsUser: 1000820000
         
       containers:
         - name: grafana-sc-dashboard
@@ -12734,7 +12734,7 @@ spec:
               value: "/tmp/dashboards"
           resources:
             null
-            
+
           volumeMounts:
             - name: sc-dashboard-volume
               mountPath: "/tmp/dashboards"
@@ -12852,8 +12852,8 @@ spec:
       hostNetwork: false
       serviceAccountName: kubecost-kube-state-metrics
       securityContext:
-        fsGroup: 65534
-        runAsUser: 65534
+        fsGroup: 1000820000
+        runAsUser: 1000820000
       containers:
       - name: kube-state-metrics
         args:
@@ -13030,10 +13030,10 @@ spec:
               mountPath: /etc/config
               readOnly: true
       securityContext:
-        fsGroup: 65534
-        runAsGroup: 65534
+        fsGroup: 1000820000
+        runAsGroup: 1000820000
         runAsNonRoot: true
-        runAsUser: 65534
+        runAsUser: 1000820000
         
       volumes:
         - name: config-volume
@@ -13100,7 +13100,7 @@ spec:
               subPath: ""
       securityContext:
         runAsNonRoot: true
-        runAsUser: 65534
+        runAsUser: 1000820000
         
       volumes:
         - name: storage-volume
@@ -13193,10 +13193,10 @@ spec:
               mountPath: /data
               subPath: ""
       securityContext:
-        fsGroup: 65534
-        runAsGroup: 65534
+        fsGroup: 1000820000
+        runAsGroup: 1000820000
         runAsNonRoot: true
-        runAsUser: 65534
+        runAsUser: 1000820000
         
       terminationGracePeriodSeconds: 300
       volumes:
@@ -13240,9 +13240,9 @@ spec:
         app: cost-analyzer
     spec:
       securityContext:
-        runAsUser: 1001
-        runAsGroup: 1001
-        fsGroup: 1001
+        runAsUser: 1000820000
+        runAsGroup: 1000820000
+        fsGroup: 1000820000
       restartPolicy: Always
       serviceAccountName: kubecost-cost-analyzer
       volumes:
