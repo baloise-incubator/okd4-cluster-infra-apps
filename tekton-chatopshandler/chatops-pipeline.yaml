@@ -131,8 +131,8 @@ spec:
           --password $token \
           --git-provider github \
           --git-provider-url https://github.com/ \
-          --organisation okd4-example-apps \
-          --repository-name $(inputs.params.reponame) \
+          --organisation $(inputs.params.prorg) \
+          --repository-name okd4-example-apps \
           --file "gitops-nginx-demo-test/values.yaml" \
           --values "{generic.replicaCount: ${replicaCount}}"
         else
