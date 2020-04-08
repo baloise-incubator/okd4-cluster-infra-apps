@@ -13240,9 +13240,9 @@ spec:
         app: cost-analyzer
     spec:
       securityContext:
-        runAsUser: 1000820000
-        runAsGroup: 1000820000
-        fsGroup: 1000820000
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 0
       restartPolicy: Always
       serviceAccountName: kubecost-cost-analyzer
       volumes:
