@@ -129,6 +129,8 @@ spec:
           gitopscli deploy \
           --username incubator-tekton \
           --password $token \
+          --git-user incubator-tekton \
+          --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
           --git-provider github \
           --git-provider-url https://github.com/ \
           --organisation $(inputs.params.prorg) \
