@@ -38,7 +38,7 @@ spec:
       - name: action
       - name: branchname
       - name: gitopscli-version
-        default: v3.0.0
+        default: v3.0.1
   stepTemplate:
     envFrom:
       - secretRef:
