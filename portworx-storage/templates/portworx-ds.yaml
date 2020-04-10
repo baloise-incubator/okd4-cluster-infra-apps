@@ -245,8 +245,12 @@ spec:
           {{- end }}
             - name: dockersock
               mountPath: /var/run/docker.sock
+            - name: criosock
+              mountPath: /var/run/crio/crio.sock
             - name: containerdsock
               mountPath: /run/containerd
+            - name: criosock
+              mountPath: /var/run/crio/crio.sock
             - name: etcpwx
               mountPath: /etc/pwx
             - name: cores
