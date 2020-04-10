@@ -24,7 +24,7 @@ stork: true                           # Use Stork https://docs.portworx.com/sche
 storkVersion: 2.3.1
 
 customRegistryURL:
-registrySecret:
+registrySecret: redhat-registry
 
 lighthouse: true
 lighthouseVersion: 2.0.5
