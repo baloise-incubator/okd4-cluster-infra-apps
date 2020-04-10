@@ -249,8 +249,6 @@ spec:
               mountPath: /var/run/crio/crio.sock
             - name: containerdsock
               mountPath: /run/containerd
-            - name: criosock
-              mountPath: /var/run/crio/crio.sock
             - name: etcpwx
               mountPath: /etc/pwx
             - name: cores
@@ -360,6 +358,9 @@ spec:
         - name: dockersock
           hostPath:
             path: {{if eq $pksInstall true}}/var/vcap/sys/run/docker/docker.sock{{else}}/var/run/docker.sock{{end}}
+        - name: criosock
+          hostPath:
+            path: /var/run/crio/crio.sock
         - name: containerdsock
           hostPath:
             path: {{if eq $pksInstall true}}/var/vcap/sys/run/containerd{{else}}/run/containerd{{end}}
