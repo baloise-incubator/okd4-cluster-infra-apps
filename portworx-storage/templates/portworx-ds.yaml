@@ -246,6 +246,8 @@ spec:
             - name: dockersock
               mountPath: /var/run/docker.sock
             - name: criosock
+            - name: crioconf
+              mountPath: /etc/crictl.yaml
               mountPath: /var/run/crio/crio.sock
             - name: containerdsock
               mountPath: /run/containerd
@@ -361,6 +363,10 @@ spec:
         - name: criosock
           hostPath:
             path: /var/run/crio/crio.sock
+        - name: crioconf
+          hostPath:
+            path: /etc/crictl.yaml
+            type: FileOrCreate
         - name: containerdsock
           hostPath:
             path: {{if eq $pksInstall true}}/var/vcap/sys/run/containerd{{else}}/run/containerd{{end}}
