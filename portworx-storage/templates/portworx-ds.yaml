@@ -246,9 +246,9 @@ spec:
             - name: dockersock
               mountPath: /var/run/docker.sock
             - name: criosock
+              mountPath: /var/run/crio/crio.sock
             - name: crioconf
               mountPath: /etc/crictl.yaml
-              mountPath: /var/run/crio/crio.sock
             - name: containerdsock
               mountPath: /run/containerd
             - name: etcpwx
