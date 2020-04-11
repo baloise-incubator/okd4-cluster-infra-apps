@@ -105,7 +105,7 @@ spec:
 #    osd:
 # If no mgr annotations are set, prometheus scrape annotations will be set by default.
 #   mgr:
-  resources:
+#  resources:
 # The requests and limits set here, allow the mgr pod to use half of one CPU core and 1 gigabyte of memory
 #    mgr:
 #      limits:
@@ -126,6 +126,7 @@ spec:
 #    mon: rook-ceph-mon-priority-class
 #    osd: rook-ceph-osd-priority-class
 #    mgr: rook-ceph-mgr-priority-class
+  resources:
     mgr:
       requests:
         cpu: 50m
