@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app: iptables-config
+  name: iptables-config
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: iptables-config
+  template:
+    metadata:
+      labels:
+        app: iptables-config
+    spec:
+      initContainers:
+        - name: iptables
+          image: 'alpine'
+          securityContext:
+            privileged: true
+            runAsUser: 0
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+          volumeMounts:
+            - mountPath: /
+              name: host
+          command:
+            - /bin/bash
+            - -c
+            - |
+              #!/bin/bash
+              echo "Setup iptable rules"
+              iptables -A INPUT -m state --state INVALID -j DROP
+              iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+              iptables -A INPUT -i lo -j ACCEPT
+              # Bastion
+              iptables -A INPUT -s 78.47.201.74 -j ACCEPT
+              # LB
+              iptables -A INPUT -s 78.46.184.155 -j ACCEPT
+              # Master 0
+              iptables -A INPUT -s 116.203.19.26 -j ACCEPT
+              # Master 1
+              iptables -A INPUT -s 78.46.203.201 -j ACCEPT
+              # Master 2
+              iptables -A INPUT -s 78.46.199.120 -j ACCEPT
+              # Worker 0
+              iptables -A INPUT -s 78.46.214.166 -j ACCEPT
+              # Worker 1
+              iptables -A INPUT -s 78.46.199.193 -j ACCEPT
+              # Worker 2
+              iptables -A INPUT -s 78.46.240.109 -j ACCEPT
+              iptables -P INPUT DROP # Drop everything we don't accept
+              echo "iptable rules done"
+      containers:
+        - command: []
+          image: 'gcr.io/google-containers/pause:latest'
+          imagePullPolicy: IfNotPresent
+          name: pause
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          securityContext: {}
+      hostNetwork: true
+      hostPID: true
+      priorityClassName: system-node-critical
+      restartPolicy: Always
+      #securityContext: {}
+      serviceAccountName: iptables-config
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - hostPath:
+            path: /
+            type: ""
+          name: host
