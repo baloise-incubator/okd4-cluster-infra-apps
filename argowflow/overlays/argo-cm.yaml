@@ -1,0 +1,13 @@
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+apiVersion: v1
+data:
+  url: https://argoworkflow.baloise.dev
+  users.anonymous.enabled: 'true'
+  statusbadge.enabled: 'true'
+  admin.enabled: 'false'
+  repositories: |
+    - type: helm
+      url: https://registry.baloise.dev/chartrepo/library
+      name: incubator-library
