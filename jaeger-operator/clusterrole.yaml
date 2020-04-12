@@ -147,14 +147,14 @@ rules:
   - 'watch'
 
       ## needed only when .Spec.Ingress.Openshift.DelegateUrls is used
-  - apiGroups:
-      - rbac.authorization.k8s.io
-    resources:
-      - clusterrolebindings
-    verbs:
-      - 'get'
-      - 'list'
-      - 'create'
-      - 'update'
-      - 'delete'
-      - 'watch'
+- apiGroups:
+    - rbac.authorization.k8s.io
+  resources:
+    - clusterrolebindings
+  verbs:
+    - 'get'
+    - 'list'
+    - 'create'
+    - 'update'
+    - 'delete'
+    - 'watch'
