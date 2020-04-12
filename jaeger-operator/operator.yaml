@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jaeger-operator
+  namespace: jaeger-operator
 spec:
   replicas: 1
   selector:
@@ -14,23 +15,19 @@ spec:
     spec:
       serviceAccountName: jaeger-operator
       containers:
-      - name: jaeger-operator
-        image: jaegertracing/jaeger-operator:1.17.1
-        ports:
-        - containerPort: 8383
-          name: metrics
-        args: ["start"]
-        imagePullPolicy: Always
-        env:
-        - name: WATCH_NAMESPACE
-          value: ""
-        - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: POD_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: OPERATOR_NAME
-          value: "jaeger-operator"
+        - name: jaeger-operator
+          image: jaegertracing/jaeger-operator:1.13.1
+          ports:
+          - containerPort: 8383
+            name: metrics
+          args: ["start"]
+          imagePullPolicy: Always
+          env:
+            - name: WATCH_NAMESPACE
+              value: ""
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "jaeger-operator"
