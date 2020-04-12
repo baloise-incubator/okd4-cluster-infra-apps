@@ -10,57 +10,34 @@ spec:
     plural: servicemeshcontrolplanes
     singular: servicemeshcontrolplane
     shortNames:
-    - smcp
+      - smcp
   scope: Namespaced
   subresources:
     status: {}
   version: v1
   additionalPrinterColumns:
-  - name: Ready
-    description: How many of the total number of member namespaces are
-      configured
-    type: string
-    JSONPath: .status.annotations.readyComponentCount
-  - name: Status
-    description: Whether or not the control plane installation is up to date and ready
-      to handle requests.
-    type: string
-    JSONPath: .status.conditions[?(@.type=="Reconciled")].reason
-  - name: Template
-    description: The configuration template to use as the base.
-    type: string
-    JSONPath: .status.lastAppliedConfiguration.template
-  - name: Version
-    description: The actual current version of the control plane installation.
-    type: string
-    JSONPath: .status.lastAppliedConfiguration.version
-  - name: Age
-    description: The age of the object
-    type: date
-    JSONPath: .metadata.creationTimestamp
-  - name: Image hub
-    description: The image hub used as the base for all component images.
-    type: string
-    priority: 1
-    JSONPath: .status.lastAppliedConfiguration.istio.global.hub
-  - name: Tag
-    description: The image tag used for all component images.
-    type: string
-    priority: 1
-    JSONPath: .status.lastAppliedConfiguration.istio.global.tag
-  - name: Readiness status message
-    description: A human-readable description of the control plane component
-      readiness.
-    type: string
-    priority: 1
-    JSONPath: .status.conditions[?(@.type=="Ready")].message
-  - name: Reconciliation Status message
-    description: The status of the reconciliation process, if the control plane is
-      not up to date with the latest version this resource.
-    type: string
-    priority: 1
-    JSONPath: .status.conditions[?(@.type=="Reconciled")].message
+    - JSONPath: .status.conditions[?(@.type=="Ready")].status
+      name: Ready
+      description: Whether or not the control plane installation is up to date and ready to handle requests.
+      type: string
+    - JSONPath: .status.conditions[?(@.type=="Ready")].message
+      name: Status
+      description: The status of the control plane installation.
+      type: string
+      priority: 1
+    - JSONPath: .status.conditions[?(@.type=="Reconciled")].status
+      name: Reconciled
+      description: Whether or not the control plane installation is up to date with the latest version of this resource.
+      type: string
+      priority: 1
+    - JSONPath: .status.conditions[?(@.type=="Reconciled")].message
+      name: Reconciliation Status
+      description: The status of the reconciliation process, if the control plane is not up to date with the latest version this resource.
+      type: string
+      priority: 1
+
 ---
+
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -73,62 +50,17 @@ spec:
     plural: servicemeshmemberrolls
     singular: servicemeshmemberroll
     shortNames:
-    - smmr
+      - smmr
   scope: Namespaced
   subresources:
     status: {}
   version: v1
   additionalPrinterColumns:
-  - name: Ready
-    description: How many of the total number of member namespaces are
-      configured
-    type: string
-    JSONPath: .status.annotations.configuredMemberCount
-  - name: Status
-    description: Whether all member namespaces have been configured or why
-      that's not the case
-    type: string
-    JSONPath: .status.conditions[?(@.type=="Ready")].reason
-  - name: Age
-    description: The age of the object
-    type: date
-    JSONPath: .metadata.creationTimestamp
-  - name: Members
-    description: Namespaces that are members of this Control Plane
-    priority: 1
-    type: string
-    JSONPath: .spec.members
----
-apiVersion: apiextensions.k8s.io/v1beta1
-kind: CustomResourceDefinition
-metadata:
-  name: servicemeshmembers.maistra.io
-spec:
-  group: maistra.io
-  names:
-    kind: ServiceMeshMember
-    listKind: ServiceMeshMemberList
-    plural: servicemeshmembers
-    singular: servicemeshmember
-    shortNames:
-    - smm
-  scope: Namespaced
-  subresources:
-    status: {}
-  version: v1
-  additionalPrinterColumns:
-  - name: Control Plane
-    description: The ServiceMeshControlPlane this namespace belongs to
-    type: string
-    JSONPath: .status.annotations.controlPlaneRef
-  - name: Ready
-    description: Whether or not namespace is configured as a member of the mesh.
-    type: string
-    JSONPath: .status.conditions[?(@.type=="Ready")].status
-  - name: Age
-    description: The age of the object
-    type: date
-    JSONPath: .metadata.creationTimestamp
+    - JSONPath: .spec.members
+      description: Namespaces that are members of this Control Plane
+      name: Members
+      type: string
+
 ---
 
 # create role that can be used to grant users permission to create smcp and smmr resources
@@ -139,9 +71,9 @@ metadata:
   labels:
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
 rules:
-- apiGroups: ["maistra.io"]
-  resources: ["*"]
-  verbs: ["*"]
+  - apiGroups: ["maistra.io"]
+    resources: ["*"]
+    verbs: ["*"]
 
 ---
 
@@ -161,217 +93,211 @@ kind: ClusterRole
 metadata:
   name: istio-operator
 rules:
-- apiGroups:
-  - ""
-  resources:
-  - configmaps
-  - endpoints
-  - namespaces
-  - persistentvolumeclaims
-  - pods
-  - replicationcontrollers
-  - secrets
-  - serviceaccounts
-  - services
-  - events # is this needed?
-  verbs:
-  - '*'
-- apiGroups:
-  - apps
-  - extensions
-  resources:
-  - daemonsets
-  - deployments
-  - deployments/finalizers
-  - ingresses # is this needed? should it be converted to a route?
-  - ingresses/status
-  - replicasets
-  - statefulsets
-  verbs:
-  - '*'
-- apiGroups:
-  - autoscaling
-  resources:
-  - horizontalpodautoscalers
-  verbs:
-  - '*'
-- apiGroups:
-  - policy
-  resources:
-  - poddisruptionbudgets
-  verbs:
-  - '*'
-- apiGroups:
-  - admissionregistration.k8s.io
-  resources:
-  - mutatingwebhookconfigurations
-  - validatingwebhookconfigurations
-  verbs:
-  - '*'
-- apiGroups:
-  - apiextensions.k8s.io
-  resources:
-  - customresourcedefinitions
-  verbs:
-  - '*'
-- apiGroups:
-  - certmanager.k8s.io
-  resources:
-  - clusterissuers
-  verbs:
-  - '*'
-- apiGroups:
-  - networking.k8s.io
-  resources:
-  - networkpolicies
-  verbs:
-  - '*'
-- apiGroups:
-  - rbac.authorization.k8s.io
-  resources:
-  - clusterrolebindings
-  - clusterroles
-  - rolebindings
-  - roles
-  verbs:
-  - '*'
-- apiGroups:
-  - authentication.istio.io
-  resources:
-  - '*'
-  verbs:
-  - '*'
-- apiGroups:
-  - config.istio.io
-  resources:
-  - '*'
-  verbs:
-  - '*'
-- apiGroups:
-  - networking.istio.io
-  resources:
-  - '*'
-  verbs:
-  - '*'
-- apiGroups:
-  - rbac.istio.io
-  resources:
-  - '*'
-  verbs:
-  - '*'
-- apiGroups:
-  - security.istio.io
-  resources:
-  - '*'
-  verbs:
-  - '*'
-- apiGroups:
-  - jaegertracing.io
-  resources:
-  - jaegers
-  verbs:
-  - '*'
-- apiGroups:
-  - kiali.io
-  resources:
-  - kialis
-  verbs:
-  - '*'
-- apiGroups:
-  - maistra.io
-  resources:
-  - '*'
-  verbs:
-  - '*'
-- apiGroups:
-  - authentication.maistra.io
-  resources:
-  - '*'
-  verbs:
-  - '*'
-- apiGroups:
-  - rbac.maistra.io
-  resources:
-  - '*'
-  verbs:
-  - '*'
-- apiGroups:
-  - route.openshift.io
-  resources:
-  - routes
-  - routes/custom-host
-  verbs:
-  - '*'
-# required by smmr controller
-- apiGroups:
-  - authorization.k8s.io
-  resources:
-  - subjectaccessreviews
-  verbs:
-  - create
-- apiGroups:
-  - network.openshift.io
-  resources:
-  - clusternetworks
-  verbs:
-  - get
-- apiGroups:
-  - config.openshift.io
-  resources:
-  - networks
-  verbs:
-  - get
-- apiGroups:
-  - network.openshift.io
-  resources:
-  - netnamespaces
-  verbs:
-  - get
-  - list
-  - watch
-  - update
-- apiGroups: 
-  - k8s.cni.cncf.io
-  resources:
-  - network-attachment-definitions
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - watch
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+      - endpoints
+      - namespaces
+      - persistentvolumeclaims
+      - pods
+      - replicationcontrollers
+      - secrets
+      - serviceaccounts
+      - services
+      - events # is this needed?
+    verbs:
+      - '*'
+  - apiGroups:
+      - apps
+      - extensions
+    resources:
+      - daemonsets
+      - deployments
+      - deployments/finalizers
+      - ingresses # is this needed? should it be converted to a route?
+      - ingresses/status
+      - replicasets
+      - statefulsets
+    verbs:
+      - '*'
+  - apiGroups:
+      - autoscaling
+    resources:
+      - horizontalpodautoscalers
+    verbs:
+      - '*'
+  - apiGroups:
+      - policy
+    resources:
+      - poddisruptionbudgets
+    verbs:
+      - '*'
+  - apiGroups:
+      - admissionregistration.k8s.io
+    resources:
+      - mutatingwebhookconfigurations
+      - validatingwebhookconfigurations
+    verbs:
+      - '*'
+  - apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+    verbs:
+      - '*'
+  - apiGroups:
+      - certmanager.k8s.io
+    resources:
+      - clusterissuers
+    verbs:
+      - '*'
+  - apiGroups:
+      - networking.k8s.io
+    resources:
+      - networkpolicies
+    verbs:
+      - '*'
+  - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - clusterrolebindings
+      - clusterroles
+      - rolebindings
+      - roles
+    verbs:
+      - '*'
+  - apiGroups:
+      - authentication.istio.io
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - apiGroups:
+      - config.istio.io
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - apiGroups:
+      - networking.istio.io
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - apiGroups:
+      - rbac.istio.io
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - apiGroups:
+      - jaegertracing.io
+    resources:
+      - jaegers
+    verbs:
+      - '*'
+  - apiGroups:
+      - kiali.io
+    resources:
+      - kialis
+    verbs:
+      - '*'
+  - apiGroups:
+      - maistra.io
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - apiGroups:
+      - authentication.maistra.io
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - apiGroups:
+      - rbac.maistra.io
+    resources:
+      - '*'
+    verbs:
+      - '*'
+  - apiGroups:
+      - route.openshift.io
+    resources:
+      - routes
+      - routes/custom-host
+    verbs:
+      - '*'
+  # required by smmr controller
+  - apiGroups:
+      - authorization.k8s.io
+    resources:
+      - subjectaccessreviews
+    verbs:
+      - create
+  - apiGroups:
+      - network.openshift.io
+    resources:
+      - clusternetworks
+    verbs:
+      - get
+  - apiGroups:
+      - config.openshift.io
+    resources:
+      - networks
+    verbs:
+      - get
+  - apiGroups:
+      - network.openshift.io
+    resources:
+      - netnamespaces
+    verbs:
+      - get
+      - list
+      - watch
+      - update
+  - apiGroups:
+      - k8s.cni.cncf.io
+    resources:
+      - network-attachment-definitions
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - watch
 
-# required by cni daemonset
-- apiGroups:
-  - security.openshift.io
-  resources:
-  - securitycontextconstraints
-  resourceNames:
-  - privileged
-  verbs:
-  - use
+  # required by cni daemonset
+  - apiGroups:
+      - security.openshift.io
+    resources:
+      - securitycontextconstraints
+    resourceNames:
+      - privileged
+    verbs:
+      - use
 
-# required by pod locality controller
-- apiGroups:
-  - ""
-  resources:
-  - nodes
-  - nodes/proxy
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups: # might be required by citadel
-  - authentication.k8s.io
-  resources:
-  - tokenreviews
-  verbs:
-  - create
-- nonResourceURLs:
-  - '/metrics'
-  verbs:
-  - get
+  # required by pod locality controller
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+      - nodes/proxy
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups: # might be required by citadel
+      - authentication.k8s.io
+    resources:
+      - tokenreviews
+    verbs:
+      - create
+  - nonResourceURLs:
+      - '/metrics'
+    verbs:
+      - get
 
 ---
 
@@ -388,9 +314,9 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: istio-operator-account-istio-operator-cluster-role-binding
 subjects:
-- kind: ServiceAccount
-  namespace: istio-operator
-  name: istio-operator
+  - kind: ServiceAccount
+    namespace: istio-operator
+    name: istio-operator
 roleRef:
   kind: ClusterRole
   name: istio-operator
@@ -405,9 +331,9 @@ metadata:
   namespace: istio-operator
 spec:
   ports:
-  - port: 443
-    protocol: TCP
-    targetPort: 11999
+    - port: 443
+      protocol: TCP
+      targetPort: 11999
   selector:
     name: istio-operator
   type: ClusterIP
@@ -430,17 +356,22 @@ spec:
         name: istio-operator
     spec:
       serviceAccountName: istio-operator
+      volumes:
+        - name: discovery-cache
+          emptyDir:
+            medium: Memory
       containers:
         - name: istio-operator
-         # image: maistra/istio-ubi8-operator:1.1.0
           image: maistra/istio-ubi8-operator:1.0.8
           ports:
-          - containerPort: 11999
-            name: validation
-          - containerPort: 60000
-            name: metrics
+            - containerPort: 11999
+              name: validation
+            - containerPort: 60000
+              name: metrics
           command:
-          - istio-operator
+            - istio-operator
+            - --discoveryCacheDir
+            - /home/istio-operator/.kube/cache/discovery
           imagePullPolicy: Always
           env:
             - name: WATCH_NAMESPACE
@@ -451,9 +382,10 @@ spec:
                   fieldPath: metadata.name
             - name: OPERATOR_NAME
               value: istio-operator
-            - name: ISTIO_CNI_IMAGE_V1_0
+            - name: ISTIO_CNI_IMAGE
               value: maistra/istio-cni-ubi8:1.0.8
-            - name: ISTIO_CNI_IMAGE_V1_1
-              value: maistra/istio-cni-ubi8:1.1.0
-#            - name: ISTIO_CNI_IMAGE_PULL_SECRET
-#              value: name-of-secret
+          #            - name: ISTIO_CNI_IMAGE_PULL_SECRET
+          #              value: name-of-secret
+          volumeMounts:
+            - name: discovery-cache
+              mountPath: /home/istio-operator/.kube/cache/discovery
