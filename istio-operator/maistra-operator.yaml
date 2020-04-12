@@ -432,7 +432,8 @@ spec:
       serviceAccountName: istio-operator
       containers:
         - name: istio-operator
-          image: maistra/istio-ubi8-operator:1.1.0
+         # image: maistra/istio-ubi8-operator:1.1.0
+          image: maistra/istio-ubi8-operator:1.0.8
           ports:
           - containerPort: 11999
             name: validation
