@@ -9,3 +9,4 @@ resources:
 
 patchesStrategicMerge:
   - overlays/argo-workflow-controller-cm.yaml
+  - overlays/argo-workflow-server-cluster-role.yaml
