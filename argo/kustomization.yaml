@@ -8,4 +8,4 @@ resources:
   - base/argo-ui-route.yaml
 
 patchesStrategicMerge:
-  - overlays/argo-cm.yaml
+  - overlays/argo-workflow-controller-cm.yaml

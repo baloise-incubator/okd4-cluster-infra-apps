@@ -11,5 +11,5 @@ spec:
     termination: edge
   to:
     kind: Service
-    name: argoworkflow-server
+    name: argo-server
     weight: 100
