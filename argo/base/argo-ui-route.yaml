@@ -5,7 +5,7 @@ metadata:
 spec:
   host: argoworkflow.baloise.dev
   port:
-    targetPort: http
+    targetPort: 2746
   tls:
     insecureEdgeTerminationPolicy: Redirect
     termination: edge
