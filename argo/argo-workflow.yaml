@@ -81,21 +81,6 @@ rules:
   verbs:
     - get
     - watch
-- apiGroups:
-    - argoproj.io
-  verbs:
-      - create
-      - get
-      - list
-      - watch
-      - update
-      - patch
-      - delete
-  resources:
-    - workflows
-    - workflowtemplates
-    - cronworkflows
-    - clusterworkflowtemplates
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
