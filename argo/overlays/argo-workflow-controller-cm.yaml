@@ -4,5 +4,5 @@ metadata:
 apiVersion: v1
 data:
   config: |
-    containerRuntimeExecutor: kubelet
+    containerRuntimeExecutor: k8sapi
  
