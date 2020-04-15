@@ -1,8 +1,0 @@
-kind: ConfigMap
-metadata:
-  name: workflow-controller-configmap
-apiVersion: v1
-data:
-  config: |
-    containerRuntimeExecutor: k8sapi
- 
