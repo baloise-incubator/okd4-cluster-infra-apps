@@ -3,7 +3,7 @@ kind: Route
 metadata:
   name: argoworkflow
 spec:
-  host: argoworkflow.baloise.dev
+  host: argoworkflow.apps.baloise.dev
   port:
     targetPort: 2746
   tls:
