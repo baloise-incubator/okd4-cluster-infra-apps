@@ -13,6 +13,8 @@ rules:
       - configmaps
   - verbs:
       - get
+      - watch
+      - list"
     apiGroups:
       - ''
     resources:
@@ -30,7 +32,13 @@ rules:
       - pods/exec
       - pods/log
   - verbs:
+      - create
       - get
+      - list
+      - watch
+      - update
+      - patch
+      - delete
     apiGroups:
       - ''
     resources:
