@@ -1,0 +1,4 @@
+kind: ConfigMap
+metadata:
+  name: workflow-controller-configmap
+apiVersion: v1
