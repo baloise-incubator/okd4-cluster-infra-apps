@@ -16,6 +16,7 @@ The following deployments are currently in the cluster, managed by ArgoCD:
 | Harbor                |[Harbor](harbor)                               |[![App Status](https://argocd.baloise.dev/api/badge?name=harbor)](https://argocd.baloise.dev/applications/harbor)|
 | Tekton Chatopshandler |[tekton-chatopshandler](tekton-chatopshandler) |[![App Status](https://argocd.baloise.dev/api/badge?name=tekton-chatopshandler)](https://argocd.baloise.dev/applications/tekton-chatopshandler)|
 | Tekton Dashboard      |[tekton-dashboard](tekton-dashboard)           |[![App Status](https://argocd.baloise.dev/api/badge?name=tekton-dashboard)](https://argocd.baloise.dev/applications/tekton-dashboard)|
+| ArgoCD Workflow       |[argo-cd-workflow](argo)                  |[![App Status](https://argocd.baloise.dev/api/badge?name=argowflow)](https://argocd.baloise.dev/applications/argowflow)|
   
 ### Adding a new app
 Every app needs to be referenced in the [applications property](https://github.com/baloise-incubator/okd4-apps-root-config/blob/master/apps/okd4-cluster-infra-apps.yaml#L24).
