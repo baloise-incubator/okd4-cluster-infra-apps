@@ -11,6 +11,9 @@ data:
     - type: helm
       url: https://registry.baloise.dev/chartrepo/library
       name: incubator-library
+    - type: helm
+      url: https://charts.bitnami.com/bitnami
+      name: bitnami
   dex.config: |
     connectors:
       - type: openshift

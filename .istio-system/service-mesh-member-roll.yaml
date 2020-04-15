@@ -11,3 +11,4 @@ spec:
     - pizza-inventory-test
     - pizza-order-prod
     - pizza-order-test
+    - asdf
