@@ -38,7 +38,7 @@ spec:
       - name: prorg
       - name: apiurl
       - name: gitopscli-version
-        default: 3.1.1
+        default: 3.1.2
   stepTemplate:
     envFrom:
       - secretRef:
