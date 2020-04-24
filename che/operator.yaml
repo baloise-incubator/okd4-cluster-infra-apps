@@ -1,0 +1,67 @@
+#
+#  Copyright (c) 2012-2019 Red Hat, Inc.
+#    This program and the accompanying materials are made
+#    available under the terms of the Eclipse Public License 2.0
+#    which is available at https://www.eclipse.org/legal/epl-2.0/
+#
+#  SPDX-License-Identifier: EPL-2.0
+#
+#  Contributors:
+#    Red Hat, Inc. - initial API and implementation
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: che-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: che-operator
+  template:
+    metadata:
+      labels:
+        app: che-operator
+    spec:
+      containers:
+        - name: che-operator
+          image: quay.io/eclipse/che-operator:nightly
+          ports:
+            - containerPort: 60000
+              name: metrics
+          command:
+            - /usr/local/bin/che-operator
+          imagePullPolicy: Always
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: che-operator
+            - name: CHE_VERSION
+              value: 7.9.3
+            - name: IMAGE_default_che_server
+              value: quay.io/eclipse/che-server:7.9.3
+            - name: IMAGE_default_plugin_registry
+              value: quay.io/eclipse/che-plugin-registry:7.9.3
+            - name: IMAGE_default_devfile_registry
+              value: quay.io/eclipse/che-devfile-registry:7.9.3
+            - name: IMAGE_default_pvc_jobs
+              value: registry.access.redhat.com/ubi8-minimal:8.1-398
+            - name: IMAGE_default_postgres
+              value: centos/postgresql-96-centos7:9.6
+            - name: IMAGE_default_keycloak
+              value: quay.io/eclipse/che-keycloak:7.9.3
+            - name: IMAGE_default_che_workspace_plugin_broker_metadata
+              value: quay.io/eclipse/che-plugin-metadata-broker:v3.1.1
+            - name: IMAGE_default_che_workspace_plugin_broker_artifacts
+              value: quay.io/eclipse/che-plugin-artifacts-broker:v3.1.1
+            - name: IMAGE_default_che_server_secure_exposer_jwt_proxy_image
+              value: quay.io/eclipse/che-jwtproxy:810d89c
+      restartPolicy: Always
+      serviceAccountName: che-operator
+      terminationGracePeriodSeconds: 5
