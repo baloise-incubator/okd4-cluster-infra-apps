@@ -12,8 +12,8 @@ spec:
     identityProviderRealm: che
     identityProviderSecret: che-identity-secret
     identityProviderURL: 'https://keycloak-che.apps.okd.baloise.dev'
-    openShiftoAuth: false
-    updateAdminPassword: false
+    openShiftoAuth: true
+    updateAdminPassword: true
   database:
     chePostgresDb: dbche
     chePostgresHostName: postgres
