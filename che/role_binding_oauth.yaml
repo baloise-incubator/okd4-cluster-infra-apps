@@ -8,25 +8,15 @@
 #
 #  Contributors:
 #    Red Hat, Inc. - initial API and implementation
-kind: Template
-apiVersion: v1
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: che-operator
-objects:
-- kind: ClusterRoleBinding
-  apiVersion: rbac.authorization.k8s.io/v1
-  metadata:
+subjects:
+  - kind: ServiceAccount
     name: che-operator
-  subjects:
-    - kind: ServiceAccount
-      name: che-operator
-      namespace: ${NAMESPACE}
-  roleRef:
-    kind: ClusterRole
-    name: che-operator
-    apiGroup: rbac.authorization.k8s.io
-parameters:
-  - name: NAMESPACE
-    displayName: Namespace
-    description: Namespace
-    required: true
+    namespace: che
+roleRef:
+  kind: ClusterRole
+  name: che-operator
+  apiGroup: rbac.authorization.k8s.io
