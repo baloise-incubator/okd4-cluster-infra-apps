@@ -3,7 +3,7 @@ kind: KeycloakRealm
 metadata:
   name: incubator-realm
   labels:
-    app: sso
+    app: incubator
 spec:
   realm:
     id: "incubator"
