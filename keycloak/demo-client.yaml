@@ -13,3 +13,5 @@ spec:
  #   secret: client-secret
     clientAuthenticatorType: client-secret
     protocol: openid-connect
+  redirectUris:
+    - http://localhost:8080/*
