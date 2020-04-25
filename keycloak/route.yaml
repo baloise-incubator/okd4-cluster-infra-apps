@@ -14,5 +14,5 @@ spec:
     targetPort: keycloak
   tls:
     termination: reencrypt
-    insecureEdgeTerminationPolicy: edge
+    insecureEdgeTerminationPolicy: Redirect
   wildcardPolicy: None
