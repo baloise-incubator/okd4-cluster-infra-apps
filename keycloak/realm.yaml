@@ -1,0 +1,15 @@
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakRealm
+metadata:
+  name: incubator-realm
+  labels:
+    app: sso
+spec:
+  realm:
+    id: "incubator"
+    realm: "incubator"
+    enabled: True
+    displayName: "Incubator Realm"
+  instanceSelector:
+    matchLabels:
+      app: sso
