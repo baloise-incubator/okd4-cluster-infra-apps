@@ -1,0 +1,18 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  annotations:
+    haproxy.router.openshift.io/balance: source
+  name: keycloak
+spec:
+  host: keycloak.apps.baloise.dev
+  to:
+    kind: Service
+    name: keycloak
+    weight: 100
+  port:
+    targetPort: keycloak
+  tls:
+    termination: reencrypt
+    insecureEdgeTerminationPolicy: edge
+  wildcardPolicy: None
