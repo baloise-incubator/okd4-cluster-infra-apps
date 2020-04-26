@@ -9,7 +9,7 @@ spec:
     username: "demo-admin-user"
     firstName: "Demo"
     lastName: "Admin"
-    email: "user@example.com"
+    email: "admin@example.com"
     enabled: True
     emailVerified: True
   realmSelector:
