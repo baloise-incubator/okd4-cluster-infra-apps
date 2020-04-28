@@ -21,6 +21,7 @@ spec:
         - hyperconverged-cluster-operator
         env:
         - name: KVM_EMULATION
+          value: true
         - name: OPERATOR_IMAGE
           value: quay.io/kubevirt/hyperconverged-cluster-operator:1.1.0
         - name: OPERATOR_NAME
