@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: kubevirt-config
-data:
-  debug.useEmulation: "true"
