@@ -9,7 +9,7 @@ mkdir ~/kubeseal
 
 Fetch public certificate
 ```
-kubeseal --controller-name=sealed-secrets \
+kubeseal --controller-name=sealed-secrets-controller \
 --controller-namespace=sealed-secrets \
 --fetch-cert >  ~/kubeseal/kubeseal.crt
 ```
