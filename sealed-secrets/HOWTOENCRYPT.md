@@ -25,7 +25,7 @@ kubectl create secret generic secret-example \
 ```
 
 ```
-kubeseal --cert https://raw.githubusercontent.com/baloise-incubator/getting-started/master/sealed-secrets/kubeseal.crt \
+kubeseal --cert https://raw.githubusercontent.com/baloise-incubator/okd4-cluster-infra-apps/master/sealed-secrets/kubeseal.crt \
 --namespace=<target-namespace> -oyaml \
 < secret-example.yaml > namespaced-sealed-secret-example.yaml
 ```
