@@ -389,6 +389,8 @@ kubeStateMetrics:
   ## Please see https://github.com/helm/charts/tree/master/stable/kube-state-metrics for configurable values
   ##
   enabled: true
+
+kube-state-metrics:
   securityContext:
     runAsUser: 1000820000
     fsGroup: 1000820000
