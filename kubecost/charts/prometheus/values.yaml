@@ -389,6 +389,9 @@ kubeStateMetrics:
   ## Please see https://github.com/helm/charts/tree/master/stable/kube-state-metrics for configurable values
   ##
   enabled: true
+  securityContext:
+    runAsUser: 1000820000
+    fsGroup: 1000820000
 
 nodeExporter:
   ## If false, node-exporter will not be installed
