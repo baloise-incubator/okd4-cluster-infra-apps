@@ -202,6 +202,9 @@ prometheus:
       enabled: true
     extraArgs:
       query.max-concurrency: 1
+    securityContext:
+      runAsUser: 1000820000
+      fsGroup: 1000820000
   alertmanager:
     enabled: false
     persistentVolume:
@@ -238,9 +241,7 @@ prometheus:
               record: kubecost_container_memory_working_set_bytes
             - expr: sum(container_memory_working_set_bytes{container_name!="POD",container_name!=""})
               record: kubecost_cluster_memory_working_set_bytes
-  securityContext:
-    runAsUser: 1000820000
-    fsGroup: 1000820000
+
 networkCosts:
   enabled: false
   podSecurityPolicy:
