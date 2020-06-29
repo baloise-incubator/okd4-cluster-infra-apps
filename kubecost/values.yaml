@@ -238,7 +238,9 @@ prometheus:
               record: kubecost_container_memory_working_set_bytes
             - expr: sum(container_memory_working_set_bytes{container_name!="POD",container_name!=""})
               record: kubecost_cluster_memory_working_set_bytes
-
+  securityContext:
+    runAsUser: 1000820000
+    fsGroup: 1000820000
 networkCosts:
   enabled: false
   podSecurityPolicy:
@@ -336,6 +338,9 @@ grafana:
   grafana.ini:
     server:
       root_url: "%(protocol)s://%(domain)s:%(http_port)s/grafana"
+  securityContext:
+    runAsUser: 1000820000
+    fsGroup: 1000820000
 serviceAccount:
   create: true # Set this to false if you're bringing your own service account.
   annotations: {}
