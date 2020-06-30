@@ -241,6 +241,9 @@ prometheus:
               record: kubecost_container_memory_working_set_bytes
             - expr: sum(container_memory_working_set_bytes{container_name!="POD",container_name!=""})
               record: kubecost_cluster_memory_working_set_bytes
+  serviceAccounts:
+    nodeExporter:
+      create: false
 
 networkCosts:
   enabled: false
