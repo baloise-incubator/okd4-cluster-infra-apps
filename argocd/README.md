@@ -25,6 +25,6 @@ The config does basically these things:
 
 ## Secrets
 Secrets are managed by [sealed-secrets](https://github.com/bitnami-labs/sealed-secrets).
-See the [docs for our sealed secret app](../sealed-secrets) for details. 
+See the [docs for our sealed secret app](../.disabled/sealed-secrets) for details. 
 
 The secret instances itself are managed by Argo CD, the configuration is located in the [base/argocd-sealed-secret.yaml](base/argocd-sealed-secret.json).
