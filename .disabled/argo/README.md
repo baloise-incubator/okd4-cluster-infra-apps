@@ -9,4 +9,4 @@ The Argo Workflow instance can be reached at [tbd](https://argoworkflow.baloise.
 
 ## Secrets
 Secrets are managed by [sealed-secrets](https://github.com/bitnami-labs/sealed-secrets).
-See the [docs for our sealed secret app](../sealed-secrets) for details. 
+See the [docs for our sealed secret app](../../sealed-secrets) for details. 
