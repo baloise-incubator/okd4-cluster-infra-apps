@@ -320,7 +320,7 @@ prometheusRule:
   enabled: false
   additionalLabels: {}
 
-supportNFS: true
+supportNFS: false
 initChownDataImage: "busybox" # Supports a fully qualified Docker image eg: registry.hub.docker.com/library/busybox:latest
 
 grafana:
