@@ -27,7 +27,7 @@ The following deployments are currently in the cluster, managed by ArgoCD:
 | Minio                 |[minio](.disabled/minio)                                      |[![App Status](https://argocd.baloise.dev/api/badge?name=minio)](https://argocd.baloise.dev/applications/minio)|
 | OpenShift ACME        |[openshift-acme](.disabled/openshift-acme)                    |[![App Status](https://argocd.baloise.dev/api/badge?name=openshift-acme)](https://argocd.baloise.dev/applications/openshift-acme)|
 | Rook Ceph             |[rook-ceph](.disabled/rook-ceph)                              |[![App Status](https://argocd.baloise.dev/api/badge?name=rook-ceph)](https://argocd.baloise.dev/applications/rook-ceph)|
-| Sealed Secrets        |[Sealed Secrets](.disabled/sealed-secrets)                    |[![App Status](https://argocd.baloise.dev/api/badge?name=sealed-secrets)](https://argocd.baloise.dev/applications/sealed-secrets)|
+| Sealed Secrets        |[Sealed Secrets](sealed-secrets)                    |[![App Status](https://argocd.baloise.dev/api/badge?name=sealed-secrets)](https://argocd.baloise.dev/applications/sealed-secrets)|
 | Strimzi Kafka Operator|[strimzi-kafka-operator](.disabled/strimzi-kafka-operator)    |[![App Status](https://argocd.baloise.dev/api/badge?name=strimzi-kafka-operator)](https://argocd.baloise.dev/applications/strimzi-kafka-operator)|
 | Tekton Chatopshandler |[tekton-chatopshandler](tekton-chatopshandler)      |[![App Status](https://argocd.baloise.dev/api/badge?name=tekton-chatopshandler)](https://argocd.baloise.dev/applications/tekton-chatopshandler)|
 | Tekton Dashboard      |[tekton-dashboard](tekton-dashboard)                |[![App Status](https://argocd.baloise.dev/api/badge?name=tekton-dashboard)](https://argocd.baloise.dev/applications/tekton-dashboard)|
@@ -38,6 +38,6 @@ Create a directory and commit your plain YAML, Helm Charts or kustomization.yaml
 To verify if the new directory is successfuly registered look at the [config repository configuration](https://github.com/baloise-incubator/okd4-apps-root-config/blob/master/apps/okd4-cluster-infra-apps.yaml#L24).
 
 ### Secrets Management
-Secrets like passwords or API tokens can be managed using the Kubernetes [secrets](https://kubernetes.io/docs/concepts/configuration/secret/) resource type. However, it is not a good idea to store those secrets in the repository since they are only base64 encoded. We are using [Bitnami Sealed Secrets](.disabled/sealed-secrets) to encrypt those secrets.
+Secrets like passwords or API tokens can be managed using the Kubernetes [secrets](https://kubernetes.io/docs/concepts/configuration/secret/) resource type. However, it is not a good idea to store those secrets in the repository since they are only base64 encoded. We are using [Bitnami Sealed Secrets](sealed-secrets) to encrypt those secrets.
 
 
