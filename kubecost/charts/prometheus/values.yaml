@@ -392,8 +392,8 @@ kubeStateMetrics:
 
 kube-state-metrics:
   securityContext:
-    runAsUser: 1000820000
-    fsGroup: 1000820000
+    runAsUser: 1000640000
+    fsGroup: 1000640000
 
 nodeExporter:
   ## If false, node-exporter will not be installed
