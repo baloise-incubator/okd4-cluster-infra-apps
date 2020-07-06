@@ -6,7 +6,7 @@ bases:
 
 resources:
   - base/argocd-ui-route.yaml
-  - base/argocd-sealed-secret.yaml
+#  - base/argocd-sealed-secret.yaml
   - base/default-appprojects.yaml
 
 patchesStrategicMerge:
