@@ -1,75 +1,49 @@
-# Sealed Secrets
+# How To Encrypt Secrets
 
-This chart contains the resources to use [sealed-secrets](https://github.com/bitnami-labs/sealed-secrets).
+## Fetch certificate (optional)
 
-## Prerequisites
-
-* Kubernetes >= 1.9
-
-## Installing the Chart
-
-To install the chart with the release name `my-release`:
-
-```bash
-$ helm install --namespace sealed-secrets --name my-release stable/sealed-secrets
+Create kubeseal directory
+```
+mkdir ~/kubeseal
 ```
 
-The command deploys a controller and [CRD](https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definitions/) for sealed secrets on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
-
-## Uninstalling the Chart
-
-To uninstall/delete the `my-release` deployment:
-
-```bash
-$ helm delete [--purge] my-release
+Fetch public certificate
+```
+kubeseal --controller-name=sealed-secrets-controller \
+--controller-namespace=sealed-secrets \
+--fetch-cert >  ~/kubeseal/kubeseal.crt
 ```
 
-The command removes all the Kubernetes components associated with the chart and deletes the release.
+You can now use the local offline certificate with `kubeseal --cert ~/kubeseal/kubeseal.crt` in the following steps.
 
-## Using kubeseal
-
-Install the kubeseal CLI by downloading the binary from [sealed-secrets/releases](https://github.com/bitnami-labs/sealed-secrets/releases).
-
-Fetch the public key by passing the release name and namespace:
-
-```bash
-kubeseal --fetch-cert \
---controller-name=my-release \
---controller-namespace=my-release-namespace \
-> pub-cert.pem
+## Create and encrypt generic secret
+```
+kubectl create secret generic secret-example \
+--from-literal=password=$ECRET! \
+--dry-run \
+-oyaml > secret-example.yaml
 ```
 
-Read about kubeseal usage on [sealed-secrets docs](https://github.com/bitnami-labs/sealed-secrets#usage).
+```
+kubeseal --cert https://raw.githubusercontent.com/baloise-incubator/okd4-cluster-infra-apps/master/sealed-secrets/kubeseal.crt \
+--namespace=<target-namespace> -oyaml \
+< secret-example.yaml > namespaced-sealed-secret-example.yaml
+```
 
-## Configuration
-
-| Parameter                     | Description                                                                | Default                                     |
-|------------------------------:|:---------------------------------------------------------------------------|:--------------------------------------------|
-| **controller.create**         | `true` if Sealed Secrets controller resources should be created            | `true`                                      |
-| **rbac.create**               | `true` if rbac resources should be created                                 | `true`                                      |
-| **rbac.pspEnabled**           | `true` if psp resources should be created                                  | `false`                                     |
-| **serviceAccount.create**     | Whether to create a service account or not                                 | `true`                                      |
-| **serviceAccount.name**       | The name of the service account to create or use                           | `"sealed-secrets-controller"`               |
-| **secretName**                | The name of the TLS secret containing the key used to encrypt secrets      | `"sealed-secrets-key"`                      |
-| **image.tag**                 | The `Sealed Secrets` image tag                                             | `v0.10.0`                                   |
-| **image.pullPolicy**          | The image pull policy for the deployment                                   | `IfNotPresent`                              |
-| **image.repository**          | The repository to get the controller image from                            | `quay.io/bitnami/sealed-secrets-controller` |
-| **resources**                 | CPU/Memory resource requests/limits                                        | `{}`                                        |
-| **crd.create**                | `true` if crd resources should be created                                  | `true`                                      |
-| **crd.keep**                  | `true` if the sealed secret CRD should be kept when the chart is deleted   | `true`                                      |
-| **networkPolicy**             | Whether to create a network policy that allows access to the service       | `false`                                     |
-| **securityContext.runAsUser** | Defines under which user the operator Pod and its containers/processes run | `1001`                                      |
-| **commandArgs**               | Set optional command line arguments passed to the controller process       | `[]`                                        |
-| **ingress.enabled**           | Enables Ingress                                                            | `false`                                     |
-| **ingress.annotations**       | Ingress annotations                                                        | `{}`                                        |
-| **ingress.path**              | Ingress path                                                               | `/v1/cert.pem`                              |
-| **ingress.hosts**             | Ingress accepted hostnames                                                 | `["chart-example.local"]`                   |
-| **ingress.tls**               | Ingress TLS configuration                                                  | `[]`                                        |
-| **podAnnotations**            | Annotations to annotate pods with.                                         | `{}`                                        |
-| **podLabels**                 | Labels to be added to pods                                                 | `{}`                                        |
-| **priorityClassName**         | Optional class to specify priority for pods                                | `""`                                        |
-
-
-- In the case that **serviceAccount.create** is `false` and **rbac.create** is `true` it is expected for a service account with the name **serviceAccount.name** to exist _in the same namespace as this chart_ before installation.
-- If **serviceAccount.create** is `true` there cannot be an existing service account with the name **serviceAccount.name**.
-- If a secret with name **secretName** does not exist _in the same namespace as this chart_, then on install one will be created. If a secret already exists with this name the keys inside will be used.
+## Create and encrypt pull secret
+```
+kubectl create secret docker-registry harbor-pull-secret \
+--docker-server=harbor.apps.baloise.dev \
+--docker-username=admin \
+--docker-password=Harbor12345 \
+--dry-run -oyaml > pull-secret-example.yaml
+```
+```
+kubeseal --cert https://raw.githubusercontent.com/baloise-incubator/getting-started/master/sealed-secrets/kubeseal.crt \
+--namespace=<target-namespace> -oyaml \
+< pull-secret-example.yaml > sealed-pull-secret-example.yaml
+```
+### Add pull secret to ServiceAccount
+```
+kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "harbor-pull-secret"}]}'
+```
