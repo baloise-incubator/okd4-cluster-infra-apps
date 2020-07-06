@@ -16,7 +16,7 @@ The following deployments are currently in the cluster, managed by ArgoCD:
 | Eclipse Che           |[che](.disabled/che)                                          |[![App Status](https://argocd.baloise.dev/api/badge?name=che)](https://argocd.baloise.dev/applications/che)|
 | Harbor                |[harbor](.disabled/harbor)                                    |[![App Status](https://argocd.baloise.dev/api/badge?name=harbor)](https://argocd.baloise.dev/applications/argocd)|
 | Hetzner Cloud CSI     |[hcloud-csi](.disabled/hcloud-csi)                            |[![App Status](https://argocd.baloise.dev/api/badge?name=hcloud-csi)](https://argocd.baloise.dev/applications/hcloud-csi)|
-| IPTables Config       |[iptables-config](.disabled/iptables-config)                  |[![App Status](https://argocd.baloise.dev/api/badge?name=iptables-config)](https://argocd.baloise.dev/applications/iptables-config)|
+| IPTables Config       |[iptables-config](iptables-config)                  |[![App Status](https://argocd.baloise.dev/api/badge?name=iptables-config)](https://argocd.baloise.dev/applications/iptables-config)|
 | Istio Operator        |[istio-operator](.disabled/istio-operator)                    |[![App Status](https://argocd.baloise.dev/api/badge?name=istio-operator)](https://argocd.baloise.dev/applications/istio-operator)|
 | Jaeger Operator       |[jaeger-operator](.disabled/jaeger-operator)                  |[![App Status](https://argocd.baloise.dev/api/badge?name=jaeger-operator)](https://argocd.baloise.dev/applications/jaeger-operator)|
 | Keycloak              |[keycloak](.disabled/keycloak)                                |[![App Status](https://argocd.baloise.dev/api/badge?name=keycloak)](https://argocd.baloise.dev/applications/keycloak)|

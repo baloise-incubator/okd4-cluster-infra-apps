@@ -41,19 +41,19 @@ spec:
               # Bastion
               iptables -A INPUT -s 78.47.201.74 -j ACCEPT
               # LB
-              iptables -A INPUT -s 78.46.184.155 -j ACCEPT
+              iptables -A INPUT -s 167.233.9.163 -j ACCEPT
               # Master 0
-              iptables -A INPUT -s 116.203.19.26 -j ACCEPT
-              # Master 1
-              iptables -A INPUT -s 78.46.203.201 -j ACCEPT
-              # Master 2
-              iptables -A INPUT -s 78.46.199.120 -j ACCEPT
-              # Worker 0
               iptables -A INPUT -s 78.46.214.166 -j ACCEPT
-              # Worker 1
-              iptables -A INPUT -s 78.46.199.193 -j ACCEPT
-              # Worker 2
+              # Master 1
+              iptables -A INPUT -s 78.46.184.155 -j ACCEPT
+              # Master 2
+              iptables -A INPUT -s 116.203.19.26 -j ACCEPT
+              # Worker 0
               iptables -A INPUT -s 78.46.240.109 -j ACCEPT
+              # Worker 1
+              iptables -A INPUT -s 78.46.203.201 -j ACCEPT
+              # Worker 2
+              iptables -A INPUT -s 78.46.199.120 -j ACCEPT
               iptables -P INPUT DROP # Drop everything we don't accept
               echo "iptable rules done"
       containers:
