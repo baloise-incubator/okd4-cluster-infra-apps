@@ -21,7 +21,7 @@ spec:
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 1
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
@@ -374,7 +374,7 @@ spec:
           name: cost-analyzer-frontend
           volumeMounts:
             - name: cache
-              mountPath: /var/cache/
+              mountPath: /var/cache/nginx/client_temp
             - name: nginx-conf
               mountPath: /etc/nginx/conf.d/
             {{- if .Values.kubecostFrontend.tls }}
