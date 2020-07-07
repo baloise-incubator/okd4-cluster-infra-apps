@@ -59,6 +59,8 @@ spec:
       volumes:
         - name: cache
           emptyDir: {}
+        - name: log
+          emptyDir: {}
         - name: nginx-conf
           configMap:
             name: nginx-conf
@@ -372,6 +374,8 @@ spec:
           volumeMounts:
             - name: cache
               mountPath: /var/cache/nginx/
+            - name: log
+              mountPath: /var/log/nginx/
             - name: nginx-conf
               mountPath: /etc/nginx/conf.d/
             {{- if .Values.kubecostFrontend.tls }}
