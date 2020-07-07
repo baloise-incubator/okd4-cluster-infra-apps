@@ -60,6 +60,8 @@ spec:
       restartPolicy: Always
       serviceAccountName: {{ template "cost-analyzer.serviceAccountName" . }}
       volumes:
+        - name: cache
+          emptyDir: {}
         - name: nginx-conf
           configMap:
             name: nginx-conf
@@ -371,6 +373,8 @@ spec:
               value: dns
           name: cost-analyzer-frontend
           volumeMounts:
+            - name: cache
+              mountPath: /var/cache/
             - name: nginx-conf
               mountPath: /etc/nginx/conf.d/
             {{- if .Values.kubecostFrontend.tls }}
