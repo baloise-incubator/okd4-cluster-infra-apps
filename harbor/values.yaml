@@ -1029,7 +1029,7 @@ core:
   secretName: ""
   ## The CSRF key. Will be generated automatically if it isn't specified
   ##
-  csrfKey: "not-a-secure-string"
+  csrfKey: "mSb23IPOtGPvMfrTxG3ZjdeS0p12EjDX"
   ## lifecycleHooks for the container to automate configuration before or after startup.
   ##
   lifecycleHooks:
