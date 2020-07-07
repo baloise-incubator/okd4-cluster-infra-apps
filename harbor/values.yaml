@@ -624,11 +624,11 @@ logLevel: debug
 ## Option to force users to specify passwords (core.secret, harborAdminPassword, and secretKey). That is required for 'helm upgrade' to work properly.
 ## If it is not forced, random values will be generated.
 ##
-forcePassword: false
+forcePassword: true
 
 ## The initial password of Harbor admin. Change it from portal after launching Harbor
 ##
-harborAdminPassword:
+harborAdminPassword: Harbor12345
 
 ## If expose the service via Ingress, the NGINX server will not be used
 ##
@@ -914,7 +914,7 @@ core:
   ## The secret key used for encryption. Must be a string of 16 chars.
   ##
   # secretKey: "not-a-secure-string"
-  secretKey:
+  secretKey: "not-a-secure-string"
 
   ## Update strategy - only really applicable for deployments with RWO PVs attached
   ## If replicas = 1, an update can get "stuck", as the previous pod remains attached to the
@@ -1018,7 +1018,7 @@ core:
   ## If a secret key is not specified, Helm will generate one.
   ## Must be a string of 16 chars.
   ##
-  secret: ""
+  secret: "not-a-secure-string"
   ## Fill the name of a kubernetes secret if you want to use your own
   ## TLS certificate and private key for token encryption/decryption.
   ## The secret must contain keys named:
@@ -2259,7 +2259,8 @@ externalRedis:
 postgresql:
   enabled: true
   nameOverride:
-  existingSecret: postgresql
+  postgresqlUsername: postgres
+  postgresqlPassword: not-secure-database-password
   replication:
     enabled: true
   persistence:
