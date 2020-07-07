@@ -18,9 +18,6 @@ spec:
     matchLabels:
 {{ include "cost-analyzer.selectorLabels" . | nindent 8}}
   strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
     type: Recreate
   template:
     metadata:
