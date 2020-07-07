@@ -1399,7 +1399,7 @@ registry:
   secret: ""
   ## If true, the registry returns relative URLs in Location headers. The client is responsible for resolving the correct URL.
   ##
-  relativeurls: false
+  relativeurls: true
   credentials:
     username: "harbor_registry_user"
     password: "harbor_registry_password"
