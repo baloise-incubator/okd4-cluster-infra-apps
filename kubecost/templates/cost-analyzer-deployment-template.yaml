@@ -371,7 +371,7 @@ spec:
           name: cost-analyzer-frontend
           volumeMounts:
             - name: cache
-              mountPath: /var/cache/nginx/client_temp
+              mountPath: /var/cache/nginx/
             - name: nginx-conf
               mountPath: /etc/nginx/conf.d/
             {{- if .Values.kubecostFrontend.tls }}
