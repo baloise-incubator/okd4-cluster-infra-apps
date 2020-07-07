@@ -14,7 +14,7 @@ The following deployments are currently in the cluster, managed by ArgoCD:
 | Argo Workflow         |[argo](.disabled/argo)                                        |[![App Status](https://argocd.baloise.dev/api/badge?name=argo)](https://argocd.baloise.dev/applications/argo)|
 | Argo CD               |[argocd](argocd)                                    |[![App Status](https://argocd.baloise.dev/api/badge?name=argocd)](https://argocd.baloise.dev/applications/argocd)|
 | Eclipse Che           |[che](.disabled/che)                                          |[![App Status](https://argocd.baloise.dev/api/badge?name=che)](https://argocd.baloise.dev/applications/che)|
-| Harbor                |[harbor](.disabled/harbor)                                    |[![App Status](https://argocd.baloise.dev/api/badge?name=harbor)](https://argocd.baloise.dev/applications/argocd)|
+| Harbor                |[harbor](harbor)                                    |[![App Status](https://argocd.baloise.dev/api/badge?name=harbor)](https://argocd.baloise.dev/applications/argocd)|
 | Hetzner Cloud CSI     |[hcloud-csi](.disabled/hcloud-csi)                            |[![App Status](https://argocd.baloise.dev/api/badge?name=hcloud-csi)](https://argocd.baloise.dev/applications/hcloud-csi)|
 | IPTables Config       |[iptables-config](iptables-config)                  |[![App Status](https://argocd.baloise.dev/api/badge?name=iptables-config)](https://argocd.baloise.dev/applications/iptables-config)|
 | Istio Operator        |[istio-operator](.disabled/istio-operator)                    |[![App Status](https://argocd.baloise.dev/api/badge?name=istio-operator)](https://argocd.baloise.dev/applications/istio-operator)|
