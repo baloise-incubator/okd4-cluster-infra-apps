@@ -203,8 +203,8 @@ prometheus:
     extraArgs:
       query.max-concurrency: 1
     securityContext:
-      runAsUser: 1000640000
-      fsGroup: 1000640000
+      runAsUser: 1000700000
+      fsGroup: 1000700000
   alertmanager:
     enabled: false
     persistentVolume:
@@ -343,8 +343,8 @@ grafana:
     server:
       root_url: "%(protocol)s://%(domain)s:%(http_port)s/grafana"
   securityContext:
-    runAsUser: 1000640000
-    fsGroup: 1000640000
+    runAsUser: 1000700000
+    fsGroup: 1000700000
 serviceAccount:
   create: true # Set this to false if you're bringing your own service account.
   annotations: {}
