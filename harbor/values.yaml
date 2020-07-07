@@ -1821,7 +1821,7 @@ trivy:
   ## Update strategy
   ##
   updateStrategy:
-    type: Recreate
+    type: RollingUpdate
   ## debugMode the flag to enable Trivy debug mode with more verbose scanning log
   ##
   debugMode: false
