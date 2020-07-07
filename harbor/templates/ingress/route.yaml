@@ -5,7 +5,7 @@ metadata:
     app: harbor
   name: harbor
 spec:
-  host: {{ .Values.service.ingress.hosts.core }}
+  host: {{ include "common.names.fullname" . }}
   path: /
   port:
     targetPort: http
@@ -14,6 +14,6 @@ spec:
     termination: edge
   to:
     kind: Service
-    name: {{ .Values.service.clusterIP.name }}
+    name: {{ include "common.names.fullname" . }}
     weight: 100
   wildcardPolicy: None
