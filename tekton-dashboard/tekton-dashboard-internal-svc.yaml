@@ -6,7 +6,7 @@ metadata:
     dashboard.tekton.dev/release: v0.7.1
     version: v0.7.1
   name: tekton-dashboard-internal
-  namespace: openshift-pipelines
+  namespace: tekton-dashboard
 spec:
   ports:
   - name: http
