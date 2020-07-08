@@ -36,6 +36,7 @@ spec:
         - --logout-url=/oauth/sign_out
         - --pipelines-namespace=tekton-pipelines
         - --triggers-namespace=tekton-pipelines
+        - --log-level=debug
         env:
         - name: INSTALLED_NAMESPACE
           valueFrom:
