@@ -1,0 +1,31 @@
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: tekton-chatops-greeting-trigger-template
+spec:
+  params:
+    - name: prid
+    - name: reponame
+    - name: prorg
+    - name: action
+    - name: branchname
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        generateName: tekton-chatops-greeting-pipeline-run-
+      spec:
+        pipelineRef:
+          name: tekton-chatops-greeting-pipeline
+        params:
+          - name: prid
+            value: $(params.prid)
+          - name: reponame
+            value: $(params.reponame)
+          - name: action
+            value: $(params.action)
+          - name: prorg
+            value: $(params.prorg)
+          - name: branchname
+            value: $(params.branchname)

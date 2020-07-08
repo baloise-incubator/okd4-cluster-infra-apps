@@ -1,0 +1,16 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: tekton-chatops-trigger-binding
+spec:
+  params:
+    - name: prid
+      value: $(body.issue.number)
+    - name: comment
+      value: $(body.comment.body)
+    - name: reponame
+      value: $(body.repository.name)
+    - name: prorg
+      value: $(body.repository.owner.login)
+    - name: apiurl
+      value: $(body.repository.url)

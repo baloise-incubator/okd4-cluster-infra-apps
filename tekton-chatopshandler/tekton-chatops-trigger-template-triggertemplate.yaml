@@ -1,0 +1,31 @@
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: tekton-chatops-trigger-template
+spec:
+  params:
+    - name: comment
+    - name: prid
+    - name: reponame
+    - name: prorg
+    - name: apiurl
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        generateName: tekton-chatops-pipeline-run-
+      spec:
+        pipelineRef:
+          name: tekton-chatops-pipeline
+        params:
+          - name: comment
+            value: $(params.comment)
+          - name: prid
+            value: $(params.prid)
+          - name: reponame
+            value: $(params.reponame)
+          - name: prorg
+            value: $(params.prorg)
+          - name: apiurl
+            value: $(params.apiurl)

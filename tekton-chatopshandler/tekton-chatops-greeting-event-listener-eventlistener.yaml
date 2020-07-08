@@ -1,0 +1,11 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: tekton-chatops-greeting-event-listener
+spec:
+  serviceAccountName: tekton-chatops-sa
+  triggers:
+    - bindings:
+      - ref: tekton-chatops-greeting-trigger-binding
+      template:
+        name: tekton-chatops-greeting-trigger-template

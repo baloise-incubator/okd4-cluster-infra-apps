@@ -1,0 +1,10 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: tekton-syncapps-trigger-binding
+spec:
+  params:
+    - name: reponame
+      value: $(body.repository.name)
+    - name: rootorg
+      value: $(body.repository.owner.login)

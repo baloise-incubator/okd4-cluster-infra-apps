@@ -1,0 +1,22 @@
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: tekton-syncapps-trigger-template
+spec:
+  params:
+    - name: reponame
+    - name: rootorg
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1alpha1
+      kind: PipelineRun
+      metadata:
+        generateName: tekton-syncapps-pipeline-run-
+      spec:
+        pipelineRef:
+          name: tekton-syncapps-pipeline
+        params:
+          - name: reponame
+            value: $(params.reponame)
+          - name: rootorg
+            value: $(params.rootorg)
