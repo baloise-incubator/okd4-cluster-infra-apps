@@ -18,6 +18,7 @@ metadata:
   name: config-artifact-pvc
   namespace: tekton-pipelines
   labels:
+    app.kubernetes.io/part-of: tekton-pipelines
 # data:
 #   # size of the PVC volume
 #   size: 5Gi

@@ -4,6 +4,7 @@ metadata:
   name: tekton-pipelines-webhook-cluster-access
   labels:
     app.kubernetes.io/component: webhook
+    app.kubernetes.io/part-of: tekton-pipelines
 subjects:
 - kind: ServiceAccount
   name: tekton-pipelines-webhook

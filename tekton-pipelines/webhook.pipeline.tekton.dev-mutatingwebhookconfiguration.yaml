@@ -4,6 +4,7 @@ metadata:
   name: webhook.pipeline.tekton.dev
   labels:
     app.kubernetes.io/component: webhook
+    app.kubernetes.io/part-of: tekton-pipelines
     pipeline.tekton.dev/release: "v0.14.0"
 webhooks:
 - admissionReviewVersions:

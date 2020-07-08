@@ -4,6 +4,7 @@ metadata:
   name: tekton-pipelines-webhook-cluster-access
   labels:
     app.kubernetes.io/component: webhook
+    app.kubernetes.io/part-of: tekton-pipelines
 rules:
 - # The webhook needs to be able to list and update customresourcedefinitions,
   # mainly to update the webhook certificates.

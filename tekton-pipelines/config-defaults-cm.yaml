@@ -18,6 +18,7 @@ metadata:
   name: config-defaults
   namespace: tekton-pipelines
   labels:
+    app.kubernetes.io/part-of: tekton-pipelines
 data:
   _example: |-
     ################################

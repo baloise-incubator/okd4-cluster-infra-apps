@@ -17,6 +17,7 @@ kind: ClusterRole
 metadata:
   name: tekton-triggers-aggregate-view
   labels:
+    app.kubernetes.io/part-of: tekton-triggers
     rbac.authorization.k8s.io/aggregate-to-view: "true"
 rules:
 - apiGroups:

@@ -21,6 +21,7 @@ metadata:
     app.kubernetes.io/name: controller
     app.kubernetes.io/component: controller
     app.kubernetes.io/version: "v0.14.0"
+    app.kubernetes.io/part-of: tekton-pipelines
     # tekton.dev/release value replaced with inputs.params.versionTag in pipeline/tekton/publish.yaml
     pipeline.tekton.dev/release: "v0.14.0"
     # labels below are related to istio and should not be used for resource lookup
@@ -31,6 +32,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: controller
       app.kubernetes.io/component: controller
+      app.kubernetes.io/part-of: tekton-pipelines
   template:
     metadata:
       annotations:
@@ -39,6 +41,7 @@ spec:
         app.kubernetes.io/name: controller
         app.kubernetes.io/component: controller
         app.kubernetes.io/version: "v0.14.0"
+        app.kubernetes.io/part-of: tekton-pipelines
         # tekton.dev/release value replaced with inputs.params.versionTag in pipeline/tekton/publish.yaml
         pipeline.tekton.dev/release: "v0.14.0"
         # labels below are related to istio and should not be used for resource lookup
