@@ -354,7 +354,7 @@ spec:
         - image: {{ .Values.kubecostFrontend.image }}:prod-{{ $.Chart.AppVersion }}
         {{ end }}
         {{- else }}
-        - image: gcr.io/kubecost1/frontend:prod-{{ $.Chart.AppVersion }}
+        - image: gcr.io/kubecost1/frontend:prod-1.56.0
         {{ end }}
           {{- if .Values.kubecostFrontend.tls }}
           {{- if .Values.kubecostFrontend.tls.enabled }}
