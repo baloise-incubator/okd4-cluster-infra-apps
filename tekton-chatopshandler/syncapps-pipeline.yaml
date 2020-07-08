@@ -21,19 +21,18 @@ kind: Task
 metadata:
   name: tekton-syncapps-task
 spec:
-  inputs:
-    params:
-      - name: reponame
-      - name: rootorg
-      - name: gitopscli-version
-        default: 3.1.2
+  params:
+    - name: reponame
+    - name: rootorg
+    - name: gitopscli-version
+      default: 3.1.2
   stepTemplate:
     envFrom:
       - secretRef:
           name: github-token
   steps:
     - name: run-command
-      image: baloise/gitopscli:$(inputs.params.gitopscli-version)
+      image: baloise/gitopscli:$(params.gitopscli-version)
       script: |
         gitopscli sync-apps \
         --username incubator-tekton \
@@ -41,7 +40,7 @@ spec:
         --git-provider github \
         --git-user incubator-tekton \
         --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
-        --organisation $(inputs.params.rootorg) \
-        --repository-name $(inputs.params.reponame) \
+        --organisation $(params.rootorg) \
+        --repository-name $(params.reponame) \
         --root-organisation baloise-incubator \
         --root-repository-name okd4-apps-root-config
