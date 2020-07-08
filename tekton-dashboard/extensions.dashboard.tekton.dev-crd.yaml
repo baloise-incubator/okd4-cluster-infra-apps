@@ -3,7 +3,6 @@ kind: CustomResourceDefinition
 metadata:
   labels:
     app.kubernetes.io/component: dashboard
-    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-dashboard
   name: extensions.dashboard.tekton.dev
 spec:
