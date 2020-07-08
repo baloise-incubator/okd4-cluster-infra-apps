@@ -30,5 +30,5 @@ kubectl create secret generic github-token \
 ```
 kubeseal --cert ~/kubeseal/kubeseal.crt \
 --namespace=tekton-chatopshandler -oyaml \
-< secret-temporary.yaml > github-token.secret.yaml
+< github-token-secret.yaml.ignore > github-token-sealed-secret.yaml
 ```
