@@ -9,11 +9,17 @@ data:
   admin.enabled: 'false'
   resource.exclusions: |
     - apiGroups:
-      - "tekton.dev"
+      - tekton.dev
       kinds:
-      - "PipelineRun"
+      - PipelineRun
       clusters:
       - https://kubernetes.default.svc
+  resource.customizations: |
+    tekton.dev/PipelineRun:
+      ignoreDifferences: |
+        jsonPointers:
+        - /
+
   repositories: |
     - type: helm
       url: https://registry.baloise.dev/chartrepo/library
