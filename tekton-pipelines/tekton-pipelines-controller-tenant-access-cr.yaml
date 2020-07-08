@@ -5,8 +5,6 @@ metadata:
   name: tekton-pipelines-controller-tenant-access
   labels:
     app.kubernetes.io/component: controller
-    app.kubernetes.io/instance: default
-    app.kubernetes.io/part-of: tekton-pipelines
 rules:
 - apiGroups: [""]
   resources: ["pods", "pods/log", "secrets", "events", "serviceaccounts", "configmaps",
