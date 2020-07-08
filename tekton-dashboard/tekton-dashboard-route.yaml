@@ -7,7 +7,7 @@ spec:
   host: tekton.baloise.dev
   tls:
     insecureEdgeTerminationPolicy: Redirect
-    termination: Reencrypt
+    termination: reencrypt
   to:
     kind: Service
     name: tekton-dashboard
