@@ -40,7 +40,7 @@ spec:
   serviceAccountName: tekton-chatops-sa
   triggers:
     - bindings:
-      - name: tekton-syncapps-trigger-binding
+      - ref: tekton-syncapps-trigger-binding
       template:
         name: tekton-syncapps-trigger-template
 ---
