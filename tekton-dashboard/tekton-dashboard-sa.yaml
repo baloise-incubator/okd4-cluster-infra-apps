@@ -7,7 +7,6 @@ metadata:
   labels:
     app: tekton-dashboard
     app.kubernetes.io/component: dashboard
-    app.kubernetes.io/instance: default
     app.kubernetes.io/part-of: tekton-dashboard
   name: tekton-dashboard
   namespace: openshift-pipelines
