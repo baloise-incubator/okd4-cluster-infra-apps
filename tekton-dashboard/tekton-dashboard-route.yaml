@@ -1,0 +1,13 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: tekton-dashboard
+  namespace: openshift-pipelines
+spec:
+  host: tekton.baloise.dev
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: Reencrypt
+  to:
+    kind: Service
+    name: tekton-dashboard
