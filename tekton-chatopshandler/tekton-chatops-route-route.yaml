@@ -1,0 +1,15 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: tekton-chatops-route
+spec:
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  wildcardPolicy: None
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: el-tekton-chatops-event-listener
+    weight: 100

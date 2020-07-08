@@ -1,0 +1,16 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: tekton-chatops-greeting-trigger-binding
+spec:
+  params:
+    - name: prid
+      value: $(body.pull_request.number)
+    - name: reponame
+      value: $(body.repository.name)
+    - name: action
+      value: $(body.action)
+    - name: prorg
+      value: $(body.repository.owner.login)
+    - name: branchname
+      value: $(body.pull_request.head.ref)

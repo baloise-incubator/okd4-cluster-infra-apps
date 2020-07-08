@@ -1,0 +1,26 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: tekton-chatops-greeting-pipeline
+spec:
+  params:
+    - name: prid
+    - name: reponame
+    - name: prorg
+    - name: action
+    - name: branchname
+  tasks:
+    - name: perform-chatops-greeting-command
+      taskRef:
+        name: tekton-chatops-greeting-task
+      params:
+        - name: prid
+          value: $(params.prid)
+        - name: reponame
+          value: $(params.reponame)
+        - name: prorg
+          value: $(params.prorg)
+        - name: action
+          value: $(params.action)
+        - name: branchname
+          value: $(params.branchname)

@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: tekton-syncapps-pipeline
+spec:
+  params:
+    - name: reponame
+    - name: rootorg
+  tasks:
+    - name: perform-syncapps-command
+      taskRef:
+        name: tekton-syncapps-task
+      params:
+        - name: reponame
+          value: $(params.reponame)
+        - name: rootorg
+          value: $(params.rootorg)

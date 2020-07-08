@@ -1,0 +1,11 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: tekton-syncapps-event-listener
+spec:
+  serviceAccountName: tekton-chatops-sa
+  triggers:
+    - bindings:
+      - ref: tekton-syncapps-trigger-binding
+      template:
+        name: tekton-syncapps-trigger-template
