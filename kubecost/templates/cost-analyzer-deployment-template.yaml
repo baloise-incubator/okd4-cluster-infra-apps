@@ -351,10 +351,10 @@ spec:
         {{- if .Values.imageVersion}}
         - image: {{ .Values.kubecostFrontend.image }}:{{ .Values.imageVersion }}
         {{- else }}
-        - image: {{ .Values.kubecostFrontend.image }}:prod-{{ $.Chart.AppVersion }}
+        - image: gcr.io/kubecost1/frontend:prod-1.56.0
         {{ end }}
         {{- else }}
-        - image: gcr.io/kubecost1/frontend:prod-1.56.0
+        - image: gcr.io/kubecost1/frontend:prod-{{ $.Chart.AppVersion }}
         {{ end }}
           {{- if .Values.kubecostFrontend.tls }}
           {{- if .Values.kubecostFrontend.tls.enabled }}
