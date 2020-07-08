@@ -1,5 +1,5 @@
 ---
-apiVersion: tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerTemplate
 metadata:
   name: tekton-chatops-greeting-trigger-template
@@ -47,7 +47,7 @@ spec:
     - name: branchname
       value: $(body.pull_request.head.ref)
 ---
-apiVersion: tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1alpha1
 kind: EventListener
 metadata:
   name: tekton-chatops-greeting-event-listener
