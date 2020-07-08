@@ -384,8 +384,8 @@ spec:
               mountPath: /var/log/nginx/
             - name: nginx-conf
               mountPath: /etc/nginx/conf.d/
-            - name: nginx-conf-fix
-              mountPath: /etc/nginx/
+{{/*            - name: nginx-conf-fix*/}}
+{{/*              mountPath: /etc/nginx/*/}}
             {{- if .Values.kubecostFrontend.tls }}
             {{- if .Values.kubecostFrontend.tls.enabled }}
             - name: tls
