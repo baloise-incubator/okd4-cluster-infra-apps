@@ -30,29 +30,28 @@ kind: Task
 metadata:
   name: tekton-chatops-gitopscli-task
 spec:
-  inputs:
-    params:
-      - name: comment
-      - name: prid
-      - name: reponame
-      - name: prorg
-      - name: apiurl
-      - name: gitopscli-version
-        default: 3.1.2
+  params:
+    - name: comment
+    - name: prid
+    - name: reponame
+    - name: prorg
+    - name: apiurl
+    - name: gitopscli-version
+      default: 3.1.2
   stepTemplate:
     envFrom:
       - secretRef:
           name: github-token
   steps:
     - name: get-branch-name-step
-      image: baloise/gitopscli:$(inputs.params.gitopscli-version)
+      image: baloise/gitopscli:$(params.gitopscli-version)
       env:
         - name: PRID
-          value: "$(inputs.params.prid)"
+          value: "$(params.prid)"
         - name: PRORG
-          value: "$(inputs.params.prorg)"
+          value: "$(params.prorg)"
         - name: REPONAME
-          value: "$(inputs.params.reponame)"
+          value: "$(params.reponame)"
       script: |
         #!/usr/bin/env python3
         import json
@@ -76,21 +75,21 @@ spec:
         f = open("/workspace/branchfile.txt","w+")
         f.write(branchName)
     - name: perform-chat-ops-step
-      image: baloise/gitopscli:$(inputs.params.gitopscli-version)
+      image: baloise/gitopscli:$(params.gitopscli-version)
       script: |
         branchName=$(cat /workspace/branchfile.txt)
         echo "$branchName"
-        comment="$(inputs.params.comment)"
+        comment="$(params.comment)"
         echo "$comment"
         if [ "$comment" = "/test" ]; then
           gitopscli add-pr-comment \
           --username incubator-tekton \
           --password $token \
           --git-provider github \
-          --organisation $(inputs.params.prorg) \
-          --repository-name $(inputs.params.reponame) \
+          --organisation $(params.prorg) \
+          --repository-name $(params.reponame) \
           --text='You can <br>use the command `/ping`!' \
-          --pr-id $(inputs.params.prid)
+          --pr-id $(params.prid)
         elif [ "$comment" = "/preview" ]; then
           gitopscli create-preview \
           --username incubator-tekton \
@@ -98,9 +97,9 @@ spec:
           --git-provider github \
           --git-user incubator-tekton \
           --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
-          --organisation $(inputs.params.prorg) \
-          --repository-name $(inputs.params.reponame) \
-          --pr-id $(inputs.params.prid) \
+          --organisation $(params.prorg) \
+          --repository-name $(params.reponame) \
+          --pr-id $(params.prid) \
           --create-pr \
           --auto-merge
         elif [ "$comment" = "/undeploy" ]; then
@@ -110,8 +109,8 @@ spec:
           --git-provider github \
           --git-user incubator-tekton \
           --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
-          --organisation $(inputs.params.prorg) \
-          --repository-name $(inputs.params.reponame) \
+          --organisation $(params.prorg) \
+          --repository-name $(params.reponame) \
           --branch "$branchName" \
           --create-pr \
           --auto-merge
@@ -120,10 +119,10 @@ spec:
           --username incubator-tekton \
           --password $token \
           --git-provider github \
-          --organisation $(inputs.params.prorg) \
-          --repository-name $(inputs.params.reponame) \
+          --organisation $(params.prorg) \
+          --repository-name $(params.reponame) \
           --text='Need help? Find the docs, examples and a F.A.Q.: [Baloise Incubator: GitOps Cli](https://baloise-incubator.github.io/gitopscli/)' \
-          --pr-id $(inputs.params.prid)
+          --pr-id $(params.prid)
         elif expr "$comment" : "/replicas*"; then
           replicaCount="${comment//[!0-9]/}"
           gitopscli deploy \
@@ -133,7 +132,7 @@ spec:
           --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
           --git-provider github \
           --git-provider-url https://github.com/ \
-          --organisation $(inputs.params.prorg) \
+          --organisation $(params.prorg) \
           --repository-name okd4-example-apps \
           --file "gitops-nginx-demo-test/values.yaml" \
           --values "{generic.replicaCount: ${replicaCount}}"
