@@ -41,18 +41,18 @@ spec:
         runAsUser: 0
       {{- else }}
       securityContext:
-        runAsUser: 1000700000
-        runAsGroup: 1000700000
-        fsGroup: 1000700000
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
       {{- end }}
       {{- else if lt $nginxPort 1025 }}
       securityContext:
         runAsUser: 0
       {{- else }}
       securityContext:
-        runAsUser: 1000700000
-        runAsGroup: 1000700000
-        fsGroup: 1000700000
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
       {{- end }}
       restartPolicy: Always
       serviceAccountName: {{ template "cost-analyzer.serviceAccountName" . }}
@@ -351,7 +351,7 @@ spec:
         {{- if .Values.imageVersion}}
         - image: {{ .Values.kubecostFrontend.image }}:{{ .Values.imageVersion }}
         {{- else }}
-        - image: gcr.io/kubecost1/frontend:prod-1.56.0
+        - image: {{ .Values.kubecostFrontend.image }}:prod-{{ $.Chart.AppVersion }}
         {{ end }}
         {{- else }}
         - image: gcr.io/kubecost1/frontend:prod-{{ $.Chart.AppVersion }}
