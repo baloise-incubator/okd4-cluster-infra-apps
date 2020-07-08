@@ -5,5 +5,3 @@ metadata:
   namespace: tekton-pipelines
   labels:
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/instance: default
-    app.kubernetes.io/part-of: tekton-pipelines

@@ -18,8 +18,6 @@ metadata:
   name: feature-flags
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: default
-    app.kubernetes.io/part-of: tekton-pipelines
 data:
   # Setting this flag to "true" will prevent Tekton to create an
   # Affinity Assistant for every TaskRun sharing a PVC workspace
