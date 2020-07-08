@@ -17,8 +17,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: tekton-triggers-admin
   labels:
-    app.kubernetes.io/instance: default
-    app.kubernetes.io/part-of: tekton-triggers
 rules:
 - apiGroups: [""]
   resources: ["configmaps", "secrets", "services"]

@@ -17,8 +17,6 @@ kind: PodSecurityPolicy
 metadata:
   name: tekton-triggers
   labels:
-    app.kubernetes.io/instance: default
-    app.kubernetes.io/part-of: tekton-triggers
 spec:
   privileged: false
   allowPrivilegeEscalation: false

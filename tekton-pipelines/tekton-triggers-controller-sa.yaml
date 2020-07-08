@@ -18,5 +18,3 @@ metadata:
   name: tekton-triggers-controller
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: default
-    app.kubernetes.io/part-of: tekton-triggers

@@ -18,8 +18,6 @@ metadata:
   name: config-logging-triggers
   namespace: tekton-pipelines
   labels:
-    app.kubernetes.io/instance: default
-    app.kubernetes.io/part-of: tekton-triggers
 data:
   # Common configuration for all knative codebase
   zap-logger-config: |

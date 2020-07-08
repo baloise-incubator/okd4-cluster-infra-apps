@@ -20,9 +20,7 @@ metadata:
   labels:
     app.kubernetes.io/name: webhook
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/instance: default
     app.kubernetes.io/version: "v0.6.0"
-    app.kubernetes.io/part-of: tekton-triggers
     app: tekton-triggers-webhook
     version: "v0.6.0"
     triggers.tekton.dev/release: "v0.6.0"
@@ -34,5 +32,3 @@ spec:
   selector:
     app.kubernetes.io/name: webhook
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/instance: default
-    app.kubernetes.io/part-of: tekton-triggers
