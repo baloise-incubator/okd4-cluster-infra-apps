@@ -11,7 +11,7 @@ data:
     - apiGroups:
       - "tekton.dev"
       kinds:
-      - "pipelineruns.tekton.dev"
+      - "PipelineRun"
       clusters:
       - https://kubernetes.default.svc
   repositories: |
