@@ -7,6 +7,13 @@ data:
   users.anonymous.enabled: 'true'
   statusbadge.enabled: 'true'
   admin.enabled: 'false'
+  resource.exclusions: |
+    - apiGroups:
+      - "tekton.dev"
+      kinds:
+      - "pipelineruns.tekton.dev"
+      clusters:
+      - https://kubernetes.default.svc
   repositories: |
     - type: helm
       url: https://registry.baloise.dev/chartrepo/library
