@@ -9,4 +9,4 @@ metadata:
     app.kubernetes.io/component: dashboard
     app.kubernetes.io/part-of: tekton-dashboard
   name: tekton-dashboard
-  namespace: openshift-pipelines
+  namespace: tekton-dashboard
