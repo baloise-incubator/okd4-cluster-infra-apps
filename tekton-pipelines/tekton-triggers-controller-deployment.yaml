@@ -20,9 +20,7 @@ metadata:
   labels:
     app.kubernetes.io/name: controller
     app.kubernetes.io/component: controller
-    app.kubernetes.io/instance: default
     app.kubernetes.io/version: "v0.6.0"
-    app.kubernetes.io/part-of: tekton-triggers
     # tekton.dev/release value replaced with inputs.params.versionTag in triggers/tekton/publish.yaml
     triggers.tekton.dev/release: "v0.6.0"
 spec:
@@ -31,8 +29,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: controller
       app.kubernetes.io/component: controller
-      app.kubernetes.io/instance: default
-      app.kubernetes.io/part-of: tekton-triggers
   template:
     metadata:
       annotations:
@@ -40,9 +36,7 @@ spec:
       labels:
         app.kubernetes.io/name: controller
         app.kubernetes.io/component: controller
-        app.kubernetes.io/instance: default
         app.kubernetes.io/version: "v0.6.0"
-        app.kubernetes.io/part-of: tekton-triggers
         app: tekton-triggers-controller
         triggers.tekton.dev/release: "v0.6.0"
         # version value replaced with inputs.params.versionTag in triggers/tekton/publish.yaml

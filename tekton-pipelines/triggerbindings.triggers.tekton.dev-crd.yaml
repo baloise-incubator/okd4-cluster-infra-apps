@@ -17,8 +17,6 @@ kind: CustomResourceDefinition
 metadata:
   name: triggerbindings.triggers.tekton.dev
   labels:
-    app.kubernetes.io/instance: default
-    app.kubernetes.io/part-of: tekton-triggers
     triggers.tekton.dev/release: "v0.6.0"
     version: "v0.6.0"
 spec:
