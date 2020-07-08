@@ -30,7 +30,7 @@ spec:
           - name: apiurl
             value: $(params.apiurl)
 ---
-apiVersion: tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerBinding
 metadata:
   name: tekton-chatops-trigger-binding

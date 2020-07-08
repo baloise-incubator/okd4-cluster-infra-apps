@@ -30,7 +30,7 @@ spec:
           - name: branchname
             value: $(params.branchname)
 ---
-apiVersion: tekton.dev/v1alpha1
+apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerBinding
 metadata:
   name: tekton-chatops-greeting-trigger-binding
