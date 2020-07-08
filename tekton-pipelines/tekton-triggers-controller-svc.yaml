@@ -19,6 +19,7 @@ metadata:
     app.kubernetes.io/name: controller
     app.kubernetes.io/component: controller
     app.kubernetes.io/version: "v0.6.0"
+    app.kubernetes.io/part-of: tekton-triggers
     triggers.tekton.dev/release: "v0.6.0"
     app: tekton-triggers-controller
     version: "v0.6.0"
@@ -33,3 +34,4 @@ spec:
   selector:
     app.kubernetes.io/name: controller
     app.kubernetes.io/component: controller
+    app.kubernetes.io/part-of: tekton-triggers

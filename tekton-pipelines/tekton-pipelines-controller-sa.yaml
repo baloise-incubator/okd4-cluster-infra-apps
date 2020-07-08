@@ -18,3 +18,4 @@ metadata:
   namespace: tekton-pipelines
   labels:
     app.kubernetes.io/component: controller
+    app.kubernetes.io/part-of: tekton-pipelines

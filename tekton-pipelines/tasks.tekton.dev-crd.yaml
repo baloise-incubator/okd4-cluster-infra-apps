@@ -17,6 +17,7 @@ kind: CustomResourceDefinition
 metadata:
   name: tasks.tekton.dev
   labels:
+    app.kubernetes.io/part-of: tekton-pipelines
     pipeline.tekton.dev/release: "v0.14.0"
     version: "v0.14.0"
 spec:
