@@ -1158,7 +1158,7 @@ serverFiles:
             - localhost:9090
 
       - job_name: 'federate'
-        scrape_interval: 20s
+        scrape_interval: 30s
         scrape_timeout: 15s
         honor_labels: true
         metrics_path: '/federate'
@@ -1175,7 +1175,12 @@ serverFiles:
             target_label: pod_name
             regex: (.+)
             action: replace
-
+          - source_labels: [node]
+            separator: ;
+            regex: (.*)
+            target_label: instance
+            replacement: $1
+            action: replace
 
         static_configs:
           - targets:
