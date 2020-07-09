@@ -1173,7 +1173,7 @@ jobservice:
   ## If a secret key is not specified, Helm will generate one.
   ## Must be a string of 16 chars.
   ##
-  secret: ""
+  secret: "6ZORkfNusFQE86Ou"
 
   ## Harbor Jobservice containers' liveness and readiness probes
   ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
