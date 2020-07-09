@@ -1157,293 +1157,308 @@ serverFiles:
           - targets:
             - localhost:9090
 
-      # A scrape configuration for running Prometheus on a Kubernetes cluster.
-      # This uses separate scrape configs for cluster components (i.e. API server, node)
-      # and services to allow each to use different authentication configs.
-      #
-      # Kubernetes labels will be added as Prometheus labels on metrics via the
-      # `labelmap` relabeling action.
-
-      - job_name: 'kubernetes-nodes-cadvisor'
-
-        # Default to scraping over https. If required, just disable this or change to
-        # `http`.
-        scheme: https
-
-        # This TLS & bearer token file config is used to connect to the actual scrape
-        # endpoints for cluster components. This is separate to discovery auth
-        # configuration because discovery & scraping are two separate concerns in
-        # Prometheus. The discovery auth config is automatic if Prometheus runs inside
-        # the cluster. Otherwise, more config options have to be provided within the
-        # <kubernetes_sd_config>.
-        tls_config:
-          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-          # If your node certificates are self-signed or use a different CA to the
-          # master CA, then disable certificate verification below. Note that
-          # certificate verification is an integral part of a secure infrastructure
-          # so this should only be disabled in a controlled environment. You can
-          # disable certificate verification by uncommenting the line below.
-          #
-          insecure_skip_verify: true
-        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-
-        kubernetes_sd_configs:
-          - role: node
-
-        # This configuration will work only on kubelet 1.7.3+
-        # As the scrape endpoints for cAdvisor have changed
-        # if you are using older version you need to change the replacement to
-        # replacement: /api/v1/nodes/$1:4194/proxy/metrics
-        # more info here https://github.com/coreos/prometheus-operator/issues/633
-        relabel_configs:
-          - action: labelmap
-            regex: __meta_kubernetes_node_label_(.+)
-          - target_label: __address__
-            replacement: kubernetes.default.svc:443
-          - source_labels: [__meta_kubernetes_node_name]
-            regex: (.+)
-            target_label: __metrics_path__
-            replacement: /api/v1/nodes/$1/proxy/metrics/cadvisor
-        
-        metric_relabel_configs:
-          - source_labels: [ __name__ ]
-            regex: (container_tasks_state|container_memory_failures_total|container_memory_swap|container_memory_cache|container_fs_reads_total|container_fs_writes_total|container_network_tcp_usage_total|container_spec_memory_limit_bytes|container_spec_memory_reservation_limit_bytes|container_spec_cpu_period|container_spec_memory_swap_limit_bytes|container_memory_max_usage_bytes|container_memory_mapped_file|container_last_seen|container_cpu_load_average_10s|container_memory_failcnt|container_memory_rss|container_start_time_seconds|container_network_udp_usage_total|container_spec_cpu_shares|container_cpu_schedstat_run_periods_total|container_cpu_schedstat_run_seconds_total|container_cpu_schedstat_runqueue_seconds_total|container_cpu_user_seconds_total|container_cpu_system_seconds_total|container_cpu_system_seconds_total|container_fs_reads_bytes_total|container_fs_read_seconds_total|container_fs_sector_writes_total|container_fs_sector_reads_total|container_file_descriptors|container_fs_reads_merged_total|container_fs_writes_merged_total|container_fs_io_current|container_network_transmit_packets_total|container_network_receive_packets_total|container_processes|container_fs_io.*)
-            action: drop
-          - source_labels: [ container ]
-            target_label: container_name
-            regex: (.+)
-            action: replace
-          - source_labels: [ pod ]
-            target_label: pod_name
-            regex: (.+)
-            action: replace
-
-      # Scrape config for service endpoints.
-      #
-      # The relabeling allows the actual service scrape endpoint to be configured
-      # via the following annotations:
-      #
-      # * `prometheus.io/scrape`: Only scrape services that have a value of `true`
-      # * `prometheus.io/scheme`: If the metrics endpoint is secured then you will need
-      # to set this to `https` & most likely set the `tls_config` of the scrape config.
-      # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
-      # * `prometheus.io/port`: If the metrics are exposed on a different port to the
-      # service then set this appropriately.
-      - job_name: 'kubernetes-service-endpoints'
-
-        kubernetes_sd_configs:
-          - role: endpoints
-
-        relabel_configs:
-          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
-            action: keep
-            regex: true
-          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
-            action: replace
-            target_label: __scheme__
-            regex: (https?)
-          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
-            action: replace
-            target_label: __metrics_path__
-            regex: (.+)
-          - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
-            action: replace
-            target_label: __address__
-            regex: ([^:]+)(?::\d+)?;(\d+)
-            replacement: $1:$2
-          - action: labelmap
-            regex: __meta_kubernetes_service_label_(.+)
-          - source_labels: [__meta_kubernetes_namespace]
-            action: replace
-            target_label: kubernetes_namespace
-          - source_labels: [__meta_kubernetes_service_name]
-            action: replace
-            target_label: kubernetes_name
-          - source_labels: [__meta_kubernetes_pod_node_name]
-            action: replace
-            target_label: kubernetes_node
-        metric_relabel_configs:
-          - source_labels: [ __name__ ]
-            regex: (kube_pod_container_status_waiting_reason|kube_pod_container_status_terminated_reason|kube_pod_container_status_last_terminated_reason|kube_pod_status_scheduled|kube_pod_status_ready|kube_secret_.*|kube_configmap_.*|kube_replicaset.*|node_network.*|node_scrape_collector.*)
-            action: drop
-        tls_config:
-          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-          # If your node certificates are self-signed or use a different CA to the
-          # master CA, then disable certificate verification below. Note that
-          # certificate verification is an integral part of a secure infrastructure
-          # so this should only be disabled in a controlled environment. You can
-          # disable certificate verification by uncommenting the line below.
-          #
-          insecure_skip_verify: true
-        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-      # Scrape config for slow service endpoints; same as above, but with a larger
-      # timeout and a larger interval
-      #
-      # The relabeling allows the actual service scrape endpoint to be configured
-      # via the following annotations:
-      #
-      # * `prometheus.io/scrape-slow`: Only scrape services that have a value of `true`
-      # * `prometheus.io/scheme`: If the metrics endpoint is secured then you will need
-      # to set this to `https` & most likely set the `tls_config` of the scrape config.
-      # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
-      # * `prometheus.io/port`: If the metrics are exposed on a different port to the
-      # service then set this appropriately.
-      - job_name: 'kubernetes-service-endpoints-slow'
-
-        scrape_interval: 5m
-        scrape_timeout: 30s
-
-        kubernetes_sd_configs:
-          - role: endpoints
-
-        relabel_configs:
-          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape_slow]
-            action: keep
-            regex: true
-          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
-            action: replace
-            target_label: __scheme__
-            regex: (https?)
-          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
-            action: replace
-            target_label: __metrics_path__
-            regex: (.+)
-          - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
-            action: replace
-            target_label: __address__
-            regex: ([^:]+)(?::\d+)?;(\d+)
-            replacement: $1:$2
-          - action: labelmap
-            regex: __meta_kubernetes_service_label_(.+)
-          - source_labels: [__meta_kubernetes_namespace]
-            action: replace
-            target_label: kubernetes_namespace
-          - source_labels: [__meta_kubernetes_service_name]
-            action: replace
-            target_label: kubernetes_name
-          - source_labels: [__meta_kubernetes_pod_node_name]
-            action: replace
-            target_label: kubernetes_node
-
-      - job_name: 'prometheus-pushgateway'
-        honor_labels: true
-
-        kubernetes_sd_configs:
-          - role: service
-
-        relabel_configs:
-          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_probe]
-            action: keep
-            regex: pushgateway
-
-      # Example scrape config for probing services via the Blackbox Exporter.
-      #
-      # The relabeling allows the actual service scrape endpoint to be configured
-      # via the following annotations:
-      #
-      # * `prometheus.io/probe`: Only probe services that have a value of `true`
-      - job_name: 'kubernetes-services'
-        tls_config:
-          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-          # If your node certificates are self-signed or use a different CA to the
-          # master CA, then disable certificate verification below. Note that
-          # certificate verification is an integral part of a secure infrastructure
-          # so this should only be disabled in a controlled environment. You can
-          # disable certificate verification by uncommenting the line below.
-          #
-          insecure_skip_verify: true
-        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-
-        metrics_path: /probe
-        params:
-          module: [http_2xx]
-
-        kubernetes_sd_configs:
-          - role: service
-
-        relabel_configs:
-          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_probe]
-            action: keep
-            regex: true
-          - source_labels: [__address__]
-            target_label: __param_target
-          - target_label: __address__
-            replacement: blackbox
-          - source_labels: [__param_target]
-            target_label: instance
-          - action: labelmap
-            regex: __meta_kubernetes_service_label_(.+)
-          - source_labels: [__meta_kubernetes_namespace]
-            target_label: kubernetes_namespace
-          - source_labels: [__meta_kubernetes_service_name]
-            target_label: kubernetes_name
-      - job_name: node-exporter
-        honor_labels: false
-        kubernetes_sd_configs:
-        - role: endpoints
-          namespaces:
-            names:
-            - openshift-monitoring
+      - job_name: 'federate'
         scrape_interval: 15s
-        scheme: https
-        tls_config:
-          insecure_skip_verify: true
-          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-          #server_name: node-exporter.openshift-monitoring.svc
-        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-        relabel_configs:
-        - action: keep
-          source_labels:
-          - __meta_kubernetes_service_label_app_kubernetes_io_name
-          regex: node-exporter
-        - action: keep
-          source_labels:
-          - __meta_kubernetes_service_label_app_kubernetes_io_version
-          regex: v0.18.1
-        - action: keep
-          source_labels:
-          - __meta_kubernetes_endpoint_port_name
-          regex: https
-        - source_labels:
-          - __meta_kubernetes_endpoint_address_target_kind
-          - __meta_kubernetes_endpoint_address_target_name
-          separator: ;
-          regex: Node;(.*)
-          replacement: ${1}
-          target_label: node
-        - source_labels:
-          - __meta_kubernetes_endpoint_address_target_kind
-          - __meta_kubernetes_endpoint_address_target_name
-          separator: ;
-          regex: Pod;(.*)
-          replacement: ${1}
-          target_label: pod
-        - source_labels:
-          - __meta_kubernetes_namespace
-          target_label: namespace
-        - source_labels:
-          - __meta_kubernetes_service_name
-          target_label: service
-        - source_labels:
-          - __meta_kubernetes_pod_name
-          target_label: pod
-        - source_labels:
-          - __meta_kubernetes_service_name
-          target_label: job
-          replacement: ${1}
-        - source_labels:
-          - __meta_kubernetes_service_label_app_kubernetes_io_name
-          target_label: job
-          regex: (.+)
-          replacement: ${1}
-        - target_label: endpoint
-          replacement: https
-        - source_labels:
-          - __meta_kubernetes_pod_node_name
-          target_label: instance
-          regex: (.*)
-          replacement: $1
-          action: replace
+
+        honor_labels: true
+        metrics_path: '/federate'
+
+        params:
+          'match[]':
+            - '{job=".*"}'
+            - '{__name__=~".*"}'
+
+        static_configs:
+          - targets:
+              - 'envoy-unauthenticated-prometheus-proxy:9091'
+
+#      # A scrape configuration for running Prometheus on a Kubernetes cluster.
+#      # This uses separate scrape configs for cluster components (i.e. API server, node)
+#      # and services to allow each to use different authentication configs.
+#      #
+#      # Kubernetes labels will be added as Prometheus labels on metrics via the
+#      # `labelmap` relabeling action.
+#
+#      - job_name: 'kubernetes-nodes-cadvisor'
+#
+#        # Default to scraping over https. If required, just disable this or change to
+#        # `http`.
+#        scheme: https
+#
+#        # This TLS & bearer token file config is used to connect to the actual scrape
+#        # endpoints for cluster components. This is separate to discovery auth
+#        # configuration because discovery & scraping are two separate concerns in
+#        # Prometheus. The discovery auth config is automatic if Prometheus runs inside
+#        # the cluster. Otherwise, more config options have to be provided within the
+#        # <kubernetes_sd_config>.
+#        tls_config:
+#          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+#          # If your node certificates are self-signed or use a different CA to the
+#          # master CA, then disable certificate verification below. Note that
+#          # certificate verification is an integral part of a secure infrastructure
+#          # so this should only be disabled in a controlled environment. You can
+#          # disable certificate verification by uncommenting the line below.
+#          #
+#          insecure_skip_verify: true
+#        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+#
+#        kubernetes_sd_configs:
+#          - role: node
+#
+#        # This configuration will work only on kubelet 1.7.3+
+#        # As the scrape endpoints for cAdvisor have changed
+#        # if you are using older version you need to change the replacement to
+#        # replacement: /api/v1/nodes/$1:4194/proxy/metrics
+#        # more info here https://github.com/coreos/prometheus-operator/issues/633
+#        relabel_configs:
+#          - action: labelmap
+#            regex: __meta_kubernetes_node_label_(.+)
+#          - target_label: __address__
+#            replacement: kubernetes.default.svc:443
+#          - source_labels: [__meta_kubernetes_node_name]
+#            regex: (.+)
+#            target_label: __metrics_path__
+#            replacement: /api/v1/nodes/$1/proxy/metrics/cadvisor
+#
+#        metric_relabel_configs:
+#          - source_labels: [ __name__ ]
+#            regex: (container_tasks_state|container_memory_failures_total|container_memory_swap|container_memory_cache|container_fs_reads_total|container_fs_writes_total|container_network_tcp_usage_total|container_spec_memory_limit_bytes|container_spec_memory_reservation_limit_bytes|container_spec_cpu_period|container_spec_memory_swap_limit_bytes|container_memory_max_usage_bytes|container_memory_mapped_file|container_last_seen|container_cpu_load_average_10s|container_memory_failcnt|container_memory_rss|container_start_time_seconds|container_network_udp_usage_total|container_spec_cpu_shares|container_cpu_schedstat_run_periods_total|container_cpu_schedstat_run_seconds_total|container_cpu_schedstat_runqueue_seconds_total|container_cpu_user_seconds_total|container_cpu_system_seconds_total|container_cpu_system_seconds_total|container_fs_reads_bytes_total|container_fs_read_seconds_total|container_fs_sector_writes_total|container_fs_sector_reads_total|container_file_descriptors|container_fs_reads_merged_total|container_fs_writes_merged_total|container_fs_io_current|container_network_transmit_packets_total|container_network_receive_packets_total|container_processes|container_fs_io.*)
+#            action: drop
+#          - source_labels: [ container ]
+#            target_label: container_name
+#            regex: (.+)
+#            action: replace
+#          - source_labels: [ pod ]
+#            target_label: pod_name
+#            regex: (.+)
+#            action: replace
+#
+#      # Scrape config for service endpoints.
+#      #
+#      # The relabeling allows the actual service scrape endpoint to be configured
+#      # via the following annotations:
+#      #
+#      # * `prometheus.io/scrape`: Only scrape services that have a value of `true`
+#      # * `prometheus.io/scheme`: If the metrics endpoint is secured then you will need
+#      # to set this to `https` & most likely set the `tls_config` of the scrape config.
+#      # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
+#      # * `prometheus.io/port`: If the metrics are exposed on a different port to the
+#      # service then set this appropriately.
+#      - job_name: 'kubernetes-service-endpoints'
+#
+#        kubernetes_sd_configs:
+#          - role: endpoints
+#
+#        relabel_configs:
+#          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+#            action: keep
+#            regex: true
+#          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
+#            action: replace
+#            target_label: __scheme__
+#            regex: (https?)
+#          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+#            action: replace
+#            target_label: __metrics_path__
+#            regex: (.+)
+#          - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
+#            action: replace
+#            target_label: __address__
+#            regex: ([^:]+)(?::\d+)?;(\d+)
+#            replacement: $1:$2
+#          - action: labelmap
+#            regex: __meta_kubernetes_service_label_(.+)
+#          - source_labels: [__meta_kubernetes_namespace]
+#            action: replace
+#            target_label: kubernetes_namespace
+#          - source_labels: [__meta_kubernetes_service_name]
+#            action: replace
+#            target_label: kubernetes_name
+#          - source_labels: [__meta_kubernetes_pod_node_name]
+#            action: replace
+#            target_label: kubernetes_node
+#        metric_relabel_configs:
+#          - source_labels: [ __name__ ]
+#            regex: (kube_pod_container_status_waiting_reason|kube_pod_container_status_terminated_reason|kube_pod_container_status_last_terminated_reason|kube_pod_status_scheduled|kube_pod_status_ready|kube_secret_.*|kube_configmap_.*|kube_replicaset.*|node_network.*|node_scrape_collector.*)
+#            action: drop
+#        tls_config:
+#          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+#          # If your node certificates are self-signed or use a different CA to the
+#          # master CA, then disable certificate verification below. Note that
+#          # certificate verification is an integral part of a secure infrastructure
+#          # so this should only be disabled in a controlled environment. You can
+#          # disable certificate verification by uncommenting the line below.
+#          #
+#          insecure_skip_verify: true
+#        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+#      # Scrape config for slow service endpoints; same as above, but with a larger
+#      # timeout and a larger interval
+#      #
+#      # The relabeling allows the actual service scrape endpoint to be configured
+#      # via the following annotations:
+#      #
+#      # * `prometheus.io/scrape-slow`: Only scrape services that have a value of `true`
+#      # * `prometheus.io/scheme`: If the metrics endpoint is secured then you will need
+#      # to set this to `https` & most likely set the `tls_config` of the scrape config.
+#      # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
+#      # * `prometheus.io/port`: If the metrics are exposed on a different port to the
+#      # service then set this appropriately.
+#      - job_name: 'kubernetes-service-endpoints-slow'
+#
+#        scrape_interval: 5m
+#        scrape_timeout: 30s
+#
+#        kubernetes_sd_configs:
+#          - role: endpoints
+#
+#        relabel_configs:
+#          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape_slow]
+#            action: keep
+#            regex: true
+#          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
+#            action: replace
+#            target_label: __scheme__
+#            regex: (https?)
+#          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+#            action: replace
+#            target_label: __metrics_path__
+#            regex: (.+)
+#          - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
+#            action: replace
+#            target_label: __address__
+#            regex: ([^:]+)(?::\d+)?;(\d+)
+#            replacement: $1:$2
+#          - action: labelmap
+#            regex: __meta_kubernetes_service_label_(.+)
+#          - source_labels: [__meta_kubernetes_namespace]
+#            action: replace
+#            target_label: kubernetes_namespace
+#          - source_labels: [__meta_kubernetes_service_name]
+#            action: replace
+#            target_label: kubernetes_name
+#          - source_labels: [__meta_kubernetes_pod_node_name]
+#            action: replace
+#            target_label: kubernetes_node
+#
+#      - job_name: 'prometheus-pushgateway'
+#        honor_labels: true
+#
+#        kubernetes_sd_configs:
+#          - role: service
+#
+#        relabel_configs:
+#          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_probe]
+#            action: keep
+#            regex: pushgateway
+#
+#      # Example scrape config for probing services via the Blackbox Exporter.
+#      #
+#      # The relabeling allows the actual service scrape endpoint to be configured
+#      # via the following annotations:
+#      #
+#      # * `prometheus.io/probe`: Only probe services that have a value of `true`
+#      - job_name: 'kubernetes-services'
+#        tls_config:
+#          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+#          # If your node certificates are self-signed or use a different CA to the
+#          # master CA, then disable certificate verification below. Note that
+#          # certificate verification is an integral part of a secure infrastructure
+#          # so this should only be disabled in a controlled environment. You can
+#          # disable certificate verification by uncommenting the line below.
+#          #
+#          insecure_skip_verify: true
+#        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+#
+#        metrics_path: /probe
+#        params:
+#          module: [http_2xx]
+#
+#        kubernetes_sd_configs:
+#          - role: service
+#
+#        relabel_configs:
+#          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_probe]
+#            action: keep
+#            regex: true
+#          - source_labels: [__address__]
+#            target_label: __param_target
+#          - target_label: __address__
+#            replacement: blackbox
+#          - source_labels: [__param_target]
+#            target_label: instance
+#          - action: labelmap
+#            regex: __meta_kubernetes_service_label_(.+)
+#          - source_labels: [__meta_kubernetes_namespace]
+#            target_label: kubernetes_namespace
+#          - source_labels: [__meta_kubernetes_service_name]
+#            target_label: kubernetes_name
+#      - job_name: node-exporter
+#        honor_labels: false
+#        kubernetes_sd_configs:
+#        - role: endpoints
+#          namespaces:
+#            names:
+#            - openshift-monitoring
+#        scrape_interval: 15s
+#        scheme: https
+#        tls_config:
+#          insecure_skip_verify: true
+#          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+#          #server_name: node-exporter.openshift-monitoring.svc
+#        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+#        relabel_configs:
+#        - action: keep
+#          source_labels:
+#          - __meta_kubernetes_service_label_app_kubernetes_io_name
+#          regex: node-exporter
+#        - action: keep
+#          source_labels:
+#          - __meta_kubernetes_service_label_app_kubernetes_io_version
+#          regex: v0.18.1
+#        - action: keep
+#          source_labels:
+#          - __meta_kubernetes_endpoint_port_name
+#          regex: https
+#        - source_labels:
+#          - __meta_kubernetes_endpoint_address_target_kind
+#          - __meta_kubernetes_endpoint_address_target_name
+#          separator: ;
+#          regex: Node;(.*)
+#          replacement: ${1}
+#          target_label: node
+#        - source_labels:
+#          - __meta_kubernetes_endpoint_address_target_kind
+#          - __meta_kubernetes_endpoint_address_target_name
+#          separator: ;
+#          regex: Pod;(.*)
+#          replacement: ${1}
+#          target_label: pod
+#        - source_labels:
+#          - __meta_kubernetes_namespace
+#          target_label: namespace
+#        - source_labels:
+#          - __meta_kubernetes_service_name
+#          target_label: service
+#        - source_labels:
+#          - __meta_kubernetes_pod_name
+#          target_label: pod
+#        - source_labels:
+#          - __meta_kubernetes_service_name
+#          target_label: job
+#          replacement: ${1}
+#        - source_labels:
+#          - __meta_kubernetes_service_label_app_kubernetes_io_name
+#          target_label: job
+#          regex: (.+)
+#          replacement: ${1}
+#        - target_label: endpoint
+#          replacement: https
+#        - source_labels:
+#          - __meta_kubernetes_pod_node_name
+#          target_label: instance
+#          regex: (.*)
+#          replacement: $1
+#          action: replace
 # adds additional scrape configs to prometheus.yml
 # must be a string so you have to add a | after extraScrapeConfigs:
 # example adds prometheus-blackbox-exporter scrape config
