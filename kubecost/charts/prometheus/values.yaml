@@ -1165,8 +1165,8 @@ serverFiles:
 
         params:
           'match[]':
-            - '{job=".*"}'
-            - '{__name__=~".*"}'
+            - '{job=".+"}'
+#            - '{__name__=~".*"}'
 
         static_configs:
           - targets:
