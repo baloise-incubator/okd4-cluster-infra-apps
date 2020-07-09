@@ -1165,8 +1165,17 @@ serverFiles:
 
         params:
           'match[]':
-            - '{job=".+"}'
-#            - '{__name__=~".*"}'
+            - '{__name__=~".+"}'
+        metric_relabel_configs:
+          - source_labels: [ container ]
+            target_label: container_name
+            regex: (.+)
+            action: replace
+          - source_labels: [ pod ]
+            target_label: pod_name
+            regex: (.+)
+            action: replace
+
 
         static_configs:
           - targets:
