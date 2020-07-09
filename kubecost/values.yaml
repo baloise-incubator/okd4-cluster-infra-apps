@@ -1,8 +1,8 @@
 global:
   # zone: cluster.local (use only if your DNS server doesn't live in the same zone as kubecost)
   prometheus:
-    enabled: true # If false, Prometheus will not be installed -- only actively supported on paid Kubecost plans
-    fqdn: http://cost-analyzer-prometheus-server.default.svc #example fqdn. Ignored if enabled: true
+    enabled: false # If false, Prometheus will not be installed -- only actively supported on paid Kubecost plans
+    fqdn: http://envoy-unauthenticated-prometheus-proxy #example fqdn. Ignored if enabled: true
 
   # Durable storage option, product key required
   thanos:

@@ -1,0 +1,19 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: envoy-unauthenticated-prometheus-proxy
+  labels:
+    app: envoy-unauthenticated-prometheus-proxy
+spec:
+  ports:
+    - name: 10000-tcp
+      protocol: TCP
+      port: 10000
+      targetPort: 10000
+    - name: 9901-tcp
+      protocol: TCP
+      port: 9901
+      targetPort: 9901
+  selector:
+    app: envoy-unauthenticated-prometheus-proxy
+  type: ClusterIP
