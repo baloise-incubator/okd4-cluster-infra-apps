@@ -24,3 +24,12 @@ bitbucket:
     size: 10Gi
     volumeMountPath: /var/atlassian/application-data/bitbucket
     storageClass: "ceph-block"
+
+postgresql:
+  securityContext:
+    enabled: true
+    fsGroup: 1000620000
+    runAsUser: 1000620000
+  postgresqlUsername: bitbucket
+  postgresqlPassword: bitbucket
+  postgresqlDatabase: bitbucket

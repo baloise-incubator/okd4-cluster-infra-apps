@@ -6,3 +6,6 @@ dependencies:
     version: 2.0.0
     repository: https://registry.baloise.dev/chartrepo/library
     alias: bitbucket
+  - name: postgresql
+    version: 8.10.14
+    repository: https://charts.bitnami.com/bitnami
