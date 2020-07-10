@@ -1,0 +1,18 @@
+bitbucket:
+  image:
+    repository: docker.io/atlassian/bitbucket-server
+    tag: 7.4.
+  replicaCount: 1
+  network:
+    http:
+      servicePort: 7990
+      ingress:
+        host: bitbucket.baloise.dev
+  resources:
+    requests:
+      memory: 512Mi
+    limits:
+      memory: 1Gi
+  env:
+    - name: SERVER_SCHEME
+      value: https
