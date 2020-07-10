@@ -390,11 +390,6 @@ kubeStateMetrics:
   ##
   enabled: true
 
-kube-state-metrics:
-  securityContext:
-    runAsUser: 1000700000
-    fsGroup: 1000700000
-
 nodeExporter:
   ## If false, node-exporter will not be installed
   ##
@@ -1295,16 +1290,7 @@ serverFiles:
 #          - source_labels: [ __name__ ]
 #            regex: (kube_pod_container_status_waiting_reason|kube_pod_container_status_terminated_reason|kube_pod_container_status_last_terminated_reason|kube_pod_status_scheduled|kube_pod_status_ready|kube_secret_.*|kube_configmap_.*|kube_replicaset.*|node_network.*|node_scrape_collector.*)
 #            action: drop
-#        tls_config:
-#          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-#          # If your node certificates are self-signed or use a different CA to the
-#          # master CA, then disable certificate verification below. Note that
-#          # certificate verification is an integral part of a secure infrastructure
-#          # so this should only be disabled in a controlled environment. You can
-#          # disable certificate verification by uncommenting the line below.
-#          #
-#          insecure_skip_verify: true
-#        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+#
 #      # Scrape config for slow service endpoints; same as above, but with a larger
 #      # timeout and a larger interval
 #      #
@@ -1372,16 +1358,6 @@ serverFiles:
 #      #
 #      # * `prometheus.io/probe`: Only probe services that have a value of `true`
 #      - job_name: 'kubernetes-services'
-#        tls_config:
-#          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-#          # If your node certificates are self-signed or use a different CA to the
-#          # master CA, then disable certificate verification below. Note that
-#          # certificate verification is an integral part of a secure infrastructure
-#          # so this should only be disabled in a controlled environment. You can
-#          # disable certificate verification by uncommenting the line below.
-#          #
-#          insecure_skip_verify: true
-#        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
 #
 #        metrics_path: /probe
 #        params:
@@ -1406,73 +1382,7 @@ serverFiles:
 #            target_label: kubernetes_namespace
 #          - source_labels: [__meta_kubernetes_service_name]
 #            target_label: kubernetes_name
-#      - job_name: node-exporter
-#        honor_labels: false
-#        kubernetes_sd_configs:
-#        - role: endpoints
-#          namespaces:
-#            names:
-#            - openshift-monitoring
-#        scrape_interval: 15s
-#        scheme: https
-#        tls_config:
-#          insecure_skip_verify: true
-#          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-#          #server_name: node-exporter.openshift-monitoring.svc
-#        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-#        relabel_configs:
-#        - action: keep
-#          source_labels:
-#          - __meta_kubernetes_service_label_app_kubernetes_io_name
-#          regex: node-exporter
-#        - action: keep
-#          source_labels:
-#          - __meta_kubernetes_service_label_app_kubernetes_io_version
-#          regex: v0.18.1
-#        - action: keep
-#          source_labels:
-#          - __meta_kubernetes_endpoint_port_name
-#          regex: https
-#        - source_labels:
-#          - __meta_kubernetes_endpoint_address_target_kind
-#          - __meta_kubernetes_endpoint_address_target_name
-#          separator: ;
-#          regex: Node;(.*)
-#          replacement: ${1}
-#          target_label: node
-#        - source_labels:
-#          - __meta_kubernetes_endpoint_address_target_kind
-#          - __meta_kubernetes_endpoint_address_target_name
-#          separator: ;
-#          regex: Pod;(.*)
-#          replacement: ${1}
-#          target_label: pod
-#        - source_labels:
-#          - __meta_kubernetes_namespace
-#          target_label: namespace
-#        - source_labels:
-#          - __meta_kubernetes_service_name
-#          target_label: service
-#        - source_labels:
-#          - __meta_kubernetes_pod_name
-#          target_label: pod
-#        - source_labels:
-#          - __meta_kubernetes_service_name
-#          target_label: job
-#          replacement: ${1}
-#        - source_labels:
-#          - __meta_kubernetes_service_label_app_kubernetes_io_name
-#          target_label: job
-#          regex: (.+)
-#          replacement: ${1}
-#        - target_label: endpoint
-#          replacement: https
-#        - source_labels:
-#          - __meta_kubernetes_pod_node_name
-#          target_label: instance
-#          regex: (.*)
-#          replacement: $1
-#          action: replace
+
 # adds additional scrape configs to prometheus.yml
 # must be a string so you have to add a | after extraScrapeConfigs:
 # example adds prometheus-blackbox-exporter scrape config
