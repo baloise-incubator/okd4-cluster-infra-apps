@@ -13,6 +13,13 @@ bitbucket:
       memory: 512Mi
     limits:
       memory: 1Gi
+  deployment:
+    strategy:
+      type: Recreate
   env:
     - name: SERVER_SCHEME
       value: https
+  persistence:
+    enabled: true
+    size: 10Gi
+    volumeMountPath: /var/atlassian/application-data/bitbucket
