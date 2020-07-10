@@ -10,9 +10,9 @@ bitbucket:
         host: bitbucket.baloise.dev
   resources:
     requests:
-      memory: 512Mi
+      memory: 2Gi
     limits:
-      memory: 1Gi
+      memory: 3Gi
   deployment:
     strategy:
       type: Recreate
