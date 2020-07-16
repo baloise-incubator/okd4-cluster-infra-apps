@@ -93,3 +93,8 @@ rules:
       - delete
       - deletecollection
       - watch
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs: ['get', 'list', 'watch']
