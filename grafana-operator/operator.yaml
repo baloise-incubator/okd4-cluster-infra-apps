@@ -28,10 +28,8 @@ spec:
           env:
             - name: TEMPLATE_PATH
               value: /usr/local/bin/templates
-#            - name: WATCH_NAMESPACE
-#              valueFrom:
-#                fieldRef:
-#                  fieldPath: metadata.namespace
+            - name: WATCH_NAMESPACE
+              value: ""
             - name: POD_NAME
               valueFrom:
                 fieldRef:
