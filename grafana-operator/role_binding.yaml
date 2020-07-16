@@ -7,6 +7,6 @@ subjects:
   name: grafana-operator
   namespace: grafana-operator
 roleRef:
-  kind: Role
+  kind: ClusterRole
   name: grafana-operator
   apiGroup: rbac.authorization.k8s.io
