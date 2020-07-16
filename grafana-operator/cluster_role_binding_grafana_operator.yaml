@@ -5,7 +5,7 @@ metadata:
 roleRef:
   name: grafana-operator
   kind: ClusterRole
-  apiGroup: ""
+  apiGroup: rbac.authorization.k8s.io
 subjects:
   - kind: ServiceAccount
     name: grafana-operator
