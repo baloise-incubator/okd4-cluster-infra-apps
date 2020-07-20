@@ -1,1 +1,0 @@
-These roles are meant to be created by the Integr8ly installer. They are included here for reference or when you wish to deploy the monitoring stack outside of Integr8ly. 
