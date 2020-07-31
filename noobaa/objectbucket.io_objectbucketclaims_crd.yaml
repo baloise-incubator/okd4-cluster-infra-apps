@@ -3,8 +3,6 @@ kind: CustomResourceDefinition
 metadata:
   name: objectbucketclaims.objectbucket.io
 spec:
-  conversion:
-    strategy: None
   group: objectbucket.io
   names:
     kind: ObjectBucketClaim
@@ -14,11 +12,8 @@ spec:
       - obc
       - obcs
     singular: objectbucketclaim
-  preserveUnknownFields: true
   scope: Namespaced
   versions:
     - name: v1alpha1
       served: true
       storage: true
-      subresources:
-        status: {}
