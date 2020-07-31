@@ -5,4 +5,4 @@ metadata:
 data:
   policy.default: 'role:readonly'
   policy.csv: |
-    g, incubator-admins, role:admin
+    g, cluster-admins, role:admin
