@@ -12,7 +12,6 @@ spec:
       - ob
       - obs
     singular: objectbucket
-  preserveUnknownFields: true
   scope: Cluster
   versions:
     - name: v1alpha1
