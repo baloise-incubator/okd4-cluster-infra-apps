@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: noobaa-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      noobaa-operator: deployment
+  template:
+    metadata:
+      labels:
+        app: noobaa
+        noobaa-operator: deployment
+    spec:
+      serviceAccountName: noobaa
+      containers:
+        - name: noobaa-operator
+          image: NOOBAA_OPERATOR_IMAGE
+          resources:
+            limits:
+              cpu: "250m"
+              memory: "512Mi"
+          env:
+            - name: OPERATOR_NAME
+              value: noobaa-operator
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
