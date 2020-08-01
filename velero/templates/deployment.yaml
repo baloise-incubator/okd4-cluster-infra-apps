@@ -108,6 +108,7 @@ spec:
             {{- if eq $provider "aws" }}
             - name: AWS_SHARED_CREDENTIALS_FILE
               value: /credentials/cloud
+            - name: AWS_REGION
             {{- else if eq $provider "gcp"}}
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /credentials/cloud
