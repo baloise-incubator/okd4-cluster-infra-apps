@@ -24,13 +24,12 @@ resources: {}
 
 # Init containers to add to the Velero deployment's pod spec. At least one plugin provider image is required.
 initContainers: []
-  # - name: velero-plugin-for-aws
-  #   image: velero/velero-plugin-for-aws:v1.1.0
-  #   imagePullPolicy: IfNotPresent
-  #   volumeMounts:
-  #     - mountPath: /target
-  #       name: plugins
-
+  - name: velero-plugin-for-aws
+   image: velero/velero-plugin-for-aws:v1.1.0
+   imagePullPolicy: IfNotPresent
+   volumeMounts:
+     - mountPath: /target
+       name: plugins
 # SecurityContext to use for the Velero deployment. Optional.
 # Set fsGroup for `AWS IAM Roles for Service Accounts`
 # see more informations at: https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html
