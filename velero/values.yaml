@@ -84,7 +84,7 @@ configuration:
   backupStorageLocation:
     # Cloud provider where backups should be stored. Usually should
     # match `configuration.provider`. Required.
-    name: aws
+    name: default
     # Provider for the backup storage location. If omitted
     # `configuration.provider` will be used instead.
     provider:
