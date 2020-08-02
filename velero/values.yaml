@@ -95,7 +95,7 @@ configuration:
     # Additional provider-specific configuration. See link above
     # for details of required/optional fields for your provider.
     config:
-      region: ""
+      region: "noobaa"
       s3ForcePathStyle: "true"
       s3Url: http://s3.noobaa.svc.cluster.local
     #  kmsKeyId:
