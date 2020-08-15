@@ -5,3 +5,12 @@ metadata:
 spec:
   dbStorageClass: ceph-block
   pvPoolDefaultStorageClass: cephfs
+  dbResources:
+    dbVolumeResources:
+      requests:
+        cpu: 50m
+        memory: 256Mi
+  coreResources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
