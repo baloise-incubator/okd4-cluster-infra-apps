@@ -16,6 +16,7 @@ spec:
       memory: 512Mi
   endpoints:
     minCount: 1
+    maxCount: 3
     resources:
       requests:
         memory: 256Mi
