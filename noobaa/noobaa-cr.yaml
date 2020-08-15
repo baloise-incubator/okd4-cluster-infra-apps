@@ -15,6 +15,7 @@ spec:
       cpu: 100m
       memory: 512Mi
   endpoints:
+    minCount: 1
     resources:
       requests:
         memory: 256Mi
