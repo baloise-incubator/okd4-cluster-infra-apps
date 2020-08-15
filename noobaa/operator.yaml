@@ -17,10 +17,6 @@ spec:
       containers:
         - name: noobaa-operator
           image: noobaa/noobaa-operator:2.3.0
-          resources:
-            limits:
-              cpu: "250m"
-              memory: "512Mi"
           env:
             - name: OPERATOR_NAME
               value: noobaa-operator
