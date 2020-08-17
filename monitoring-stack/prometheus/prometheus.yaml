@@ -58,9 +58,9 @@ spec:
         - --tsdb.path=/prometheus
         - --grpc-address=[$(POD_IP)]:10901
         - --http-address=127.0.0.1:10902
-        - --grpc-server-tls-cert=/etc/tls/grpc/server.crt
-        - --grpc-server-tls-key=/etc/tls/grpc/server.key
-        - --grpc-server-tls-client-ca=/etc/tls/grpc/ca.crt
+        - --grpc-server-tls-cert=/etc/tls/grpc/tls.crt
+        - --grpc-server-tls-key=/etc/tls/grpc/tls.key
+        - --grpc-server-tls-client-ca=/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
       name: thanos-sidecar
       resources:
         requests:
@@ -68,7 +68,7 @@ spec:
           memory: 20Mi
       volumeMounts:
         - mountPath: /etc/tls/grpc
-          name: secret-grpc-tls
+          name: secret-wheel-prometheus-tls
   enforcedNamespaceLabel: namespace
   ignoreNamespaceSelectors: true
   image: quay.io/openshift/okd-content@sha256:279ce4bca3111edeb43485cfe9af9ddf1d5c449aba7f23d9c4f7bba3f7f723ee
@@ -99,8 +99,3 @@ spec:
         memory: 100Mi
     version: latest
   version: v2.15.2
-  volumes:
-    - name: secret-grpc-tls
-      secret:
-        secretName: wheel-prometheus-grpc-tls-anmbsb0ri4143
-
