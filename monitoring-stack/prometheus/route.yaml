@@ -1,0 +1,16 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: wheel-prometheus
+spec:
+  host: wheel-prometheus.apps.okd.baloise.dev
+  port:
+    targetPort: web
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: prometheus-operated
+    weight: 100
+  wildcardPolicy: None
