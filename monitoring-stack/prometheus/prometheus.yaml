@@ -52,23 +52,23 @@ spec:
       volumeMounts:
         - mountPath: /etc/tls/private
           name: secret-wheel-prometheus-tls
-    - args:
-        - sidecar
-        - --prometheus.url=http://localhost:9090/
-        - --tsdb.path=/prometheus
-        - --grpc-address=[$(POD_IP)]:10901
-        - --http-address=127.0.0.1:10902
-        - --grpc-server-tls-cert=/etc/tls/grpc/tls.crt
-        - --grpc-server-tls-key=/etc/tls/grpc/tls.key
-        - --grpc-server-tls-client-ca=/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
-      name: thanos-sidecar
-      resources:
-        requests:
-          cpu: 10m
-          memory: 20Mi
-      volumeMounts:
-        - mountPath: /etc/tls/grpc
-          name: secret-wheel-prometheus-tls
+#    - args:
+#        - sidecar
+#        - --prometheus.url=http://localhost:9090/
+#        - --tsdb.path=/prometheus
+#        - --grpc-address=[$(POD_IP)]:10901
+#        - --http-address=127.0.0.1:10902
+#        - --grpc-server-tls-cert=/etc/tls/grpc/tls.crt
+#        - --grpc-server-tls-key=/etc/tls/grpc/tls.key
+#        - --grpc-server-tls-client-ca=/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+#      name: thanos-sidecar
+#      resources:
+#        requests:
+#          cpu: 10m
+#          memory: 20Mi
+#      volumeMounts:
+#        - mountPath: /etc/tls/grpc
+#          name: secret-wheel-prometheus-tls
   enforcedNamespaceLabel: namespace
   ignoreNamespaceSelectors: true
   image: quay.io/openshift/okd-content@sha256:279ce4bca3111edeb43485cfe9af9ddf1d5c449aba7f23d9c4f7bba3f7f723ee
