@@ -21,7 +21,6 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app.kubernetes.io/component: controller
         app.kubernetes.io/name: prometheus-operator
@@ -71,7 +70,7 @@ spec:
         terminationMessagePolicy: FallbackToLogsOnError
         volumeMounts:
         - mountPath: /etc/tls/private
-          name: prometheus-operator-user-workload-tls
+          name: prometheus-operator-tls
       dnsPolicy: ClusterFirst
       nodeSelector:
         beta.kubernetes.io/os: linux
@@ -87,8 +86,8 @@ spec:
         key: node-role.kubernetes.io/master
         operator: Exists
       volumes:
-      - name: prometheus-operator-user-workload-tls
+      - name: prometheus-operator-tls
         secret:
           defaultMode: 420
-          secretName: prometheus-operator-user-workload-tls
+          secretName: prometheus-operator-tls
 
