@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  creationTimestamp: null
+  name: kubernetes-oom-event-generator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubernetes-oom-event-generator
+subjects:
+- kind: ServiceAccount
+  name: kubernetes-oom-event-generator
+  namespace: kubernetes-oom-event-generator
