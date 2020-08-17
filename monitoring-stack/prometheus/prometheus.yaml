@@ -28,12 +28,10 @@ spec:
         port: web
         scheme: https
         tlsConfig:
-          caFile: /etc/prometheus/configmaps/serving-certs-ca-bundle/service-ca.crt
-          serverName: alertmanager-main.openshift-monitoring.svc
+          caFile: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+          serverName: alertmanager
   arbitraryFSAccessThroughSMs:
     deny: true
-  configMaps:
-    - serving-certs-ca-bundle
   containers:
     - args:
         - --secure-listen-address=0.0.0.0:9091
