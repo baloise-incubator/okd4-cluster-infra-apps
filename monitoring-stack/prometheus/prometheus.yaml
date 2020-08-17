@@ -4,7 +4,6 @@ metadata:
   labels:
     prometheus: wheel-prometheus
   name: wheel-prometheus
-  namespace: monitoring-stack
 spec:
   affinity:
     podAntiAffinity:
