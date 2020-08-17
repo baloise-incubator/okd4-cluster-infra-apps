@@ -19,5 +19,5 @@ spec:
         - name: kubernetes-oom-event-generator
           image: xingse/kubernetes-oom-event-generator
           env:
-            - name: env=VERBOSE
-              value: 2
+          - name: VERBOSE
+            value: "2"
