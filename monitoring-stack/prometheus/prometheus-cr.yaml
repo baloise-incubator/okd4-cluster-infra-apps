@@ -1,0 +1,108 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  labels:
+    prometheus: wheel-prometheus
+  name: wheel-prometheus
+spec:
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: prometheus
+                  operator: In
+                  values:
+                    - wheel-prometheus
+            namespaces:
+              - monitoring-stack
+            topologyKey: kubernetes.io/hostname
+          weight: 100
+  alerting:
+    alertmanagers:
+      - apiVersion: v2
+        bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+        name: alertmanager-main
+        namespace: openshift-monitoring
+        port: web
+        scheme: https
+        tlsConfig:
+          caFile: /etc/prometheus/configmaps/serving-certs-ca-bundle/service-ca.crt
+          serverName: alertmanager-main.openshift-monitoring.svc
+  arbitraryFSAccessThroughSMs:
+    deny: true
+  configMaps:
+    - serving-certs-ca-bundle
+  containers:
+    - args:
+        - --secure-listen-address=0.0.0.0:9091
+        - --upstream=http://127.0.0.1:9090
+        - --tls-cert-file=/etc/tls/private/tls.crt
+        - --tls-private-key-file=/etc/tls/private/tls.key
+        - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+      image: quay.io/openshift/okd-content@sha256:1aa5bb03d0485ec2db2c7871a1eeaef83e9eabf7e9f1bc2c841cf1a759817c99
+      name: kube-rbac-proxy
+      ports:
+        - containerPort: 9091
+          name: metrics
+      resources:
+        requests:
+          cpu: 10m
+          memory: 20Mi
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+        - mountPath: /etc/tls/private
+          name: secret-wheel-prometheus-tls
+    - args:
+        - sidecar
+        - --prometheus.url=http://localhost:9090/
+        - --tsdb.path=/prometheus
+        - --grpc-address=[$(POD_IP)]:10901
+        - --http-address=127.0.0.1:10902
+        - --grpc-server-tls-cert=/etc/tls/grpc/server.crt
+        - --grpc-server-tls-key=/etc/tls/grpc/server.key
+        - --grpc-server-tls-client-ca=/etc/tls/grpc/ca.crt
+      name: thanos-sidecar
+      resources:
+        requests:
+          cpu: 10m
+          memory: 20Mi
+      volumeMounts:
+        - mountPath: /etc/tls/grpc
+          name: secret-grpc-tls
+  enforcedNamespaceLabel: namespace
+  ignoreNamespaceSelectors: true
+  image: quay.io/openshift/okd-content@sha256:279ce4bca3111edeb43485cfe9af9ddf1d5c449aba7f23d9c4f7bba3f7f723ee
+  listenLocal: true
+  nodeSelector:
+    kubernetes.io/os: linux
+  overrideHonorLabels: true
+  overrideHonorTimestamps: true
+  priorityClassName: system-cluster-critical
+  replicas: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 1Gi
+  retention: 15d
+  ruleSelector:
+    matchLabels:
+      openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
+  secrets:
+    - wheel-prometheus-tls
+  serviceAccountName: wheel-prometheus
+  thanos:
+    baseImage: quay.io/openshift/origin-thanos
+    image: quay.io/openshift/okd-content@sha256:048ef6d2ea93c4a890c270b9b8623df624b7199c6ede15c7de78e0213caf9f00
+    resources:
+      requests:
+        cpu: 50m
+        memory: 100Mi
+    version: latest
+  version: v2.15.2
+  volumes:
+    - name: secret-grpc-tls
+      secret:
+        secretName: wheel-prometheus-grpc-tls-anmbsb0ri4143
+
