@@ -85,6 +85,8 @@ spec:
       memory: 1Gi
   retention: 15d
   ruleSelector: {}
+  serviceMonitorNamespaceSelector: {}
+  serviceMonitorSelector: {}
   secrets:
     - wheel-prometheus-tls
   serviceAccountName: wheel-prometheus
