@@ -84,6 +84,7 @@ spec:
       cpu: 100m
       memory: 1Gi
   retention: 15d
+  # https://github.com/prometheus-operator/prometheus-operator/issues/2547#issuecomment-481494167
   ruleSelector: {}
   serviceMonitorNamespaceSelector: {}
   serviceMonitorSelector: {}
