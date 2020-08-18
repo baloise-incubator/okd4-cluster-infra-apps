@@ -66,11 +66,11 @@ spec:
       terminationMessagePolicy: FallbackToLogsOnError
       volumeMounts:
         - mountPath: /etc/tls/private
-          name: secret-prometheus-wheel-tls
+          name: secret-wheel-prometheus-tls
 #        - mountPath: /etc/proxy/secrets
 #          name: secret-prometheus-k8s-proxy
         - mountPath: /etc/proxy/htpasswd
-          name: secret-prometheus-k8s-htpasswd
+          name: secret-wheel-prometheus-htpasswd
     - args:
         - --secure-listen-address=0.0.0.0:9091
         - --upstream=http://127.0.0.1:9090
