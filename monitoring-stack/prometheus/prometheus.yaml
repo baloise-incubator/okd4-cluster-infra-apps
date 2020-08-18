@@ -124,8 +124,13 @@ spec:
       memory: 1Gi
   retention: 15d
   # https://github.com/prometheus-operator/prometheus-operator/issues/2547#issuecomment-481494167
+  ruleNamespaceSelector:
+    matchLabels:
+      client: cluster-infra
   ruleSelector: {}
-  serviceMonitorNamespaceSelector: {}
+  serviceMonitorNamespaceSelector:
+    matchLabels:
+      client: cluster-infra
   serviceMonitorSelector: {}
   secrets:
     - wheel-prometheus-tls
