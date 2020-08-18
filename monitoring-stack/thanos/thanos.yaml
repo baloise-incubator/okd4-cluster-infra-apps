@@ -63,7 +63,7 @@ spec:
   queryConfig:
     key: query.yaml
     name: thanos-ruler-query-config
-  replicas: 2
+  replicas: 1
   serviceAccountName: thanos-ruler
   volumes:
   - name: secret-thanos-ruler-tls
