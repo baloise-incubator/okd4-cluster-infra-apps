@@ -66,38 +66,11 @@ spec:
       terminationMessagePolicy: FallbackToLogsOnError
       volumeMounts:
         - mountPath: /etc/tls/private
-          name: secret-prometheus-k8s-tls
-        - mountPath: /etc/proxy/secrets
-          name: secret-prometheus-k8s-proxy
+          name: secret-prometheus-wheel-tls
+#        - mountPath: /etc/proxy/secrets
+#          name: secret-prometheus-k8s-proxy
         - mountPath: /etc/proxy/htpasswd
           name: secret-prometheus-k8s-htpasswd
-        - mountPath: /etc/pki/ca-trust/extracted/pem/
-          name: prometheus-trusted-ca-bundle
-          readOnly: true
-    - args:
-        - --secure-listen-address=0.0.0.0:9092
-        - --upstream=http://127.0.0.1:9095
-        - --config-file=/etc/kube-rbac-proxy/config.yaml
-        - --tls-cert-file=/etc/tls/private/tls.crt
-        - --tls-private-key-file=/etc/tls/private/tls.key
-        - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
-        - --logtostderr=true
-        - --v=10
-      image: quay.io/openshift/okd-content@sha256:1aa5bb03d0485ec2db2c7871a1eeaef83e9eabf7e9f1bc2c841cf1a759817c99
-      name: kube-rbac-proxy
-      ports:
-        - containerPort: 9092
-          name: tenancy
-      resources:
-        requests:
-          cpu: 1m
-          memory: 20Mi
-      terminationMessagePolicy: FallbackToLogsOnError
-      volumeMounts:
-        - mountPath: /etc/tls/private
-          name: secret-prometheus-k8s-tls
-        - mountPath: /etc/kube-rbac-proxy
-          name: secret-kube-rbac-proxy
     - args:
         - --secure-listen-address=0.0.0.0:9091
         - --upstream=http://127.0.0.1:9090
