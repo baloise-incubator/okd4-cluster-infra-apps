@@ -40,7 +40,7 @@ spec:
         - -email-domain=*
         - -upstream=http://localhost:9090
         - -htpasswd-file=/etc/proxy/htpasswd/auth
-        - -openshift-service-account=prometheus-k8s
+        - -openshift-service-account=wheel-prometheus
         - '-openshift-sar={"resource": "namespaces", "verb": "get"}'
         - '-openshift-delegate-urls={"/": {"resource": "namespaces", "verb": "get"}}'
         - -tls-cert=/etc/tls/private/tls.crt
@@ -128,6 +128,7 @@ spec:
   serviceMonitorSelector: {}
   secrets:
     - wheel-prometheus-tls
+    - wheel-prometheus-htpasswd
   serviceAccountName: wheel-prometheus
   thanos:
     baseImage: quay.io/openshift/origin-thanos
