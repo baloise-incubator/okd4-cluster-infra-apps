@@ -8,6 +8,7 @@ resources:
   - base/argocd-ui-route.yaml
   - base/argocd-sealed-secret.yaml
   - base/default-appprojects.yaml
+  - base/servicemonitors.yaml
 
 patchesStrategicMerge:
   - overlays/argocd-cm.yaml
