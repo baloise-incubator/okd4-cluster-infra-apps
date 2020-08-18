@@ -117,7 +117,7 @@ spec:
   overrideHonorLabels: true
   overrideHonorTimestamps: true
   priorityClassName: system-cluster-critical
-  replicas: 2
+  replicas: 1
   resources:
     requests:
       cpu: 100m
