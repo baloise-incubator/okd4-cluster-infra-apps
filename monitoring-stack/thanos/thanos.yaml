@@ -15,8 +15,6 @@ spec:
     volumeMounts:
     - mountPath: /etc/tls/private
       name: secret-thanos-ruler-tls
-    - mountPath: /etc/tls/grpc
-      name: secret-thanos-ruler-tls
   - args:
     - -provider=openshift
     - -https-address=:9091
@@ -56,9 +54,9 @@ spec:
 #      readOnly: true
   enforcedNamespaceLabel: namespace
   grpcServerTlsConfig:
-    caFile: /etc/tls/grpc/ca.crt
-    certFile: /etc/tls/grpc/server.crt
-    keyFile: /etc/tls/grpc/server.key
+    caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    certFile: /etc/tls/private/tls.crt
+    keyFile: /etc/tls/private/tls.key
   image: quay.io/openshift/okd-content@sha256:048ef6d2ea93c4a890c270b9b8623df624b7199c6ede15c7de78e0213caf9f00
   queryConfig:
     key: query.yaml
