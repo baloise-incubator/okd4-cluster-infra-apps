@@ -46,11 +46,11 @@ spec:
         - -tls-cert=/etc/tls/private/tls.crt
         - -tls-key=/etc/tls/private/tls.key
         - -client-secret-file=/var/run/secrets/kubernetes.io/serviceaccount/token
-        - -cookie-secret-file=/etc/proxy/secrets/session_secret
+        #- -cookie-secret-file=/etc/proxy/secrets/session_secret
+        - --cookie-secret=SECRET
         - -openshift-ca=/etc/pki/tls/cert.pem
         - -openshift-ca=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
         - -skip-auth-regex=^/metrics
-        - --cookie-secret=SECRET
       env:
         - name: HTTP_PROXY
         - name: HTTPS_PROXY
