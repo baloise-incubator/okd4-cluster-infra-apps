@@ -50,6 +50,7 @@ spec:
         - -openshift-ca=/etc/pki/tls/cert.pem
         - -openshift-ca=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
         - -skip-auth-regex=^/metrics
+        - --cookie-secret=SECRET
       env:
         - name: HTTP_PROXY
         - name: HTTPS_PROXY
