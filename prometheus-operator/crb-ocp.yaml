@@ -13,4 +13,5 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: prometheus-operator
+  namespace: prometheus-operator
 
