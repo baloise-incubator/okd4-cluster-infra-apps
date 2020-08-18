@@ -1,0 +1,77 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ThanosRuler
+metadata:
+  labels:
+    thanosRulerName: wheel
+  name: wheel
+spec:
+  alertQueryUrl: https://thanos-querier-monitoring-stack.apps.okd.baloise.dev
+  alertmanagersConfig:
+    key: alertmanagers.yaml
+    name: thanos-ruler-alertmanagers-config
+  containers:
+  - name: thanos-ruler
+    terminationMessagePolicy: FallbackToLogsOnError
+    volumeMounts:
+    - mountPath: /etc/tls/private
+      name: secret-thanos-ruler-tls
+    - mountPath: /etc/tls/grpc
+      name: secret-thanos-ruler-tls
+  - args:
+    - -provider=openshift
+    - -https-address=:9091
+    - -http-address=
+    - -email-domain=*
+    - -upstream=http://localhost:10902
+    - '-openshift-sar={"resource": "namespaces", "verb": "get"}'
+    - '-openshift-delegate-urls={"/": {"resource": "namespaces", "verb": "get"}}'
+    - -tls-cert=/etc/tls/private/tls.crt
+    - -tls-key=/etc/tls/private/tls.key
+    - -client-secret-file=/var/run/secrets/kubernetes.io/serviceaccount/token
+#    - -cookie-secret-file=/etc/proxy/secrets/session_secret
+    - -cookie-secret=SECRET
+    - -openshift-service-account=thanos-ruler
+    - -openshift-ca=/etc/pki/tls/cert.pem
+    - -openshift-ca=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    - -skip-auth-regex=^/metrics
+    env:
+    - name: HTTP_PROXY
+    - name: HTTPS_PROXY
+    - name: NO_PROXY
+    image: quay.io/openshift/okd-content@sha256:644bcaca0a108801e83f4c3585c267e069bd6d7975c4234cd6498d96693211b0
+    name: thanos-ruler-proxy
+    ports:
+    - containerPort: 9091
+      name: web
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
+    terminationMessagePolicy: FallbackToLogsOnError
+    volumeMounts:
+    - mountPath: /etc/tls/private
+      name: secret-thanos-ruler-tls
+#    - mountPath: /etc/proxy/secrets
+#      name: secret-thanos-ruler-oauth-cookie
+#      readOnly: true
+  enforcedNamespaceLabel: namespace
+  grpcServerTlsConfig:
+    caFile: /etc/tls/grpc/ca.crt
+    certFile: /etc/tls/grpc/server.crt
+    keyFile: /etc/tls/grpc/server.key
+  image: quay.io/openshift/okd-content@sha256:048ef6d2ea93c4a890c270b9b8623df624b7199c6ede15c7de78e0213caf9f00
+  queryConfig:
+    key: query.yaml
+    name: thanos-ruler-query-config
+  replicas: 2
+  serviceAccountName: thanos-ruler
+  volumes:
+  - name: secret-thanos-ruler-tls
+    secret:
+      secretName: thanos-ruler-tls
+#  - name: secret-thanos-ruler-oauth-cookie
+#    secret:
+#      secretName: thanos-ruler-oauth-cookie
+  - name: secret-thanos-ruler-oauth-htpasswd
+    secret:
+      secretName: thanos-ruler-oauth-htpasswd
