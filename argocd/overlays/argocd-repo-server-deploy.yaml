@@ -4,6 +4,15 @@ metadata:
   name: argocd-repo-server
 spec:
   replicas: 3
+  template:
+    spec:
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: argocd-repo-server
+            topologyKey: kubernetes.io/hostname
 #  template:
 #    spec:
 #      containers:
