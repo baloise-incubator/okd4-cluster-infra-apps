@@ -11,6 +11,9 @@ spec:
   - name: metrics
     port: 9091
     targetPort: metrics
+  - name: web
+    port: 9093
+    targetPort: web
   selector:
     app: prometheus
     prometheus: wheel-prometheus
