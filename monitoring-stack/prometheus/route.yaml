@@ -11,6 +11,6 @@ spec:
     termination: reencrypt
   to:
     kind: Service
-    name: prometheus-operated
+    name: wheel-prometheus
     weight: 100
   wildcardPolicy: None
