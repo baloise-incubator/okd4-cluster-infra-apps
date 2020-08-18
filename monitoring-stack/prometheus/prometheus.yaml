@@ -84,9 +84,7 @@ spec:
       cpu: 100m
       memory: 1Gi
   retention: 15d
-  ruleSelector:
-    matchLabels:
-      openshift.io/prometheus-rule-evaluation-scope: leaf-prometheus
+  ruleSelector: {}
   secrets:
     - wheel-prometheus-tls
   serviceAccountName: wheel-prometheus
