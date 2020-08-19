@@ -14,8 +14,8 @@ spec:
               mountPath: /app/config/gpg/keys/
       volumes:
         - name: gpg-keys-tmp
-          emptyDir: {}
-          defaultMode: 1274
+          emptyDir:
+            defaultMode: 1274
 #  template:
 #    spec:
 #      containers:
