@@ -9,14 +9,9 @@ spec:
       affinity: null
       containers:
         - name: argocd-repo-server
-          volumeMounts:
-            - name: gpg-keys-tmp
-              mountPath: /app/config/gpg/keys/
-      volumes:
-        - name: gpg-keys-tmp
-          emptyDir:
-            defaultMode: 1274
-#  template:
+          env:
+            - name: ARGOCD_GPG_ENABLED
+              value: false
 #    spec:
 #      containers:
 #        - image: 'niiku/argocd:latest'
