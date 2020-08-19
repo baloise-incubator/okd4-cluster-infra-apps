@@ -15,6 +15,7 @@ spec:
       volumes:
         - name: gpg-keys-tmp
           emptyDir: {}
+          defaultMode: 0700
 #  template:
 #    spec:
 #      containers:
