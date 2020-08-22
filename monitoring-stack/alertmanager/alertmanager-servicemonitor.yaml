@@ -10,7 +10,7 @@ spec:
     port: web
     scheme: https
     tlsConfig:
-      caFile: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+      insecureSkipVerify: true
       serverName: alertmanager-wheel.monitoring-stack.svc
   selector:
     matchLabels:
