@@ -12,7 +12,7 @@ stringData:
 kind: Secret
 metadata:
   labels:
-    k8s-app: wheel-alertmanager
+    k8s-app: alertmanager-wheel
   name: alertmanager-kube-rbac-proxy
 type: Opaque
 

@@ -1,9 +1,9 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: wheel-alertmanager
+  name: alertmanager-wheel
 spec:
-  host: wheel-alertmanager-monitoring-stack.apps.okd.baloise.dev
+  host: alertmanager-wheel-monitoring-stack.apps.okd.baloise.dev
   port:
     targetPort: web
   tls:
@@ -11,7 +11,7 @@ spec:
     termination: reencrypt
   to:
     kind: Service
-    name: wheel-alertmanager
+    name: alertmanager-wheel
     weight: 100
   wildcardPolicy: None
 
