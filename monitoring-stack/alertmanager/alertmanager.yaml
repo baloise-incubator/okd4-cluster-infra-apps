@@ -1,0 +1,130 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Alertmanager
+metadata:
+  labels:
+    alertmanager: wheel
+  name: wheel
+spec:
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+                - key: alertmanager
+                  operator: In
+                  values:
+                    - wheel
+            namespaces:
+              - monitoring-stack
+            topologyKey: kubernetes.io/hostname
+          weight: 100
+  containers:
+    - args:
+        - -provider=openshift
+        - -https-address=:9095
+        - -http-address=
+        - -email-domain=*
+        - -upstream=http://localhost:9093
+        - '-openshift-sar={"resource": "namespaces", "verb": "get"}'
+        - '-openshift-delegate-urls={"/": {"resource": "namespaces", "verb": "get"}}'
+        - -tls-cert=/etc/tls/private/tls.crt
+        - -tls-key=/etc/tls/private/tls.key
+        - -client-secret-file=/var/run/secrets/kubernetes.io/serviceaccount/token
+        - -cookie-secret-file=/etc/proxy/secrets/session_secret
+        - -openshift-service-account=wheel-alertmanager
+        - -openshift-ca=/etc/pki/tls/cert.pem
+        - -openshift-ca=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        - -skip-auth-regex=^/metrics
+      env:
+        - name: HTTP_PROXY
+        - name: HTTPS_PROXY
+        - name: NO_PROXY
+      image: quay.io/openshift/okd-content@sha256:644bcaca0a108801e83f4c3585c267e069bd6d7975c4234cd6498d96693211b0
+      name: alertmanager-proxy
+      ports:
+        - containerPort: 9095
+          name: web
+      resources:
+        requests:
+          cpu: 1m
+          memory: 20Mi
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+        - mountPath: /etc/tls/private
+          name: secret-wheel-alertmanager-tls
+        - mountPath: /etc/proxy/secrets
+          name: secret-wheel-alertmanager-proxy
+    - args:
+        - --secure-listen-address=0.0.0.0:9092
+        - --upstream=http://127.0.0.1:9096
+        - --config-file=/etc/kube-rbac-proxy/config.yaml
+        - --tls-cert-file=/etc/tls/private/tls.crt
+        - --tls-private-key-file=/etc/tls/private/tls.key
+        - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+        - --logtostderr=true
+        - --v=10
+      image: quay.io/openshift/okd-content@sha256:1aa5bb03d0485ec2db2c7871a1eeaef83e9eabf7e9f1bc2c841cf1a759817c99
+      name: kube-rbac-proxy
+      ports:
+        - containerPort: 9092
+          name: tenancy
+      resources:
+        requests:
+          cpu: 1m
+          memory: 20Mi
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+        - mountPath: /etc/kube-rbac-proxy
+          name: secret-alertmanager-kube-rbac-proxy
+        - mountPath: /etc/tls/private
+          name: secret-wheel-alertmanager-tls
+    - args:
+        - --insecure-listen-address=127.0.0.1:9096
+        - --upstream=http://127.0.0.1:9093
+        - --label=namespace
+      image: quay.io/openshift/okd-content@sha256:4e7adadef24e3f570d79abb89a6097cd27ceff4ed03ffe7b9ff27df9c6db0647
+      name: prom-label-proxy
+      resources:
+        requests:
+          cpu: 1m
+          memory: 20Mi
+      terminationMessagePolicy: FallbackToLogsOnError
+    - name: config-reloader
+      resources:
+        requests:
+          cpu: 1m
+  externalUrl: https://wheel-alertmanager-monitoring-stack.apps.okd.baloise.dev/
+  image: quay.io/openshift/okd-content@sha256:40e5d5c8e6d597473f62486babd659bd7d90b56f5591eac14114d6f18ee91454
+  listenLocal: true
+  nodeSelector:
+    kubernetes.io/os: linux
+  priorityClassName: system-cluster-critical
+  replicas: 1
+  resources:
+    requests:
+      cpu: 4m
+  secrets:
+    - wheel-alertmanager-tls
+    - wheel-alertmanager-proxy
+    - alertmanager-kube-rbac-proxy
+  serviceAccountName: wheel-alertmanager
+  storage:
+    volumeClaimTemplate:
+      metadata:
+        name: alertmanager
+      spec:
+        resources:
+          requests:
+            storage: 30Gi
+        storageClassName: ceph-block
+  version: v0.20.0
+  volumes:
+    - configMap:
+        items:
+          - key: ca-bundle.crt
+            path: tls-ca-bundle.pem
+        name: alertmanager-trusted-ca-bundle-dhdn0615554p8
+        optional: true
+      name: alertmanager-trusted-ca-bundle
+

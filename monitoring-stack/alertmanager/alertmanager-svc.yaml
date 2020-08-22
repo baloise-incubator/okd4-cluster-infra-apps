@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.beta.openshift.io/serving-cert-secret-name: wheel-alertmanager-tls
+  labels:
+    alertmanager: main
+  name: wheel-alertmanager
+spec:
+  ports:
+  - name: web
+    port: 9094
+    targetPort: web
+  - name: tenancy
+    port: 9092
+    targetPort: tenancy
+  selector:
+    alertmanager: main
+    app: alertmanager
+

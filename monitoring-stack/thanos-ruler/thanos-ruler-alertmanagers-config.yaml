@@ -1,6 +1,15 @@
 apiVersion: v1
 data:
-  alertmanagers.yaml: ImFsZXJ0bWFuYWdlcnMiOgotICJodHRwX2NvbmZpZyI6CiAgICAiYmVhcmVyX3Rva2VuX2ZpbGUiOiAiL3Zhci9ydW4vc2VjcmV0cy9rdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3Rva2VuIgogICAgInRsc19jb25maWciOgogICAgICAiY2FfZmlsZSI6ICIvdmFyL3J1bi9zZWNyZXRzL2t1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvY2EuY3J0IgogICAgICAic2VydmVyX25hbWUiOiAiYWxlcnRtYW5hZ2VyLXdoZWVsLm1vbml0b3Jpbmctc3RhY2suc3ZjIgogICJzY2hlbWUiOiAiaHR0cHMiCiAgInN0YXRpY19jb25maWdzIjoKICAtICJkbnNzcnYrX3dlYi5fdGNwLmFsZXJ0bWFuYWdlci1vcGVyYXRlZC5tb25pdG9yaW5nLXN0YWNrLnN2YyI=
+  alertmanagers.yaml: |
+    "alertmanagers":
+    - "http_config":
+        "bearer_token_file": "/var/run/secrets/kubernetes.io/serviceaccount/token"
+        "tls_config":
+          "ca_file": "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+          "server_name": "wheel-alertmanager.monitoring-stack.svc"
+      "scheme": "https"
+      "static_configs":
+      - "dnssrv+_web._tcp.alertmanager-operated.monitoring-stack.svc"
 kind: Secret
 metadata:
   name: thanos-ruler-alertmanagers-config

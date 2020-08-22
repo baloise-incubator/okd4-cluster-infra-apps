@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    k8s-app: alertmanager
+  name: alertmanager
+spec:
+  endpoints:
+  - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    interval: 30s
+    port: web
+    scheme: https
+    tlsConfig:
+      caFile: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+      serverName: wheel-alertmanager.monitoring-stack.svc
+  selector:
+    matchLabels:
+      alertmanager: wheel
+
