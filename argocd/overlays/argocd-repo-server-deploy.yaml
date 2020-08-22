@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: argocd-repo-server
 spec:
-  replicas: 3
+  replicas: 5
   template:
     spec:
       affinity: null
@@ -11,15 +11,4 @@ spec:
         - name: argocd-repo-server
           env:
             - name: ARGOCD_GPG_ENABLED
-              value: "true"
-          volumeMounts:
-            - name: gpg-keys-tmp
-              mountPath: /app/config/gpg/keys/
-      volumes:
-        - name: gpg-keys-tmp
-          emptyDir: {}
-
-#    spec:
-#      containers:
-#        - image: 'niiku/argocd:latest'
-#          name: argocd-repo-server
+              value: "false"
