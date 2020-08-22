@@ -16,6 +16,6 @@ spec:
     targetPort: web
   selector:
     app: prometheus
-    prometheus: prometheus-wheel
+    prometheus: wheel
   sessionAffinity: ClientIP
 
