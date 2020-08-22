@@ -11,7 +11,7 @@ spec:
       rules:
         - alert: example alert
           expr: up  > 0
-          for: 3m
+          for: 5s
           labels:
             severity: warning
           annotations:
