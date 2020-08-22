@@ -23,13 +23,13 @@ spec:
     alertmanagers:
       - apiVersion: v2
         bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-        name: wheel-alertmanager
+        name: wheel
         namespace: monitoring-stack
         port: web
         scheme: https
         tlsConfig:
           caFile: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
-          serverName: alertmanager
+          serverName: alertmanager-wheel.monitoring-stack.svc
   arbitraryFSAccessThroughSMs:
     deny: true
   containers:
