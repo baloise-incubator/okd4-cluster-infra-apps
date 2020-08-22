@@ -24,7 +24,7 @@ spec:
       - apiVersion: v2
         bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
         name: wheel-alertmanager
-     #   namespace: openshift-monitoring
+        namespace: monitoring-stack
         port: web
         scheme: https
         tlsConfig:
