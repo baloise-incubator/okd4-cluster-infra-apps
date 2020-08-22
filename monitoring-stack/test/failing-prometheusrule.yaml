@@ -9,7 +9,7 @@ spec:
   groups:
     - name: Example Alert
       rules:
-        - alert: Node down
+        - alert: example alert
           expr: up == 10
           for: 3m
           labels:
