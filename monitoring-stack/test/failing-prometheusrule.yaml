@@ -10,7 +10,7 @@ spec:
     - name: Example Alert
       rules:
         - alert: example alert
-          expr: up == 0
+          expr: up  > 0
           for: 3m
           labels:
             severity: warning
