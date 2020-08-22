@@ -2,8 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
   labels:
-    prometheus: prometheus-wheel
-  name: prometheus-wheel
+    prometheus: wheel
+  name: wheel
 spec:
   affinity:
     podAntiAffinity:
@@ -14,7 +14,7 @@ spec:
                 - key: prometheus
                   operator: In
                   values:
-                    - prometheus-wheel
+                    - wheel
             namespaces:
               - monitoring-stack
             topologyKey: kubernetes.io/hostname
