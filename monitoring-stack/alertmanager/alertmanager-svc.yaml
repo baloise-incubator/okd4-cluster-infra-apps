@@ -15,6 +15,6 @@ spec:
     port: 9092
     targetPort: tenancy
   selector:
-    alertmanager: main
+    alertmanager: wheel
     app: alertmanager
 
