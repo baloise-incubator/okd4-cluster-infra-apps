@@ -14,5 +14,5 @@ spec:
       insecureSkipVerify: true
   selector:
     matchLabels:
-      prometheus: wheel
+      prometheus: prometheus-wheel
 
