@@ -3,10 +3,10 @@ kind: ServiceAccount
 metadata:
   labels:
     app.kubernetes.io/component: controller
-    app.kubernetes.io/name: wheel-prometheus
+    app.kubernetes.io/name: prometheus-wheel
     app.kubernetes.io/version: v0.38.1
   annotations:
-    serviceaccounts.openshift.io/oauth-redirectreference.wheel-prometheus: >-
-      {"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"wheel-prometheus"}}
-  name: wheel-prometheus
+    serviceaccounts.openshift.io/oauth-redirectreference.prometheus-wheel: >-
+      {"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"prometheus-wheel"}}
+  name: prometheus-wheel
 
