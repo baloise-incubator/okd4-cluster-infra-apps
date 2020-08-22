@@ -7,13 +7,13 @@ metadata:
   name: prometheus-example-rules
 spec:
   groups:
-    - name: Hardware alerts
+    - name: Example Alert
       rules:
         - alert: Node down
-          expr: up{job="node_exporter"} == 0
+          expr: 1 == bool 0
           for: 3m
           labels:
             severity: warning
           annotations:
-            title: Node {{ $labels.instance }} is down
-            description: Failed to scrape {{ $labels.job }} on {{ $labels.instance }} for more than 3 minutes. Node seems down.
+            title: Example alert is firing
+            description: Faild to equal 1 with 0
