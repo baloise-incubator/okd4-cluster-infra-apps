@@ -1,9 +1,9 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: wheel-prometheus
+  name: prometheus-wheel
 spec:
-  host: wheel-prometheus.apps.okd.baloise.dev
+  host: prometheus-wheel.apps.okd.baloise.dev
   port:
     targetPort: web
   tls:
@@ -11,6 +11,6 @@ spec:
     termination: reencrypt
   to:
     kind: Service
-    name: wheel-prometheus
+    name: prometheus-wheel
     weight: 100
   wildcardPolicy: None

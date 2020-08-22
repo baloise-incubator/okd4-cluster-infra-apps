@@ -2,8 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
   labels:
-    prometheus: wheel-prometheus
-  name: wheel-prometheus
+    prometheus: prometheus-wheel
+  name: prometheus-wheel
 spec:
   affinity:
     podAntiAffinity:
@@ -14,7 +14,7 @@ spec:
                 - key: prometheus
                   operator: In
                   values:
-                    - wheel-prometheus
+                    - prometheus-wheel
             namespaces:
               - monitoring-stack
             topologyKey: kubernetes.io/hostname
@@ -40,7 +40,7 @@ spec:
         - -email-domain=*
         - -upstream=http://localhost:9090
         - -htpasswd-file=/etc/proxy/htpasswd/auth
-        - -openshift-service-account=wheel-prometheus
+        - -openshift-service-account=prometheus-wheel
         - '-openshift-sar={"resource": "namespaces", "verb": "get"}'
         - '-openshift-delegate-urls={"/": {"resource": "namespaces", "verb": "get"}}'
         - -tls-cert=/etc/tls/private/tls.crt
@@ -67,11 +67,11 @@ spec:
       terminationMessagePolicy: FallbackToLogsOnError
       volumeMounts:
         - mountPath: /etc/tls/private
-          name: secret-wheel-prometheus-tls
+          name: secret-prometheus-wheel-tls
 #        - mountPath: /etc/proxy/secrets
 #          name: secret-prometheus-k8s-proxy
         - mountPath: /etc/proxy/htpasswd
-          name: secret-wheel-prometheus-htpasswd
+          name: secret-prometheus-wheel-htpasswd
     - args:
         - --secure-listen-address=0.0.0.0:9091
         - --upstream=http://127.0.0.1:9090
@@ -90,7 +90,7 @@ spec:
       terminationMessagePolicy: FallbackToLogsOnError
       volumeMounts:
         - mountPath: /etc/tls/private
-          name: secret-wheel-prometheus-tls
+          name: secret-prometheus-wheel-tls
     - args:
         - sidecar
         - --prometheus.url=http://localhost:9090/
@@ -107,7 +107,7 @@ spec:
           memory: 20Mi
       volumeMounts:
         - mountPath: /etc/tls/grpc
-          name: secret-wheel-prometheus-tls
+          name: secret-prometheus-wheel-tls
   enforcedNamespaceLabel: namespace
   ignoreNamespaceSelectors: true
   image: quay.io/openshift/okd-content@sha256:279ce4bca3111edeb43485cfe9af9ddf1d5c449aba7f23d9c4f7bba3f7f723ee
@@ -133,9 +133,9 @@ spec:
       client: cluster-infra
   serviceMonitorSelector: {}
   secrets:
-    - wheel-prometheus-tls
-    - wheel-prometheus-htpasswd
-  serviceAccountName: wheel-prometheus
+    - prometheus-wheel-tls
+    - prometheus-wheel-htpasswd
+  serviceAccountName: prometheus-wheel
   thanos:
     baseImage: quay.io/openshift/origin-thanos
     image: quay.io/openshift/okd-content@sha256:048ef6d2ea93c4a890c270b9b8623df624b7199c6ede15c7de78e0213caf9f00

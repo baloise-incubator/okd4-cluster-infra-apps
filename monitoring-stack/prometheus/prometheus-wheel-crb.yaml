@@ -4,7 +4,7 @@ metadata:
   name: monitoring-stack-prometheus
 subjects:
   - kind: ServiceAccount
-    name: wheel-prometheus
+    name: prometheus-wheel
     namespace: monitoring-stack
 roleRef:
   apiGroup: rbac.authorization.k8s.io

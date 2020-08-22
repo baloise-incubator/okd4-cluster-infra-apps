@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    k8s-app: prometheus
+  name: prometheus
+spec:
+  endpoints:
+  - interval: 30s
+    port: web
+    scheme: https
+    tlsConfig:
+      serverName: prometheus-wheel.monitoring-stack.svc
+      insecureSkipVerify: true
+  selector:
+    matchLabels:
+      prometheus: wheel
+
