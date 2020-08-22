@@ -12,7 +12,7 @@ spec:
     scheme: https
     tlsConfig:
       caFile: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
-      serverName: wheel-alertmanager.monitoring-stack.svc
+      serverName: alertmanager-wheel.monitoring-stack.svc
   selector:
     matchLabels:
       alertmanager: wheel

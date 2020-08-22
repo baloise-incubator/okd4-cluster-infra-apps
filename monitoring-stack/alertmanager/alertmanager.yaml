@@ -32,7 +32,7 @@ spec:
         - -tls-key=/etc/tls/private/tls.key
         - -client-secret-file=/var/run/secrets/kubernetes.io/serviceaccount/token
         - -cookie-secret-file=/etc/proxy/secrets/session_secret
-        - -openshift-service-account=wheel-alertmanager
+        - -openshift-service-account=alertmanager-wheel
         - -openshift-ca=/etc/pki/tls/cert.pem
         - -openshift-ca=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
         - -skip-auth-regex=^/metrics
@@ -52,9 +52,9 @@ spec:
       terminationMessagePolicy: FallbackToLogsOnError
       volumeMounts:
         - mountPath: /etc/tls/private
-          name: secret-wheel-alertmanager-tls
+          name: secret-alertmanager-wheel-tls
         - mountPath: /etc/proxy/secrets
-          name: secret-wheel-alertmanager-proxy
+          name: secret-alertmanager-wheel-proxy
     - args:
         - --secure-listen-address=0.0.0.0:9092
         - --upstream=http://127.0.0.1:9096
@@ -78,7 +78,7 @@ spec:
         - mountPath: /etc/kube-rbac-proxy
           name: secret-alertmanager-kube-rbac-proxy
         - mountPath: /etc/tls/private
-          name: secret-wheel-alertmanager-tls
+          name: secret-alertmanager-wheel-tls
     - args:
         - --insecure-listen-address=127.0.0.1:9096
         - --upstream=http://127.0.0.1:9093
@@ -94,7 +94,7 @@ spec:
       resources:
         requests:
           cpu: 1m
-  externalUrl: https://wheel-alertmanager-monitoring-stack.apps.okd.baloise.dev/
+  externalUrl: https://alertmanager-wheel-monitoring-stack.apps.okd.baloise.dev/
   image: quay.io/openshift/okd-content@sha256:40e5d5c8e6d597473f62486babd659bd7d90b56f5591eac14114d6f18ee91454
   listenLocal: true
   nodeSelector:
@@ -105,10 +105,10 @@ spec:
     requests:
       cpu: 4m
   secrets:
-    - wheel-alertmanager-tls
-    - wheel-alertmanager-proxy
+    - alertmanager-wheel-tls
+    - alertmanager-wheel-proxy
     - alertmanager-kube-rbac-proxy
-  serviceAccountName: wheel-alertmanager
+  serviceAccountName: alertmanager-wheel
   storage:
     volumeClaimTemplate:
       metadata:

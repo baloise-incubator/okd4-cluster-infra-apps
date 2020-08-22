@@ -3,10 +3,10 @@ kind: ServiceAccount
 metadata:
   labels:
     app.kubernetes.io/component: controller
-    app.kubernetes.io/name: wheel-alertmanager
+    app.kubernetes.io/name: alertmanager-wheel
     app.kubernetes.io/version: v0.38.1
   annotations:
     serviceaccounts.openshift.io/oauth-redirectreference.wheel-prometheus: >-
-      {"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"wheel-alertmanager"}}
-  name: wheel-alertmanager
+      {"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"alertmanager-wheel"}}
+  name: alertmanager-wheel
 
