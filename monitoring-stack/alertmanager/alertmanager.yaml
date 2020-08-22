@@ -79,17 +79,6 @@ spec:
           name: secret-alertmanager-kube-rbac-proxy
         - mountPath: /etc/tls/private
           name: secret-alertmanager-wheel-tls
-    - args:
-        - --insecure-listen-address=127.0.0.1:9096
-        - --upstream=http://127.0.0.1:9093
-        - --label=namespace
-      image: quay.io/openshift/okd-content@sha256:4e7adadef24e3f570d79abb89a6097cd27ceff4ed03ffe7b9ff27df9c6db0647
-      name: prom-label-proxy
-      resources:
-        requests:
-          cpu: 1m
-          memory: 20Mi
-      terminationMessagePolicy: FallbackToLogsOnError
     - name: config-reloader
       resources:
         requests:
