@@ -10,7 +10,7 @@ spec:
     - name: Example Alert
       rules:
         - alert: Node down
-          expr: up == 0
+          expr: up == 10
           for: 3m
           labels:
             severity: warning
