@@ -5,7 +5,7 @@ metadata:
   labels:
     app: grafana
 spec:
-  name: argocd-dashboard.json
+  name: argocd.json
   json: >
     {
       "annotations": {
