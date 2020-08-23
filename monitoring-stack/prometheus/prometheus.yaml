@@ -23,7 +23,8 @@ spec:
     alertmanagers:
       - apiVersion: v2
         bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-        name: wheel
+        # Needs to match Service name
+        name: alertmanager-wheel
         namespace: monitoring-stack
         port: web
         scheme: https
