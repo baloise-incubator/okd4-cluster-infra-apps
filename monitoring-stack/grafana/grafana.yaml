@@ -4,19 +4,34 @@ metadata:
   name: grafana
 spec:
   ingress:
-    enabled: True
+    enabled: False
   config:
     log:
       mode: "console"
       level: "debug"
-    security:
-      admin_user: "root"
-      admin_password: "secret"
-    auth:
-      disable_login_form: False
-      disable_signout_menu: True
     auth.anonymous:
       enabled: False
+    auth:
+      disable_login_form: true
+      disable_signout_menu: true
+    auth.basic:
+      enabled: false
+    auth.proxy:
+      auto_sign_up: true
+      enabled: true
+      header_name: X-Forwarded-User
+    #paths:
+    #  data: /var/lib/grafana
+    #  logs: /var/lib/grafana/logs
+    #  plugins: /var/lib/grafana/plugins
+    #  provisioning: /etc/grafana/provisioning
+    security:
+      admin_user: WHAT_YOU_ARE_DOING_IS_VOIDING_SUPPORT_0000000000000000000000000000000000000000000000000000000000000000
+      cookie_secure: true
+    users:
+      allow_sign_up: false
+      auto_assign_org: true
+      auto_assign_org_role: Editor
   dashboardLabelSelector:
     - matchExpressions:
         - {key: app, operator: In, values: [grafana]}
