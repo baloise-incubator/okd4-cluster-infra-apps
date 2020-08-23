@@ -13,7 +13,7 @@ spec:
           expr: up  > 0
           for: 5s
           labels:
-            severity: warning
+            severity: critical
           annotations:
             title: Example alert is firing
             description: Faild to equal 1 with 0
