@@ -47,17 +47,23 @@ rules:
   - statefulsets
   verbs:
   - '*'
-- resources:
+- apiGroups:
+    - ""
+  resources:
   - configmaps
   - secrets
   verbs:
   - '*'
-- resources:
+- apiGroups:
+    - ""
+  resources:
   - pods
   verbs:
   - list
   - delete
-- resources:
+- apiGroups:
+    - ""
+  resources:
   - services
   - services/finalizers
   - endpoints
@@ -66,12 +72,16 @@ rules:
   - create
   - update
   - delete
-- resources:
+- apiGroups:
+    - ""
+  resources:
   - nodes
   verbs:
   - list
   - watch
-- resources:
+- apiGroups:
+    - ""
+  resources:
   - namespaces
   verbs:
   - get
