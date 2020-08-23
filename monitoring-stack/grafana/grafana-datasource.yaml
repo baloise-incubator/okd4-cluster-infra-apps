@@ -11,7 +11,7 @@ spec:
       url: https://prometheus-wheel.monitoring-stack.svc:9093
       basicAuth: true
       basicAuthUser: internal
-      basicAuthPassword: ""
+      basicAuthPassword: "e9K3fEGs4XuTeDKhrzc5X59NbWaZG5ku"
       isDefault: true
       version: 1
       orgId: 1
