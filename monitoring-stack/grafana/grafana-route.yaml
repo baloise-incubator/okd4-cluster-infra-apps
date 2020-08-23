@@ -8,7 +8,7 @@ spec:
     targetPort: https
   tls:
     insecureEdgeTerminationPolicy: Redirect
-    termination: reencrypt
+    termination: passthrough
   to:
     kind: Service
     name: grafana-oauth
