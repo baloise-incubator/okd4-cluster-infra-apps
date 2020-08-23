@@ -1,11 +1,11 @@
 apiVersion: integreatly.org/v1alpha1
 kind: GrafanaDashboard
 metadata:
-  name: argocd
+  name: argocd-dashboard
   labels:
     app: grafana
 spec:
-  name: argocd.json
+  name: argocd-dashboard.json
   json: >
     {
       "annotations": {
