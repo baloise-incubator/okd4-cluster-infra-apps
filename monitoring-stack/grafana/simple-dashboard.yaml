@@ -1,11 +1,11 @@
 apiVersion: integreatly.org/v1alpha1
 kind: GrafanaDashboard
 metadata:
-  name: simple-dashboard
+  name: argocd-dashboard
   labels:
     app: grafana
 spec:
-  name: simple-dashboard.json
+  name: argocd-dashboard.json
   json: >
     {
       "id": null,
