@@ -32,6 +32,52 @@ spec:
       allow_sign_up: false
       auto_assign_org: true
       auto_assign_org_role: Editor
+    server:
+      http_addr: 127.0.0.1
+      http_port: 3002
   dashboardLabelSelector:
     - matchExpressions:
         - {key: app, operator: In, values: [grafana]}
+  secrets:
+    - grafana-oauth-tls
+  containers:
+    - args:
+        - -provider=openshift
+        - -https-address=:3001
+        - -http-address=:3000
+        - -email-domain=*
+        - -upstream=http://127.0.0.1:3002
+        - '-openshift-sar={"resource": "namespaces", "verb": "get"}'
+        - '-openshift-delegate-urls={"/": {"resource": "namespaces", "verb": "get"}}'
+        - -tls-cert=/etc/tls/private/tls.crt
+        - -tls-key=/etc/tls/private/tls.key
+        - -client-secret-file=/var/run/secrets/kubernetes.io/serviceaccount/token
+        - -cookie-secret=SECRET
+        - -openshift-service-account=grafana-oauth
+        - -openshift-ca=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        - -skip-auth-regex=^/metrics
+      image: quay.io/openshift/okd-content@sha256:644bcaca0a108801e83f4c3585c267e069bd6d7975c4234cd6498d96693211b0
+      name: grafana-proxy
+      ports:
+        - containerPort: 3000
+          name: http
+          protocol: TCP
+        - containerPort: 3001
+          name: https
+          protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /oauth/healthz
+          port: https
+          scheme: HTTPS
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        requests:
+          cpu: 1m
+          memory: 20Mi
+      volumeMounts:
+        - mountPath: /etc/tls/private
+          name: secret-grafana-oauth-tls
