@@ -33,7 +33,7 @@ spec:
         - '-openshift-ca=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
 #        - '-openshift-ca=/etc/grafana-configmaps/ocp-injected-certs/ca-bundle.crt'
         - '-skip-auth-regex=^/metrics'
-      image: 'quay.io/openshift/origin-oauth-proxy:4.2'
+      image: 'quay.io/openshift/okd-content@sha256:644bcaca0a108801e83f4c3585c267e069bd6d7975c4234cd6498d96693211b0'
       name: grafana-proxy
       ports:
         - containerPort: 9091
