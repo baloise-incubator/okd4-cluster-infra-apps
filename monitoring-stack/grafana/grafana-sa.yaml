@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  annotations:
-    serviceaccounts.openshift.io/oauth-redirectreference.grafana-oauth: >-
-      {"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"grafana-oauth"}}
-  name: grafana-oauth
-
