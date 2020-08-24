@@ -9,8 +9,6 @@ spec:
     log:
       mode: "console"
       level: "warn"
-    server:
-      root_url: https://grafana-wheel-route-monitoring-stack.apps.okd.baloise.dev/
     security:
       admin_user: "root"
     auth:
