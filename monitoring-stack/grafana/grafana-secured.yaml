@@ -16,7 +16,6 @@ spec:
       root_url: https://grafana-route-monitoring-stack.apps.okd.baloise.dev/
     security:
       admin_user: "root"
-      admin_password: "secret"
     auth:
       disable_login_form: False
       disable_signout_menu: True
@@ -25,7 +24,7 @@ spec:
     auth.generic_oauth:
       enabled:  true
       client_id:  system:serviceaccount:monitoring-stack:grafana-serviceaccount
-      client_secret: eyJhbGciOiJSUzI1NiIsImtpZCI6Ii0zZXVLbDZ5YTVUSXRVYzZHZDI2Rm9ndWE2RjJMcXN0V0FDdzJHYnd4ZHcifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJtb25pdG9yaW5nLXN0YWNrIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImdyYWZhbmEtc2VydmljZWFjY291bnQtdG9rZW4tajJzdHMiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZ3JhZmFuYS1zZXJ2aWNlYWNjb3VudCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjA0NjU0ODUyLWFlMjctNGNiMy04NDUxLTg0NTk0MGJjN2ZhMCIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDptb25pdG9yaW5nLXN0YWNrOmdyYWZhbmEtc2VydmljZWFjY291bnQifQ.DAPmBMuit6b6nWSxp6wyxH0KYjrbWoN5zpKnKsFP2TfgViK2hbkNJmvFS_IiF0HmKo46B2rFkd_U4HL2bYYEJBgQ-g3Ue-kpSWztKYMMNzWIhrjwxIr6AcXmfw5fu2ziyMY5OC9Kxc31ZOjVnxW9pPjW-BpvcaeotncVpl-xMk7vLX2f-_q43FO3_uAfDcv1cEc6uUxGyQgcJcLMnP9Lro8nk60VeObr30taDkcv8eprj0R5UO6oP6LRbC2NZu7X4d82IpAJXfTa0bYz9tuPbPXo-J43JRdlHcjGFnPI1FGfj8flM9MZ4_hQG7QVrJfrUfRME5jK65ZVuPF3rR8JDw
+      client_secret: $__file{/var/run/secrets/kubernetes.io/serviceaccount/token}
       scopes: user:info
       auth_url: https://oauth-openshift.apps.okd.baloise.dev/oauth/authorize
       token_url: https://oauth-openshift.apps.okd.baloise.dev/oauth/token
