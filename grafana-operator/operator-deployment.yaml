@@ -24,8 +24,8 @@ spec:
           command:
             - grafana-operator
             - --scan-all
-            - --grafana-image grafana/grafana
-            - --grafana-image-tag 7.1.4
+            - --grafana-image=grafana/grafana
+            - --grafana-image-tag=7.1.4
           imagePullPolicy: Always
           env:
             - name: TEMPLATE_PATH
