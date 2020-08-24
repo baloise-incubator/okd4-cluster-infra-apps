@@ -26,7 +26,7 @@ spec:
     #  plugins: /var/lib/grafana/plugins
     #  provisioning: /etc/grafana/provisioning
     security:
-      admin_user: WHAT_YOU_ARE_DOING_IS_VOIDING_SUPPORT_0000000000000000000000000000000000000000000000000000000000000000
+      admin_user: no-login
       cookie_secure: true
     users:
       allow_sign_up: false
