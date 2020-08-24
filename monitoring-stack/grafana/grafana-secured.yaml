@@ -26,7 +26,7 @@ spec:
       enabled:  true
       client_id:  system:serviceaccount:monitoring-stack:grafana-serviceaccount
       client_secret: $__file{/var/run/secrets/kubernetes.io/serviceaccount/token}
-      scopes: name
+      scopes: user:info
       auth_url: https://oauth-openshift.apps.okd.baloise.dev/oauth/authorize
       token_url: https://oauth-openshift.apps.okd.baloise.dev/oauth/token
 #      api_url:
