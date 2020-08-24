@@ -12,6 +12,8 @@ spec:
     log:
       mode: "console"
       level: "warn"
+    server:
+      root_url: https://grafana-route-monitoring-stack.apps.okd.baloise.dev/
     security:
       admin_user: "root"
       admin_password: "secret"
