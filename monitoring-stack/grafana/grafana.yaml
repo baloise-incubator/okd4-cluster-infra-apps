@@ -1,83 +1,42 @@
-#apiVersion: integreatly.org/v1alpha1
-#kind: Grafana
-#metadata:
-#  name: grafana
-#spec:
-#  ingress:
-#    enabled: False
-#  config:
-#    log:
-#      mode: "console"
-#      level: "debug"
-#    auth.anonymous:
-#      enabled: False
-#    auth:
-#      disable_login_form: true
-#      disable_signout_menu: true
-#    auth.basic:
-#      enabled: true
-#    auth.proxy:
-#      auto_sign_up: true
-#      enabled: true
-#      header_name: X-Forwarded-User
-#    #paths:
-#    #  data: /var/lib/grafana
-#    #  logs: /var/lib/grafana/logs
-#    #  plugins: /var/lib/grafana/plugins
-#    #  provisioning: /etc/grafana/provisioning
-#    security:
-#      admin_user: no-login
-#      cookie_secure: true
-#    users:
-#      allow_sign_up: false
-#      auto_assign_org: true
-#      auto_assign_org_role: Editor
-#    server:
-#      http_addr: 127.0.0.1
-#      http_port: "3002"
-#  dashboardLabelSelector:
-#    - matchExpressions:
-#        - {key: app, operator: In, values: [grafana]}
-#  secrets:
-#    - grafana-oauth-tls
-#  containers:
-#    - args:
-#        - -provider=openshift
-#        - -https-address=:3001
-#        - -http-address=:3000
-#        - -email-domain=*
-#        - -upstream=http://127.0.0.1:3002
-#        - '-openshift-sar={"resource": "namespaces", "verb": "get"}'
-#        - '-openshift-delegate-urls={"/": {"resource": "namespaces", "verb": "get"}}'
-#        - -tls-cert=/etc/tls/private/tls.crt
-#        - -tls-key=/etc/tls/private/tls.key
-#        - -client-secret-file=/var/run/secrets/kubernetes.io/serviceaccount/token
-#        - -cookie-secret=SECRET
-#        - -openshift-service-account=grafana-oauth
-#        - -openshift-ca=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-#        - -skip-auth-regex=^/metrics
-#      image: quay.io/openshift/okd-content@sha256:644bcaca0a108801e83f4c3585c267e069bd6d7975c4234cd6498d96693211b0
-#      name: grafana-proxy
-#      ports:
-#        - containerPort: 3000
-#          name: http
-#          protocol: TCP
-#        - containerPort: 3001
-#          name: https
-#          protocol: TCP
-#      readinessProbe:
-#        failureThreshold: 3
-#        httpGet:
-#          path: /oauth/healthz
-#          port: https
-#          scheme: HTTPS
-#        periodSeconds: 10
-#        successThreshold: 1
-#        timeoutSeconds: 1
-#      resources:
-#        requests:
-#          cpu: 1m
-#          memory: 20Mi
-#      volumeMounts:
-#        - mountPath: /etc/tls/private
-#          name: secret-grafana-oauth-tls
+apiVersion: integreatly.org/v1alpha1
+kind: Grafana
+metadata:
+  name: grafana-wheel
+spec:
+  ingress:
+    enabled: True
+  serviceAccount:
+    annotations:
+      serviceaccounts.openshift.io/oauth-redirectreference.primary: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"grafana-wheel-route","path":"/login/generic_oauth"}}'
+  config:
+    log:
+      mode: "console"
+      level: "warn"
+    server:
+      root_url: https://grafana-wheel-route-monitoring-stack.apps.okd.baloise.dev/
+    security:
+      admin_user: "root"
+    auth:
+      disable_login_form: False
+      disable_signout_menu: True
+    auth.anonymous:
+      enabled: True
+  dashboardLabelSelector:
+    - matchExpressions:
+        - { key: app, operator: In, values: [grafana] }
+  # initResources:
+  #   # Optionally specify initResources
+  #   limits:
+  #     cpu: 1000m
+  #     memory: 512Mi
+  #   requests:
+  #     cpu: 250m
+  #     memory: 128Mi
+#  resources:
+#    # Optionally specify container resources
+#    limits:
+#      cpu: 2000m
+#      memory: 8000Mi
+#    requests:
+#      cpu: 100m
+#      memory: 200Mi
