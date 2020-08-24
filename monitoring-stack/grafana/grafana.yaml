@@ -5,6 +5,7 @@ metadata:
 spec:
   ingress:
     enabled: True
+    hostname: grafana-wheel-monitoring-stack.apps.okd.baloise.dev
   config:
     log:
       mode: "console"
