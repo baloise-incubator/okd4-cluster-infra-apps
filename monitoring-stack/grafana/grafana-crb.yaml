@@ -1,12 +1,12 @@
-apiVersion: authorization.openshift.io/v1
 kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: grafana-proxy
-roleRef:
   name: grafana-proxy
 subjects:
   - kind: ServiceAccount
     name: grafana-serviceaccount
     namespace: monitoring-stack
-userNames:
-  - system:serviceaccount:grafana:grafana-serviceaccount
+roleRef:
+  kind: ClusterRole
+  name: grafana-proxy
+  apiGroup: rbac.authorization.k8s.io
