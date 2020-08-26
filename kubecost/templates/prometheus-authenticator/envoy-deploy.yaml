@@ -1,0 +1,35 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: prometheus-authenticator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus-authenticator
+  template:
+    metadata:
+      labels:
+        app: prometheus-authenticator
+    spec:
+      volumes:
+        - name: config
+          configMap:
+            name: envoy-config
+            defaultMode: 420
+      containers:
+        - name: envoy
+          image: quay.balgroupit.com/devops/envoy-alpine:v1.14.4
+          ports:
+            - containerPort: 9090
+              protocol: TCP
+            - containerPort: 9901
+              protocol: TCP
+          resources:
+            limits:
+              cpu: '8'
+            requests:
+              cpu: 25m
+          volumeMounts:
+            - name: config
+              mountPath: /etc/envoy/
