@@ -7,4 +7,4 @@ spec:
     spec:
       containers:
         - name: dex
-          image: 'quay.io/dexidp/dex:v2.22.0'
+          image: 'quay.io/dexidp/dex:v2.25.0'
