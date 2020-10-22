@@ -85,14 +85,14 @@ volumePermissions:
 ##
 securityContext:
   enabled: true
-  fsGroup: 1001
+  fsGroup: 1000570000
 
 ## Container Security Context
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 ##
 containerSecurityContext:
   enabled: true
-  runAsUser: 1001
+  runAsUser: 1000570000
 
 ## Pod Service Account
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
@@ -697,7 +697,7 @@ metrics:
   ##
   securityContext:
     enabled: false
-    runAsUser: 1001
+    runAsUser: 1000570000
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
   ## Configure extra options for liveness and readiness probes
   ##

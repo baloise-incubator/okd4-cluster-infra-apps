@@ -184,7 +184,7 @@ rbac:
 ## Redis pod Security Context
 securityContext:
   enabled: true
-  fsGroup: 1001
+  fsGroup: 1000570000
   ## sysctl settings for master and slave pods
   ##
   ## Uncomment the setting below to increase the net.core.somaxconn value
@@ -198,7 +198,7 @@ securityContext:
 ##
 containerSecurityContext:
   enabled: true
-  runAsUser: 1001
+  runAsUser: 1000570000
 
 ## Use password authentication
 usePassword: true
