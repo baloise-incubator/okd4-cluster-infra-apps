@@ -6,6 +6,6 @@ spec:
   template:
     spec:
       securityContext:
-        runAsUser: 1000580000
+        runAsUser: 1000600000
         runAsNonRoot: true
-        fsGroup: 1000580000
+        fsGroup: 1000600000
