@@ -81,7 +81,7 @@ metadata:
     name: hyperconverged-cluster-webhook
   name: hyperconverged-cluster-webhook
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       name: hyperconverged-cluster-webhook
