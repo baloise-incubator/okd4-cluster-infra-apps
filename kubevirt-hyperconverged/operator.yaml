@@ -22,7 +22,6 @@ spec:
         env:
         - name: WEBHOOK_MODE
           value: "false"
-        - name: KVM_EMULATION
         - name: OPERATOR_IMAGE
           value: quay.io/kubevirt/hyperconverged-cluster-operator@sha256:0d5d8fe37c8174d93a0de46894e49c576f1cab4e8e53f276e16db012cc4cc4a6
         - name: OPERATOR_NAME
@@ -399,6 +398,8 @@ spec:
                 operator: Exists
       containers:
       - env:
+        - name: WEBHOOK_MODE
+          value: "false"
         - name: WATCH_NAMESPACE
         - name: POD_NAME
           valueFrom:
