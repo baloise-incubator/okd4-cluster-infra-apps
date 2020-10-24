@@ -230,9 +230,6 @@ spec:
         - name: OPERATOR_IMAGE
           value: docker.io/kubevirt/virt-operator@sha256:fec75f1d53426826a6e7b3e78f89730970dc3f7cfac7f44de7079247e4891492
         - name: WATCH_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.annotations['olm.targetNamespaces']
         - name: KUBEVIRT_VERSION
           value: v0.34.0
         - name: VIRT_API_SHASUM
@@ -403,9 +400,6 @@ spec:
       containers:
       - env:
         - name: WATCH_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.annotations['olm.targetNamespaces']
         - name: POD_NAME
           valueFrom:
             fieldRef:
