@@ -13,9 +13,7 @@ args: {}
 provider:
   packages: []
 
-imagePullSecrets:
-- dockerhub
-
+imagePullSecrets: []
 rbacManager:
   deploy: true
   replicas: 1
