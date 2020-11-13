@@ -59,7 +59,7 @@ service:
 ingress:
   enabled: true
   path: /
-  host: moon.example.com
+  host: moon.apps.baloise.dev
 
 affinity: {}
 
