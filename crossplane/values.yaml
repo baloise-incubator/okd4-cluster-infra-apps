@@ -1,1 +1,51 @@
-crossplane:
+replicas: 1
+
+deploymentStrategy: RollingUpdate
+
+image:
+  repository: crossplane/crossplane
+  tag: v0.14.0
+  pullPolicy: Always
+
+leaderElection: true
+args: {}
+
+provider:
+  packages: []
+
+imagePullSecrets:
+- dockerhub
+
+rbacManager:
+  deploy: true
+  replicas: 1
+  managementPolicy: All
+  leaderElection: true
+  args: {}
+
+priorityClassName: ""
+
+resourcesCrossplane:
+  limits:
+    cpu: 100m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+packageCache:
+  medium: ""
+  sizeLimit: 5Mi
+  pvc: ""
+
+resourcesRBACManager:
+  limits:
+    cpu: 100m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+alpha:
+  oam:
+    enabled: false
