@@ -38,9 +38,6 @@ spec:
         resources:
           {{- toYaml .Values.resourcesCrossplane | nindent 12 }}
         securityContext:
-          runAsUser: 2000
-          runAsGroup: 2000
-          allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
         env:
           - name: POD_NAMESPACE
