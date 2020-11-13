@@ -1,16 +1,17 @@
 {{ if .Values.ingress.enabled }}
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: route.openshift.io/v1
+kind: Route
 metadata:
   name: moon-ui
-  namespace: {{ .Release.Namespace }}
 spec:
-  rules:
-  - host: {{ .Values.ingress.host }}
-    http:
-      paths:
-      - backend:
-          serviceName: moon-ui
-          servicePort: {{ .Values.moonUI.port }}
-        path: {{ .Values.ingress.path }}
-{{ end }}
+  host: {{ .Values.ingress.host }}
+  port:
+    targetPort: {{ .Values.moonUI.port }}
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: moon-ui
+    weight: 100
+  {{ end }}
