@@ -1,0 +1,4 @@
+apiVersion: incubator.baloise.com/v1beta1
+kind: PostgresClaim
+metadata:
+  name: example-postgres-claim
