@@ -8,3 +8,4 @@ postgres-operator:
   serviceAccount:
     create: false
     name: k8sapi-sa
+    automountServiceAccountToken: true
