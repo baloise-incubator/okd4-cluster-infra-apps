@@ -1,7 +1,7 @@
 postgres-operator:
   image:
     repository: baloiseincubator/postgres-operator
-    tag: v0.4.0
+    tag: v0.5.0
   network:
     http:
       servicePort: 8080
