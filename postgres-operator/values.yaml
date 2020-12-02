@@ -5,3 +5,6 @@ postgres-operator:
   network:
     http:
       servicePort: 8080
+  serviceAccount:
+    create: false
+    name: k8sapi-sa
