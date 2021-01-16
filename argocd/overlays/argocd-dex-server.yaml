@@ -3,8 +3,3 @@ apiVersion: apps/v1
 metadata:
   name: argocd-dex-server
 spec:
-  template:
-    spec:
-      containers:
-        - name: dex
-          image: 'quay.io/dexidp/dex:v2.25.0'
