@@ -19,7 +19,6 @@ data:
       ignoreDifferences: |
         jsonPointers:
         - /
-
   repositories: |
     - type: helm
       url: https://registry.baloise.dev/chartrepo/library
