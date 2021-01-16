@@ -9,6 +9,7 @@ spec:
       affinity: null
       containers:
         - name: argocd-repo-server
+          imagePullPolicy: Always
           env:
             - name: ARGOCD_GPG_ENABLED
               value: "false"

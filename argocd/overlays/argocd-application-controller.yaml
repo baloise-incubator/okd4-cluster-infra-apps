@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-application-controller
+spec:
+  template:
+    spec:
+      affinity: null
+      containers:
+        - name: argocd-application-controller
+          imagePullPolicy: IfNotPresent
