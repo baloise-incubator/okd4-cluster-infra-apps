@@ -1,0 +1,10 @@
+kind: RoleBinding
+apiVersion: v1
+metadata:
+  name: jenkins-operator-jenkins
+groupNames:
+subjects:
+  - kind: ServiceAccount
+    name: jenkins-operator-jenkins
+roleRef:
+  name: edit
