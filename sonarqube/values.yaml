@@ -131,7 +131,7 @@ initContainers:
   # secret: my-secret
 
 initSysctl:
-  enabled: true
+  enabled: false
   vmMaxMapCount: 524288
   fsFileMax: 131072
   nofile: 131072
