@@ -27,6 +27,7 @@ spec:
     expose: true
     # How do you want to expose the Nexus server? In this case, we're using Route. Only available on Openshift
     exposeAs: "Route"
+    host: nexus.apps.baloise.dev
     # Configuration related to TLS
     tls:
       # Causes all insecure traffic (HTTP) to be redirected to a secured port (HTTPS)
