@@ -27,12 +27,12 @@ image:
 
 # Set security context for sonarqube pod
 securityContext:
-  fsGroup: 1000
+  fsGroup: 1001180000
 
 # Set security context for sonarqube container
 containerSecurityContext:
   # Sonarqube dockerfile creates sonarqube user as UID and GID 1000
-  runAsUser: 1000
+  runAsUser: 1001180000
 
 # Settings to configure elasticsearch host requirements
 elasticsearch:
