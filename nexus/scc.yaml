@@ -2,6 +2,8 @@ apiVersion: security.openshift.io/v1
 kind: SecurityContextConstraints
 metadata:
   name: allow-nexus-userid-200
+  annotations:
+    argocd.argoproj.io/sync-options: Validate=false
 fsGroup:
   ranges:
     - max: 200
