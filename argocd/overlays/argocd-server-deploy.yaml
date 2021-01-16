@@ -5,8 +5,10 @@ metadata:
 spec:
   template:
     spec:
+      affinity: null
       containers:
         - name: argocd-server
+          imagePullPolicy: IfNotPresent
           command:
             - argocd-server
             - --insecure

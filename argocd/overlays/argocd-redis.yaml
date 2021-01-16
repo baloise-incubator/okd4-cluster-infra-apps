@@ -5,6 +5,7 @@ metadata:
 spec:
   template:
     spec:
+      affinity: null
       securityContext:
         fsGroup: 1000600000
         runAsNonRoot: true
