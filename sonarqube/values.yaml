@@ -37,7 +37,7 @@ containerSecurityContext:
 # Settings to configure elasticsearch host requirements
 elasticsearch:
   # DEPRECATED: Use initSysctl.enabled instead
-  configureNode: true
+  configureNode: false
   bootstrapChecks: true
 
 service:
@@ -138,7 +138,7 @@ initSysctl:
   nproc: 8192
   # image: busybox:1.32
   securityContext:
-    privileged: true
+    privileged: false
   # resources: {}
 
 # List of plugins to install.
