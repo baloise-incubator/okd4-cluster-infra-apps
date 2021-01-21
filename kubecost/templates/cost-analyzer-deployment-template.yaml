@@ -18,10 +18,7 @@ spec:
     matchLabels:
 {{ include "cost-analyzer.selectorLabels" . | nindent 8}}
   strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
@@ -60,12 +57,22 @@ spec:
       restartPolicy: Always
       serviceAccountName: {{ template "cost-analyzer.serviceAccountName" . }}
       volumes:
+        - name: cache
+          emptyDir: {}
+        - name: log
+          emptyDir: {}
         - name: nginx-conf
           configMap:
             name: nginx-conf
             items:
               - key: nginx.conf
                 path: default.conf
+        - name: nginx-conf-fix
+          configMap:
+            name: nginx-conf
+            items:
+              - key: nginx-fix.conf
+                path: nginx.conf
         {{- if .Values.kubecostProductConfigs }}
         {{- if .Values.kubecostProductConfigs.productKey }}
         {{- if .Values.kubecostProductConfigs.productKey.secretname }}
@@ -526,8 +533,15 @@ spec:
               value: dns
           name: cost-analyzer-frontend
           volumeMounts:
+            - name: cache
+              mountPath: /var/cache/nginx/
+            - name: log
+              mountPath: /var/log/nginx/
             - name: nginx-conf
               mountPath: /etc/nginx/conf.d/
+            - name: nginx-conf-fix
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
             {{- if .Values.kubecostFrontend.tls }}
             {{- if .Values.kubecostFrontend.tls.enabled }}
             - name: tls
