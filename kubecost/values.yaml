@@ -1,6 +1,22 @@
 global:
   # zone: cluster.local (use only if your DNS server doesn't live in the same zone as kubecost)
   prometheus:
+    kube-state-metrics:
+      securityContext:
+        enabled: true
+    alertmanager:
+      securityContext:
+        runAsUser: 1001230000
+        runAsNonRoot: true
+        runAsGroup: 1001230000
+        fsGroup: 1001230000
+    server:
+      securityContext:
+        runAsUser: 1001230000
+        runAsNonRoot: true
+        runAsGroup: 1001230000
+        fsGroup: 1001230000
+
     enabled: true # If false, Prometheus will not be installed -- only actively supported on paid Kubecost plans
     fqdn: http://cost-analyzer-prometheus-server.default.svc #example fqdn. Ignored if enabled: true
     # insecureSkipVerify : false # If true, kubecost will not check the TLS cert of prometheus
@@ -489,6 +505,10 @@ initChownData:
 
 
 grafana:
+  securityContext:
+    runAsUser: 1001230000
+    runAsGroup: 1001230000
+    fsGroup: 1001230000
   # namespace_datasources: kubecost # override the default namespace here
   # namespace_dashboards: kubecost # override the default namespace here
   sidecar:

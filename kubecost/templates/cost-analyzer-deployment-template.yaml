@@ -53,9 +53,9 @@ spec:
         runAsUser: 0
       {{- else }}
       securityContext:
-        runAsUser: 1001
-        runAsGroup: 1001
-        fsGroup: 1001
+        runAsUser: 1001230000
+        runAsGroup: 1001230000
+        fsGroup: 1001230000
       {{- end }}
       restartPolicy: Always
       serviceAccountName: {{ template "cost-analyzer.serviceAccountName" . }}
