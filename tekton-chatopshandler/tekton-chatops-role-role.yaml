@@ -10,6 +10,7 @@ rules:
       - triggerbindings
       - triggertemplates
       - pipelineresources
+      - triggers
     verbs:
       - get
       - list
@@ -29,6 +30,7 @@ rules:
     resources:
       - taskruns
       - pipelineruns
+      - pipelineresources
     verbs:
       - create
   - apiGroups:
