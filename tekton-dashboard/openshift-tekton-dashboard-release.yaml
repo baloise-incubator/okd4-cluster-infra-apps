@@ -52,7 +52,7 @@ metadata:
     serviceaccounts.openshift.io/oauth-redirectreference.primary: '{"kind":"OAuthRedirectReference","apiVersion":"v1",
           "reference":{"kind":"Route","name":"tekton-dashboard"}}'
   name: tekton-dashboard
-  namespace: openshift-pipelines
+  namespace: tekton-dashbaord
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -306,7 +306,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: tekton-dashboard
-    namespace: openshift-pipelines
+    namespace: tekton-dashbaord
 ---
 apiVersion: v1
 kind: Service
@@ -322,7 +322,7 @@ metadata:
   annotations:
     service.alpha.openshift.io/serving-cert-secret-name: proxy-tls
   name: tekton-dashboard
-  namespace: openshift-pipelines
+  namespace: tekton-dashbaord
 spec:
   ports:
     - name: http
@@ -346,7 +346,7 @@ metadata:
     dashboard.tekton.dev/release: v0.13.0
     version: v0.13.0
   name: tekton-dashboard
-  namespace: openshift-pipelines
+  namespace: tekton-dashbaord
 spec:
   replicas: 1
   selector:
@@ -370,8 +370,8 @@ spec:
         - args:
             - --port=9097
             - --logout-url=
-            - --pipelines-namespace=openshift-pipelines
-            - --triggers-namespace=openshift-pipelines
+            - --pipelines-namespace=tekton-pipelines
+            - --triggers-namespace=tekton-pipelines
             - --read-only=false
             - --csrf-secure-cookie=false
             - --log-level=info
@@ -430,7 +430,7 @@ metadata:
     app.kubernetes.io/component: dashboard
     app.kubernetes.io/part-of: tekton-dashboard
   name: tekton-dashboard-pipelines
-  namespace: openshift-pipelines
+  namespace: tekton-dashbaord
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -438,7 +438,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: tekton-dashboard
-    namespace: openshift-pipelines
+    namespace: tekton-dashbaord
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -447,7 +447,7 @@ metadata:
     app.kubernetes.io/component: dashboard
     app.kubernetes.io/part-of: tekton-dashboard
   name: tekton-dashboard-dashboard
-  namespace: openshift-pipelines
+  namespace: tekton-dashbaord
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -455,7 +455,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: tekton-dashboard
-    namespace: openshift-pipelines
+    namespace: tekton-dashbaord
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -464,7 +464,7 @@ metadata:
     app.kubernetes.io/component: dashboard
     app.kubernetes.io/part-of: tekton-dashboard
   name: tekton-dashboard-triggers
-  namespace: openshift-pipelines
+  namespace: tekton-dashbaord
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -472,7 +472,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: tekton-dashboard
-    namespace: openshift-pipelines
+    namespace: tekton-dashbaord
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -488,7 +488,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: tekton-dashboard
-    namespace: openshift-pipelines
+    namespace: tekton-dashbaord
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -504,4 +504,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: tekton-dashboard
-    namespace: openshift-pipelines
+    namespace: tekton-dashbaord
