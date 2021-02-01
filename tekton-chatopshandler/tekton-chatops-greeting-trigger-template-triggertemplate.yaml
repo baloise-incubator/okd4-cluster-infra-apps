@@ -20,12 +20,12 @@ spec:
           name: tekton-chatops-greeting-pipeline
         params:
           - name: prid
-            value: $(params.prid)
+            value: $(tt.params.prid)
           - name: reponame
-            value: $(params.reponame)
+            value: $(tt.params.reponame)
           - name: action
-            value: $(params.action)
+            value: $(tt.params.action)
           - name: prorg
-            value: $(params.prorg)
+            value: $(tt.params.prorg)
           - name: branchname
-            value: $(params.branchname)
+            value: $(tt.params.branchname)
