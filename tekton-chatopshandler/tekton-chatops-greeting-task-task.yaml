@@ -17,7 +17,7 @@ spec:
           name: github-token
   steps:
     - name: run-command
-      image: baloise/gitopscli:$(tt.params.gitopscli-version)
+      image: baloise/gitopscli:$(params.gitopscli-version)
       script: |
         if [ "$(tt.params.action)" = "opened" ]; then
           gitopscli add-pr-comment \
