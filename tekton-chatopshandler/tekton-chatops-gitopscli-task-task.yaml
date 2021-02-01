@@ -17,7 +17,7 @@ spec:
           name: github-token
   steps:
     - name: get-branch-name-step
-      image: baloise/gitopscli:$(tt.params.gitopscli-version)
+      image: baloise/gitopscli:$(params.gitopscli-version)
       env:
         - name: PRID
           value: "$(tt.params.prid)"
@@ -48,7 +48,7 @@ spec:
         f = open("/workspace/branchfile.txt","w+")
         f.write(branchName)
     - name: perform-chat-ops-step
-      image: baloise/gitopscli:$(tt.params.gitopscli-version)
+      image: baloise/gitopscli:$(params.gitopscli-version)
       script: |
         branchName=$(cat /workspace/branchfile.txt)
         echo "$branchName"
