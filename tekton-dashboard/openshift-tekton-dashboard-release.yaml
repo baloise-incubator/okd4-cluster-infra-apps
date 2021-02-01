@@ -420,7 +420,11 @@ spec:
               name: proxy-tls
       securityContext: {}
       serviceAccountName: tekton-dashboard
-      volumes: []
+      volumes:
+        - name: proxy-tls
+          secret:
+            secretName: proxy-tls
+
 ---
 ---
 apiVersion: rbac.authorization.k8s.io/v1
