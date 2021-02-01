@@ -12,6 +12,8 @@ rules:
       - pipelineresources
     verbs:
       - get
+      - list
+      - watch
   - apiGroups:
       - triggers.tekton.dev
     resources:
@@ -20,6 +22,8 @@ rules:
       - triggertemplates
     verbs:
       - get
+      - list
+      - watch
   - apiGroups:
       - triggers.tekton.dev
     resources:
