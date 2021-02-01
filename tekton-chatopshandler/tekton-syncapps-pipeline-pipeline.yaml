@@ -12,6 +12,6 @@ spec:
         name: tekton-syncapps-task
       params:
         - name: reponame
-          value: $(tt.params.reponame)
+          value: $(params.reponame)
         - name: rootorg
-          value: $(tt.params.rootorg)
+          value: $(params.rootorg)
