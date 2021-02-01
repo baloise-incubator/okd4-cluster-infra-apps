@@ -4,7 +4,7 @@ metadata:
   name: tekton-chatops-role
 rules:
   - apiGroups:
-      - tekton.dev
+      - triggers.tekton.dev
     resources:
       - eventlisteners
       - triggerbindings
@@ -21,7 +21,7 @@ rules:
     verbs:
       - get
   - apiGroups:
-      - tekton.dev
+      - triggers.tekton.dev
     resources:
       - taskruns
       - pipelineruns
