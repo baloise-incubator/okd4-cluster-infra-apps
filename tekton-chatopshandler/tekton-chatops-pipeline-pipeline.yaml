@@ -15,12 +15,12 @@ spec:
         name: tekton-chatops-gitopscli-task
       params:
         - name: comment
-          value: $(tt.params.comment)
+          value: $(params.comment)
         - name: prid
-          value: $(tt.params.prid)
+          value: $(params.prid)
         - name: reponame
-          value: $(tt.params.reponame)
+          value: $(params.reponame)
         - name: prorg
-          value: $(tt.params.prorg)
+          value: $(params.prorg)
         - name: apiurl
-          value: $(tt.params.apiurl)
+          value: $(params.apiurl)
