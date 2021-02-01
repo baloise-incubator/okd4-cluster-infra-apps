@@ -17,14 +17,14 @@ spec:
           name: github-token
   steps:
     - name: get-branch-name-step
-      image: baloise/gitopscli:$(params.gitopscli-version)
+      image: baloise/gitopscli:$(tt.params.gitopscli-version)
       env:
         - name: PRID
-          value: "$(params.prid)"
+          value: "$(tt.params.prid)"
         - name: PRORG
-          value: "$(params.prorg)"
+          value: "$(tt.params.prorg)"
         - name: REPONAME
-          value: "$(params.reponame)"
+          value: "$(tt.params.reponame)"
       script: |
         #!/usr/bin/env python3
         import json
@@ -48,21 +48,21 @@ spec:
         f = open("/workspace/branchfile.txt","w+")
         f.write(branchName)
     - name: perform-chat-ops-step
-      image: baloise/gitopscli:$(params.gitopscli-version)
+      image: baloise/gitopscli:$(tt.params.gitopscli-version)
       script: |
         branchName=$(cat /workspace/branchfile.txt)
         echo "$branchName"
-        comment="$(params.comment)"
+        comment="$(tt.params.comment)"
         echo "$comment"
         if [ "$comment" = "/test" ]; then
           gitopscli add-pr-comment \
           --username incubator-tekton \
           --password $token \
           --git-provider github \
-          --organisation $(params.prorg) \
-          --repository-name $(params.reponame) \
+          --organisation $(tt.params.prorg) \
+          --repository-name $(tt.params.reponame) \
           --text='You can <br>use the command `/ping`!' \
-          --pr-id $(params.prid)
+          --pr-id $(tt.params.prid)
         elif [ "$comment" = "/preview" ]; then
           gitopscli create-preview \
           --username incubator-tekton \
@@ -70,9 +70,9 @@ spec:
           --git-provider github \
           --git-user incubator-tekton \
           --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
-          --organisation $(params.prorg) \
-          --repository-name $(params.reponame) \
-          --pr-id $(params.prid) \
+          --organisation $(tt.params.prorg) \
+          --repository-name $(tt.params.reponame) \
+          --pr-id $(tt.params.prid) \
           --create-pr \
           --auto-merge
         elif [ "$comment" = "/undeploy" ]; then
@@ -82,8 +82,8 @@ spec:
           --git-provider github \
           --git-user incubator-tekton \
           --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
-          --organisation $(params.prorg) \
-          --repository-name $(params.reponame) \
+          --organisation $(tt.params.prorg) \
+          --repository-name $(tt.params.reponame) \
           --branch "$branchName" \
           --create-pr \
           --auto-merge
@@ -92,10 +92,10 @@ spec:
           --username incubator-tekton \
           --password $token \
           --git-provider github \
-          --organisation $(params.prorg) \
-          --repository-name $(params.reponame) \
+          --organisation $(tt.params.prorg) \
+          --repository-name $(tt.params.reponame) \
           --text='Need help? Find the docs, examples and a F.A.Q.: [Baloise Incubator: GitOps Cli](https://baloise-incubator.github.io/gitopscli/)' \
-          --pr-id $(params.prid)
+          --pr-id $(tt.params.prid)
         elif expr "$comment" : "/replicas*"; then
           replicaCount="${comment//[!0-9]/}"
           gitopscli deploy \
@@ -105,7 +105,7 @@ spec:
           --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
           --git-provider github \
           --git-provider-url https://github.com/ \
-          --organisation $(params.prorg) \
+          --organisation $(tt.params.prorg) \
           --repository-name okd4-example-apps \
           --file "gitops-nginx-demo-test/values.yaml" \
           --values "{generic.replicaCount: ${replicaCount}}"

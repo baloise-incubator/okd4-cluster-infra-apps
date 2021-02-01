@@ -14,7 +14,7 @@ spec:
           name: github-token
   steps:
     - name: run-command
-      image: baloise/gitopscli:$(params.gitopscli-version)
+      image: baloise/gitopscli:$(tt.params.gitopscli-version)
       script: |
         gitopscli sync-apps \
         --username incubator-tekton \
@@ -22,7 +22,7 @@ spec:
         --git-provider github \
         --git-user incubator-tekton \
         --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
-        --organisation $(params.rootorg) \
-        --repository-name $(params.reponame) \
+        --organisation $(tt.params.rootorg) \
+        --repository-name $(tt.params.reponame) \
         --root-organisation baloise-incubator \
         --root-repository-name okd4-apps-root-config

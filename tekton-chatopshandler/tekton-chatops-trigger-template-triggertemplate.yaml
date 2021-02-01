@@ -20,12 +20,12 @@ spec:
           name: tekton-chatops-pipeline
         params:
           - name: comment
-            value: $(params.comment)
+            value: $(tt.params.comment)
           - name: prid
-            value: $(params.prid)
+            value: $(tt.params.prid)
           - name: reponame
-            value: $(params.reponame)
+            value: $(tt.params.reponame)
           - name: prorg
-            value: $(params.prorg)
+            value: $(tt.params.prorg)
           - name: apiurl
-            value: $(params.apiurl)
+            value: $(tt.params.apiurl)

@@ -15,12 +15,12 @@ spec:
         name: tekton-chatops-greeting-task
       params:
         - name: prid
-          value: $(params.prid)
+          value: $(tt.params.prid)
         - name: reponame
-          value: $(params.reponame)
+          value: $(tt.params.reponame)
         - name: prorg
-          value: $(params.prorg)
+          value: $(tt.params.prorg)
         - name: action
-          value: $(params.action)
+          value: $(tt.params.action)
         - name: branchname
-          value: $(params.branchname)
+          value: $(tt.params.branchname)

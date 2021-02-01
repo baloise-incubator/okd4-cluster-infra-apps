@@ -21,6 +21,6 @@ spec:
           name: tekton-syncapps-pipeline
         params:
           - name: reponame
-            value: $(params.reponame)
+            value: $(tt.params.reponame)
           - name: rootorg
-            value: $(params.rootorg)
+            value: $(tt.params.rootorg)
