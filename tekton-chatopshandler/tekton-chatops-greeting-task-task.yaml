@@ -19,25 +19,25 @@ spec:
     - name: run-command
       image: baloise/gitopscli:$(params.gitopscli-version)
       script: |
-        if [ "$(tt.params.action)" = "opened" ]; then
+        if [ "$(params.action)" = "opened" ]; then
           gitopscli add-pr-comment \
           --username incubator-tekton \
           --password $token \
           --git-provider github \
-          --organisation $(tt.params.prorg) \
-          --repository-name $(tt.params.reponame) \
+          --organisation $(params.prorg) \
+          --repository-name $(params.reponame) \
           --text='Welcome to Baloise ChatOps based GitOps Bot.<br><br>If you want to enable preview environments for this PullRequest, comment with `/preview`.<br>If you want to disable the preview environment for this PR, comment with `/undeploy`.<br>If you need help or want to see the docs, comment with `/help`.<br><br>At the moment, preview environments do not get redeployed automatically. Simply rewrite `/preview` or contribute the feature.' \
-          --pr-id $(tt.params.prid)
-        elif [ "$(tt.params.action)" = "closed" ]; then
+          --pr-id $(params.prid)
+        elif [ "$(params.action)" = "closed" ]; then
           gitopscli delete-preview \
           --username incubator-tekton \
           --password $token \
           --git-provider github \
           --git-user incubator-tekton \
           --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
-          --organisation $(tt.params.prorg) \
-          --repository-name $(tt.params.reponame) \
-          --branch $(tt.params.branchname) \
+          --organisation $(params.prorg) \
+          --repository-name $(params.reponame) \
+          --branch $(params.branchname) \
           --create-pr \
           --auto-merge
         fi
