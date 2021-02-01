@@ -990,11 +990,6 @@ spec:
               value: config-observability-triggers
             - name: METRICS_DOMAIN
               value: tekton.dev/triggers
-          securityContext:
-            allowPrivilegeEscalation: false
-            # User 65532 is the distroless nonroot user ID
-            runAsUser: 65532
-
 ---
 # Copyright 2020 The Tekton Authors
 #
@@ -1059,14 +1054,6 @@ spec:
               value: config-observability-triggers
             - name: METRICS_DOMAIN
               value: tekton.dev/triggers
-          securityContext:
-            allowPrivilegeEscalation: false
-            # User 65532 is the distroless nonroot user ID
-            runAsUser: 65532
-            runAsGroup: 65532
-            capabilities:
-              drop:
-                - all
 ---
 apiVersion: v1
 kind: Service
