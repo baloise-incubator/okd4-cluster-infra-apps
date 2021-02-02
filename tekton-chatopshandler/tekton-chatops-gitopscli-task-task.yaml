@@ -52,7 +52,10 @@ spec:
       script: |
         branchName=$(cat /workspace/branchfile.txt)
         echo "$branchName"
-        comment="$(params.comment)"
+        comment="$(cat << EOFDELIMITER
+        $(params.comment)
+        EOFDELIMITER
+        )"
         echo "$comment"
         if [ "$comment" = "/test" ]; then
           gitopscli add-pr-comment \
