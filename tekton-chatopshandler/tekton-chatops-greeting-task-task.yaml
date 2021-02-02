@@ -37,7 +37,5 @@ spec:
           --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
           --organisation $(params.prorg) \
           --repository-name $(params.reponame) \
-          --branch $(params.branchname) \
-          --create-pr \
-          --auto-merge
+          --branch $(params.branchname)
         fi
