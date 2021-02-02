@@ -10,7 +10,7 @@ spec:
     - name: action
     - name: branchname
     - name: gitopscli-version
-      default: 3.1.2
+      default: 4.5.0
   stepTemplate:
     envFrom:
       - secretRef:
@@ -29,7 +29,7 @@ spec:
           --text='Welcome to Baloise ChatOps based GitOps Bot.<br><br>If you want to enable preview environments for this PullRequest, comment with `/preview`.<br>If you want to disable the preview environment for this PR, comment with `/undeploy`.<br>If you need help or want to see the docs, comment with `/help`.<br><br>At the moment, preview environments do not get redeployed automatically. Simply rewrite `/preview` or contribute the feature.' \
           --pr-id $(params.prid)
         elif [ "$(params.action)" = "closed" ]; then
-          gitopscli delete-preview \
+          gitopscli delete-pr-preview \
           --username incubator-tekton \
           --password $token \
           --git-provider github \
