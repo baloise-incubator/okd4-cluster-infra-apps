@@ -72,9 +72,7 @@ spec:
           --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
           --organisation $(params.prorg) \
           --repository-name $(params.reponame) \
-          --pr-id $(params.prid) \
-          --create-pr \
-          --auto-merge
+          --pr-id $(params.prid)
         elif [ "$comment" = "/undeploy" ]; then
           gitopscli delete-pr-preview \
           --username incubator-tekton \
