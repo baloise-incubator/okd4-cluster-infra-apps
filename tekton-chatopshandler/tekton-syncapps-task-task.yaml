@@ -7,7 +7,7 @@ spec:
     - name: reponame
     - name: rootorg
     - name: gitopscli-version
-      default: 3.1.2
+      default: 4.5.0
   stepTemplate:
     envFrom:
       - secretRef:
