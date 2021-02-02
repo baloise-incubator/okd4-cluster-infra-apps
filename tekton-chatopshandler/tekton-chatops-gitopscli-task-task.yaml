@@ -82,9 +82,7 @@ spec:
           --git-email joachim.prinzbach+github-ttt-travis-bot@gmail.com \
           --organisation $(params.prorg) \
           --repository-name $(params.reponame) \
-          --branch "$branchName" \
-          --create-pr \
-          --auto-merge
+          --branch "$branchName"
         elif [ "$comment" = "/help" ]; then
           gitopscli add-pr-comment \
           --username incubator-tekton \
