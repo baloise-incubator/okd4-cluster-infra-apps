@@ -3,6 +3,8 @@ kind: Route
 metadata:
   labels:
     app: harbor
+  annotations:
+    haproxy.router.openshift.io/timeout: 20m
   name: harbor
 spec:
   host: {{ .Values.ingress.hosts.core }}
