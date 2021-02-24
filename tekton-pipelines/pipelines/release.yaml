@@ -1755,7 +1755,7 @@ metadata:
     # labels below are related to istio and should not be used for resource lookup
     version: "v0.20.1"
 spec:
-  minAvailable: 80%
+  minAvailable: 50%
   selector:
     matchLabels:
       app.kubernetes.io/name: webhook
