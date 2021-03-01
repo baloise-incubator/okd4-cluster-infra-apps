@@ -48,7 +48,7 @@ spec:
         imagePullPolicy: IfNotPresent
         name: postgresql
         env:
-        - name: POSTGRESQL_ADMIN_PASSWORD
+        - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-conjur-database-password
