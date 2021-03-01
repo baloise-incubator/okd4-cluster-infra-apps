@@ -151,7 +151,7 @@ service:
   internal:
     annotations: {}
     port: 443
-    type: clusterIP
+    type: ClusterIP
 
 ssl:
   # Conjur CA certificate and key, and signed certificate and key. These
