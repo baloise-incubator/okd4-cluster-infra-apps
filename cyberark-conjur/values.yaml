@@ -187,4 +187,4 @@ tolerations: []
 
 # Set enabled true for OCP support
 openshift: 
-  enabled: true
+  enabled: false
