@@ -1,0 +1,30 @@
+{{- if .Values.service.external.enabled -}}
+{{- $fullName := include "conjur-oss.fullname" . -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $fullName }}-ingress
+  labels: &AppConjurLabels
+    app: {{ template "conjur-oss.name" . }}
+    chart: {{ template "conjur-oss.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/component: service
+{{- with .Values.conjurLabels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+  annotations:
+{{- with .Values.service.external.annotations }}
+{{ toYaml . | indent 4 }}
+{{ end -}}
+spec:
+  type: LoadBalancer
+  selector: *AppConjurLabels
+  ports:
+    - name: https
+      protocol: TCP
+      targetPort: https
+      port: {{ .Values.service.external.port }}
+{{- end }}
