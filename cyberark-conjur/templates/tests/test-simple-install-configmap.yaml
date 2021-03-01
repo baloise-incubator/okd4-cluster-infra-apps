@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "conjur-oss.fullname" . }}-tests
+data:
+  run.sh: |-
+    @test "Testing that Conjur status page is up" {
+      curl -f --cacert /cacert/tls.crt https://{{ template "conjur-oss.fullname" . }}/ | grep 'Status'
+    }
