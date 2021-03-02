@@ -8,7 +8,7 @@ spec:
     targetPort: https
   tls:
     insecureEdgeTerminationPolicy: Redirect
-    termination: Reencrypt
+    termination: reencrypt
   to:
     kind: Service
     name: argo-server
