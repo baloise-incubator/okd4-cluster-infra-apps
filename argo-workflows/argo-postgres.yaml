@@ -355,6 +355,7 @@ rules:
   - get
   - list
   - watch
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -373,6 +374,12 @@ rules:
   - get
   - list
   - watch
+- verbs:
+    - create
+  apiGroups:
+    - authorization.k8s.io
+  resources:
+    - subjectaccessreviews
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
