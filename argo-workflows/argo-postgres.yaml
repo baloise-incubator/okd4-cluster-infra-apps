@@ -122,7 +122,7 @@ kind: ServiceAccount
 metadata:
   name: argo-server
   annotations:
-    serviceaccounts.openshift.io/oauth-redirectreference.thanos-ruler: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"argoworkflows"}}'
+    serviceaccounts.openshift.io/oauth-redirectreference.argo-server: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"argoworkflow"}}'
 ---
 apiVersion: v1
 kind: ServiceAccount
