@@ -5,10 +5,10 @@ metadata:
 spec:
   host: workflows.apps.baloise.dev
   port:
-    targetPort: https
+    targetPort: web
   tls:
     insecureEdgeTerminationPolicy: Redirect
-    termination: reencrypt
+    termination: edge
   to:
     kind: Service
     name: argo-server

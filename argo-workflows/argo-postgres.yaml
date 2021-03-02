@@ -121,8 +121,6 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: argo-server
-  annotations:
-    serviceaccounts.openshift.io/oauth-redirectreference.argo-server: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"argoworkflow"}}'
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -374,18 +372,6 @@ rules:
   - get
   - list
   - watch
-- verbs:
-    - create
-  apiGroups:
-    - authorization.k8s.io
-  resources:
-    - subjectaccessreviews
-- apiGroups:
-    - authentication.k8s.io
-  resources:
-    - tokenreviews
-  verbs:
-    - create
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -581,16 +567,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: argo-server
-  annotations:
-    service.beta.openshift.io/serving-cert-secret-name: argo-server-tls
 spec:
   ports:
   - name: web
     port: 2746
     targetPort: 2746
-  - name: https
-    port: 8443
-    targetPort: 8443
   selector:
     app: argo-server
 ---
@@ -671,40 +652,6 @@ spec:
         volumeMounts:
         - mountPath: /tmp
           name: tmp
-      - args:
-          - -provider=openshift
-          - -https-address=:8443
-          - -http-address=
-          - -email-domain=*
-          - -upstream=http://localhost:2746
-          - '-openshift-sar={"resource": "namespaces", "verb": "get"}'
-          - '-openshift-delegate-urls={"/": {"resource": "namespaces", "verb": "get"}}'
-          - -tls-cert=/etc/tls/private/tls.crt
-          - -tls-key=/etc/tls/private/tls.key
-          - -client-secret-file=/var/run/secrets/kubernetes.io/serviceaccount/token
-          #    - -cookie-secret-file=/etc/proxy/secrets/session_secret
-          - -cookie-secret=SECRET
-          - -openshift-service-account=argo-server
-          - -openshift-ca=/etc/pki/tls/cert.pem
-          - -openshift-ca=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-          - -skip-auth-regex=^/metrics
-        env:
-          - name: HTTP_PROXY
-          - name: HTTPS_PROXY
-          - name: NO_PROXY
-        image: quay.io/openshift/okd-content@sha256:644bcaca0a108801e83f4c3585c267e069bd6d7975c4234cd6498d96693211b0
-        name: argo-server-proxy
-        ports:
-          - containerPort: 8443
-            name: https
-        resources:
-          requests:
-            cpu: 10m
-            memory: 20Mi
-        terminationMessagePolicy: FallbackToLogsOnError
-        volumeMounts:
-          - mountPath: /etc/tls/private
-            name: argo-server-tls
       nodeSelector:
         kubernetes.io/os: linux
       securityContext:
@@ -713,9 +660,6 @@ spec:
       volumes:
       - emptyDir: {}
         name: tmp
-      - name: argo-server-tls
-        secret:
-          secretName: argo-server-tls
 ---
 apiVersion: apps/v1
 kind: Deployment
