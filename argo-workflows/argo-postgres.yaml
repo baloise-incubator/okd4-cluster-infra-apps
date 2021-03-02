@@ -466,6 +466,7 @@ metadata:
 ---
 apiVersion: v1
 data:
+  containerRuntimeExecutor: k8sapi
   artifactRepository: |
     archiveLogs: true
     s3:
