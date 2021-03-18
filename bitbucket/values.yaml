@@ -28,8 +28,8 @@ bitbucket:
 postgresql:
   securityContext:
     enabled: true
-    fsGroup:
-    runAsUser:
+    fsGroup: 1001220000
+    runAsUser: 1001220000
   postgresqlUsername: bitbucket
   postgresqlPassword: bitbucket
   postgresqlDatabase: bitbucket
