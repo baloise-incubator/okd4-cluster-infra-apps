@@ -1,7 +1,7 @@
 bitbucket:
   image:
     repository: docker.io/atlassian/bitbucket-server
-    tag: 7.4
+    tag: 7.10
   replicaCount: 1
   network:
     http:
@@ -28,8 +28,8 @@ bitbucket:
 postgresql:
   securityContext:
     enabled: true
-    fsGroup: 1000620000
-    runAsUser: 1000620000
+    fsGroup:
+    runAsUser:
   postgresqlUsername: bitbucket
   postgresqlPassword: bitbucket
   postgresqlDatabase: bitbucket
