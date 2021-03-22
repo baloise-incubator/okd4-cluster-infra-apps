@@ -102,6 +102,7 @@ spec:
         - args: []
           command:
             - controller
+            - --update-status
           env: []
           image: quay.io/bitnami/sealed-secrets-controller:v0.15.0
           imagePullPolicy: Always
