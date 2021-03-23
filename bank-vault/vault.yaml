@@ -7,7 +7,7 @@ spec:
   image: vault:1.6.2
   bankVaultsImage: banzaicloud/bank-vaults:master
 
-  serviceAccount: default
+  serviceAccount: vault
 
   # Use local disk to store Vault file data, see config section.
   volumes:
