@@ -36,4 +36,4 @@ volumes:
 - projected
 - secret
 users:
-- system:serviceaccount:bank-vault:vault
+- system:serviceaccount:bank-vault:default
