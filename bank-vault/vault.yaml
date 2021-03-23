@@ -31,7 +31,7 @@ spec:
       # This is true by default
       preFlightChecks: true
     kubernetes:
-      secretNamespace: default
+      secretNamespace: bank-vault
 
   # A YAML representation of a final vault config file.
   # See https://www.vaultproject.io/docs/configuration/ for more information.
@@ -62,7 +62,7 @@ spec:
       - type: kubernetes
         roles:
           # Allow every pod in the default namespace to use the secret kv store
-          - name: default
+          - name: bank-vault
             bound_service_account_names: ["default", "vault"]
             bound_service_account_namespaces: ["*"]
             policies: ["allow_secrets"]
