@@ -7,9 +7,7 @@ spec:
   image: vault:1.6.2
   bankVaultsImage: banzaicloud/bank-vaults:master
 
-  serviceAccount: 
-  securityContext:
-    runAsUser: 1001290000
+  serviceAccount: default
 
   # Use local disk to store Vault file data, see config section.
   volumes:
