@@ -633,7 +633,6 @@ spec:
       - args:
         - server
         - --namespaced
-        - --managed-namespace
         - --auth-mode
         - server
         - --auth-mode
@@ -719,7 +718,6 @@ spec:
         - --executor-image
         - argoproj/argoexec:v2.12.9
         - --namespaced
-        - --managed-namespace
         command:
         - workflow-controller
         image: argoproj/workflow-controller:v2.12.9
