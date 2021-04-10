@@ -1,5 +1,5 @@
 # This is an auto-generated file. DO NOT EDIT
-apiVersion: apiextensions.k8s.io/v1beta1
+apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   name: clusterworkflowtemplates.argoproj.io
@@ -14,13 +14,28 @@ spec:
     - cwft
     singular: clusterworkflowtemplate
   scope: Cluster
-  version: v1alpha1
   versions:
   - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            type: string
+          kind:
+            type: string
+          metadata:
+            type: object
+          spec:
+            type: object
+            x-kubernetes-preserve-unknown-fields: true
+        required:
+        - metadata
+        - spec
+        type: object
     served: true
     storage: true
 ---
-apiVersion: apiextensions.k8s.io/v1beta1
+apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   name: cronworkflows.argoproj.io
@@ -35,13 +50,31 @@ spec:
     - cronwf
     singular: cronworkflow
   scope: Namespaced
-  version: v1alpha1
   versions:
   - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            type: string
+          kind:
+            type: string
+          metadata:
+            type: object
+          spec:
+            type: object
+            x-kubernetes-preserve-unknown-fields: true
+          status:
+            type: object
+            x-kubernetes-preserve-unknown-fields: true
+        required:
+        - metadata
+        - spec
+        type: object
     served: true
     storage: true
 ---
-apiVersion: apiextensions.k8s.io/v1beta1
+apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   name: workfloweventbindings.argoproj.io
@@ -55,27 +88,32 @@ spec:
     - wfeb
     singular: workfloweventbinding
   scope: Namespaced
-  version: v1alpha1
   versions:
   - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            type: string
+          kind:
+            type: string
+          metadata:
+            type: object
+          spec:
+            type: object
+            x-kubernetes-preserve-unknown-fields: true
+        required:
+        - metadata
+        - spec
+        type: object
     served: true
     storage: true
 ---
-apiVersion: apiextensions.k8s.io/v1beta1
+apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   name: workflows.argoproj.io
 spec:
-  additionalPrinterColumns:
-  - JSONPath: .status.phase
-    description: Status of the workflow
-    name: Status
-    type: string
-  - JSONPath: .status.startedAt
-    description: When the workflow was started
-    format: date-time
-    name: Age
-    type: date
   group: argoproj.io
   names:
     kind: Workflow
@@ -85,14 +123,42 @@ spec:
     - wf
     singular: workflow
   scope: Namespaced
-  subresources: {}
-  version: v1alpha1
   versions:
-  - name: v1alpha1
+  - additionalPrinterColumns:
+    - description: Status of the workflow
+      jsonPath: .status.phase
+      name: Status
+      type: string
+    - description: When the workflow was started
+      format: date-time
+      jsonPath: .status.startedAt
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            type: string
+          kind:
+            type: string
+          metadata:
+            type: object
+          spec:
+            type: object
+            x-kubernetes-preserve-unknown-fields: true
+          status:
+            type: object
+            x-kubernetes-preserve-unknown-fields: true
+        required:
+        - metadata
+        - spec
+        type: object
     served: true
     storage: true
+    subresources: {}
 ---
-apiVersion: apiextensions.k8s.io/v1beta1
+apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   name: workflowtemplates.argoproj.io
@@ -106,9 +172,24 @@ spec:
     - wftmpl
     singular: workflowtemplate
   scope: Namespaced
-  version: v1alpha1
   versions:
   - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            type: string
+          kind:
+            type: string
+          metadata:
+            type: object
+          spec:
+            type: object
+            x-kubernetes-preserve-unknown-fields: true
+        required:
+        - metadata
+        - spec
+        type: object
     served: true
     storage: true
 ---
@@ -132,6 +213,14 @@ kind: Role
 metadata:
   name: argo-role
 rules:
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+  - get
+  - update
 - apiGroups:
   - ""
   resources:
@@ -273,6 +362,8 @@ rules:
 - apiGroups:
   - argoproj.io
   resources:
+  - eventsources
+  - sensors
   - workflows
   - workfloweventbindings
   - workflowtemplates
@@ -332,6 +423,12 @@ rules:
   - get
   - watch
 - apiGroups:
+  - ""
+  resources:
+  - pods/exec
+  verbs:
+  - create
+- apiGroups:
   - argoproj.io
   resources:
   - workflows
@@ -353,7 +450,6 @@ rules:
   - get
   - list
   - watch
-
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -372,6 +468,18 @@ rules:
   - get
   - list
   - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kubelet-executor
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes/proxy
+  verbs:
+  - get
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -448,9 +556,36 @@ subjects:
   name: argo-server
   namespace: argo-workflows
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubelet-executor-default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubelet-executor
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: argo-workflows
+---
 apiVersion: v1
 data:
-  minio: |
+  default-v1: |
+    archiveLogs: true
+    s3:
+      bucket: my-bucket
+      endpoint: minio:9000
+      insecure: true
+      accessKeySecret:
+        name: my-minio-cred
+        key: accesskey
+      secretKeySecret:
+        name: my-minio-cred
+        key: secretkey
+  empty: ""
+  my-key: |
+    archiveLogs: true
     s3:
       bucket: my-bucket
       endpoint: minio:9000
@@ -463,11 +598,12 @@ data:
         key: secretkey
 kind: ConfigMap
 metadata:
+  annotations:
+    workflows.argoproj.io/default-artifact-repository: default-v1
   name: artifact-repositories
 ---
 apiVersion: v1
 data:
-  containerRuntimeExecutor: k8sapi
   artifactRepository: |
     archiveLogs: true
     s3:
@@ -480,12 +616,32 @@ data:
       secretKeySecret:
         name: my-minio-cred
         key: secretkey
+  containerRuntimeExecutor: docker
+  containerRuntimeExecutors: |
+    - name: k8sapi
+      selector:
+        matchLabels:
+          workflows.argoproj.io/container-runtime-executor: k8sapi
+  executor: |
+    resources:
+      requests:
+        cpu: 10m
+        memory: 64Mi
   links: |
-    - name: Example Workflow Link
+    - name: Workflow Link
       scope: workflow
       url: http://logging-facility?namespace=${metadata.namespace}&workflowName=${metadata.name}&startedAt=${status.startedAt}&finishedAt=${status.finishedAt}
-    - name: Example Pod Link
+    - name: Pod Link
       scope: pod
+      url: http://logging-facility?namespace=${metadata.namespace}&podName=${metadata.name}&startedAt=${status.startedAt}&finishedAt=${status.finishedAt}
+    - name: Pod Logs Link
+      scope: pod-logs
+      url: http://logging-facility?namespace=${metadata.namespace}&podName=${metadata.name}&startedAt=${status.startedAt}&finishedAt=${status.finishedAt}
+    - name: Event Source Logs Link
+      scope: event-source-logs
+      url: http://logging-facility?namespace=${metadata.namespace}&podName=${metadata.name}&startedAt=${status.startedAt}&finishedAt=${status.finishedAt}
+    - name: Sensor Logs Link
+      scope: sensor-logs
       url: http://logging-facility?namespace=${metadata.namespace}&podName=${metadata.name}&startedAt=${status.startedAt}&finishedAt=${status.finishedAt}
   metricsConfig: |
     disableLegacy: true
@@ -637,7 +793,7 @@ spec:
         - server
         - --auth-mode
         - client
-        image: argoproj/argocli:v2.12.9
+        image: argoproj/argocli:v3.0.1
         name: argo-server
         ports:
         - containerPort: 2746
@@ -646,9 +802,13 @@ spec:
           httpGet:
             path: /
             port: 2746
-            scheme: HTTP
+            scheme: HTTPS
           initialDelaySeconds: 10
           periodSeconds: 20
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
         volumeMounts:
         - mountPath: /tmp
           name: tmp
@@ -660,6 +820,55 @@ spec:
       volumes:
       - emptyDir: {}
         name: tmp
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: minio
+  name: minio
+spec:
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+      - command:
+        - minio
+        - server
+        - /data
+        env:
+        - name: MINIO_ACCESS_KEY
+          value: admin
+        - name: MINIO_SECRET_KEY
+          value: password
+        image: minio/minio:RELEASE.2019-12-17T23-16-33Z
+        lifecycle:
+          postStart:
+            exec:
+              command:
+              - mkdir
+              - -p
+              - /data/my-bucket
+        livenessProbe:
+          httpGet:
+            path: /minio/health/live
+            port: 9000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        name: main
+        ports:
+        - containerPort: 9000
+        readinessProbe:
+          httpGet:
+            path: /minio/health/ready
+            port: 9000
+          initialDelaySeconds: 5
+          periodSeconds: 10
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -716,11 +925,17 @@ spec:
         - --configmap
         - workflow-controller-configmap
         - --executor-image
-        - argoproj/argoexec:v2.12.9
+        - argoproj/argoexec:v3.0.1
         - --namespaced
         command:
         - workflow-controller
-        image: argoproj/workflow-controller:v2.12.9
+        env:
+        - name: LEADER_ELECTION_IDENTITY
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        image: argoproj/workflow-controller:v3.0.1
         livenessProbe:
           httpGet:
             path: /metrics
@@ -731,49 +946,13 @@ spec:
         ports:
         - containerPort: 9090
           name: metrics
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
       nodeSelector:
         kubernetes.io/os: linux
       securityContext:
         runAsNonRoot: true
       serviceAccountName: argo
----
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    app: minio
-  name: minio
-spec:
-  containers:
-  - command:
-    - minio
-    - server
-    - /data
-    env:
-    - name: MINIO_ACCESS_KEY
-      value: admin
-    - name: MINIO_SECRET_KEY
-      value: password
-    image: minio/minio:RELEASE.2019-12-17T23-16-33Z
-    lifecycle:
-      postStart:
-        exec:
-          command:
-          - mkdir
-          - -p
-          - /data/my-bucket
-    livenessProbe:
-      httpGet:
-        path: /minio/health/live
-        port: 9000
-      initialDelaySeconds: 5
-      periodSeconds: 10
-    name: main
-    ports:
-    - containerPort: 9000
-    readinessProbe:
-      httpGet:
-        path: /minio/health/ready
-        port: 9000
-      initialDelaySeconds: 5
-      periodSeconds: 10
+
