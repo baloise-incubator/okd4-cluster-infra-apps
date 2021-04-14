@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argo-server
+spec:
+  selector:
+    matchLabels:
+      app: argo-server
+  template:
+    metadata:
+      labels:
+        app: argo-server
+    spec:
+      containers:
+        - args:
+            - server
+            - --secure=false
+            - --auth-mode
+            - server
+            - --auth-mode
+            - client
+          name: argo-server
