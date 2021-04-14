@@ -619,7 +619,7 @@ data:
       secretKeySecret:
         name: my-minio-cred
         key: secretkey
-  containerRuntimeExecutor: docker
+  containerRuntimeExecutor: k8sapi
   containerRuntimeExecutors: |
     - name: k8sapi
       selector:
