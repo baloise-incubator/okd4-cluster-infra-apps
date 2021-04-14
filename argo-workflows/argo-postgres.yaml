@@ -314,7 +314,7 @@ rules:
   - delete
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
   name: argo-server-role
 rules:
@@ -403,7 +403,7 @@ rules:
   - create
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
   name: workflow-role
 rules:
@@ -495,16 +495,17 @@ subjects:
   namespace: argo-workflows
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
   name: argo-server-binding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
+  kind: ClusterRole
   name: argo-server-role
 subjects:
 - kind: ServiceAccount
   name: argo-server
+  namespace: argo-workflows
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -525,11 +526,12 @@ metadata:
   name: workflow-default-binding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
+  kind: ClusterRole
   name: workflow-role
 subjects:
 - kind: ServiceAccount
   name: default
+  namespace: argo-workflows
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
