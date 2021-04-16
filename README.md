@@ -12,12 +12,13 @@ explanation in every subfolder.
 
 The following deployments are currently in the cluster, managed by ArgoCD:
 
-| App Name              | Folder                                        | Sync Status                         |
-| --------------------- | --------------------------------------------- | ------------------------------------| 
-| Argo CD                    |[argocd](argocd)                                    |[![App Status](https://argocd.baloise.dev/api/badge?name=argocd)](https://argocd.baloise.dev/applications/cert-manager)|
-| Cert Manager               |[cert-manager](cert-manager)                        |[![App Status](https://argocd.baloise.dev/api/badge?name=cert-manager)](https://argocd.baloise.dev/applications/argocd)|
+| App Name                   | Folder                                             | Sync Status                         |
+| -------------------------- | -------------------------------------------------- | ------------------------------------|
+| Argo CD                    |[argocd](argocd)                                    |[![App Status](https://argocd.baloise.dev/api/badge?name=argocd)](https://argocd.baloise.dev/applications/argocd)|
+| Argo Workflow              |[argo-workflows](argo-workflows)                    |[![App Status](https://argocd.baloise.dev/api/badge?name=argo-workflows)](https://argocd.baloise.dev/applications/argo-workflows)|
+| Cert Manager               |[cert-manager](cert-manager)                        |[![App Status](https://argocd.baloise.dev/api/badge?name=cert-manager)](https://argocd.baloise.dev/applications/cert-manager)|
 | Crossplane                 |[crossplane](crossplane)                            |[![App Status](https://argocd.baloise.dev/api/badge?name=crossplane)](https://argocd.baloise.dev/applications/crossplane)|
-| Harbor                     |[harbor](harbor)                                    |[![App Status](https://argocd.baloise.dev/api/badge?name=harbor)](https://argocd.baloise.dev/applications/argocd)|
+| Harbor                     |[harbor](harbor)                                    |[![App Status](https://argocd.baloise.dev/api/badge?name=harbor)](https://argocd.baloise.dev/applications/harbor)|
 | Jenkins                    |[jenkins](jenkins)                                  |[![App Status](https://argocd.baloise.dev/api/badge?name=jenkins)](https://argocd.baloise.dev/applications/jenkins)|
 | Jenkins Operator           |[jenkins-operator](jenkins-operator)                |[![App Status](https://argocd.baloise.dev/api/badge?name=jenkins-operator)](https://argocd.baloise.dev/applications/jenkins-operator)|
 | Keycloak Operator          |[keycloak-operator](keycloak-operator)              |[![App Status](https://argocd.baloise.dev/api/badge?name=keycloak-operator)](https://argocd.baloise.dev/applications/keycloak-operator)|
