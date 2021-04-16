@@ -20,3 +20,10 @@ spec:
             - --auth-mode
             - client
           name: argo-server
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 2746
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 20
