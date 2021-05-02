@@ -1,0 +1,6 @@
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: noobaa-ceph-objectstore-user
+spec:
+  displayName: noobaa-ceph-objectstore-user
