@@ -1,0 +1,23 @@
+apiVersion: noobaa.io/v1alpha1
+kind: NooBaa
+metadata:
+  name: noobaa
+spec:
+  dbStorageClass: ceph-block
+  pvPoolDefaultStorageClass: cephfs
+  dbResources:
+    dbVolumeResources:
+      requests:
+        cpu: 50m
+        memory: 256Mi
+  coreResources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+  endpoints:
+    minCount: 1
+    maxCount: 3
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 25m
