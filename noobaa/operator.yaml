@@ -16,7 +16,7 @@ spec:
       serviceAccountName: noobaa
       containers:
         - name: noobaa-operator
-          image: NOOBAA_OPERATOR_IMAGE
+          image: docker.io/noobaa/noobaa-operator:5.7.0
           resources:
             limits:
               cpu: "250m"
@@ -29,6 +29,4 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
             - name: WATCH_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
+              value: ""
