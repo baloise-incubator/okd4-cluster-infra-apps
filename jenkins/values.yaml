@@ -19,7 +19,7 @@ controller:
   # Used for label app.kubernetes.io/component
   componentName: "jenkins-controller"
   image: "jenkins/jenkins"
-  tag: "2.277.4-jdk11"
+  tag: "2.289.1-lts-jdk11"
   imagePullPolicy: "Always"
   imagePullSecretName:
   # Optionally configure lifetime for controller-container
@@ -216,6 +216,7 @@ controller:
     - configuration-as-code:1.51
     - openshift-login:1.0.26
     - build-timestamp:1.0.3
+    - ace-editor:1.1
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: false
