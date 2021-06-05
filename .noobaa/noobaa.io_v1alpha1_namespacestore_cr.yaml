@@ -1,4 +1,4 @@
-apiVersion: noobaa.io/v1alpha1
+piVersion: noobaa.io/v1alpha1
 kind: NamespaceStore
 metadata:
   name: default
