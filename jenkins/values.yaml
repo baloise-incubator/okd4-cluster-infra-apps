@@ -209,11 +209,11 @@ controller:
   #   port: 9000
 
   # List of plugins to be install during Jenkins controller start
-#  installPlugins:
-#    - kubernetes:1.29.4
-#    - workflow-aggregator:2.6
-#    - git:4.7.1
-#    - configuration-as-code:1.51
+  installPlugins:
+    - kubernetes:1.29.4
+    - workflow-aggregator:2.6
+    - git:4.7.1
+    - configuration-as-code:1.51
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: false
@@ -729,12 +729,12 @@ persistence:
   accessMode: "ReadWriteOnce"
   size: "8Gi"
   volumes:
-  #  - name: nothing
-  #    emptyDir: {}
+    - name: cache
+      emptyDir: {}
   mounts:
-  #  - mountPath: /var/nothing
-  #    name: nothing
-  #    readOnly: true
+    - mountPath: /.cache
+      name: cache
+      readOnly: false
 
 networkPolicy:
   # Enable creation of NetworkPolicy resources.
