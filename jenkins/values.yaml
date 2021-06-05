@@ -212,7 +212,7 @@ controller:
   installPlugins:
     - kubernetes:1.29.2
     - kubernetes-client-api:4.13.2-1
-    - kubernetes-credentials:0.8.0
+    - kubernetes-credentials:0.9.0
     - workflow-aggregator:2.6
     - git:4.7.1
     - configuration-as-code:1.51
