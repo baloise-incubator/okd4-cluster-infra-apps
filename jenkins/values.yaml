@@ -217,6 +217,7 @@ controller:
     - openshift-login:1.0.26
     - build-timestamp:1.0.3
     - ace-editor:1.1
+    - workflow-support:3.7
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: false
