@@ -215,6 +215,7 @@ controller:
     - git:4.7.1
     - configuration-as-code:1.51
     - openshift-login:1.0.26
+    - build-timestamp:1.0.3
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: false
