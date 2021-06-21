@@ -210,16 +210,11 @@ controller:
 
   # List of plugins to be install during Jenkins controller start
   installPlugins:
-    - git:4.7.1
     - kubernetes:1.29.4
-    - kubernetes-client-api:4.13.2-1
-    - kubernetes-credentials:0.9.0
     - workflow-aggregator:2.6
     - git:4.7.1
     - configuration-as-code:1.51
     - openshift-login:1.0.26
-    - build-timestamp:1.0.3
-    - ace-editor:1.1
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: false
