@@ -75,6 +75,6 @@ spec:
   istioEnabled: false
   securityContext:
     runAsNonRoot: true
-  envsConfig:
+  vaultEnvsConfig:
    - name: SKIP_CHOWN
      value: "true"
