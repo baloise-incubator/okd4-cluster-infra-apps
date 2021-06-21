@@ -78,3 +78,5 @@ spec:
   vaultEnvsConfig:
    - name: SKIP_CHOWN
      value: "true"
+   - name: SKIP_SETCAP
+     value: "true"
