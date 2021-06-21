@@ -74,4 +74,4 @@ spec:
   # Marks presence of Istio, which influences things like port namings
   istioEnabled: false
   securityContext:
-    fsGroup:
+    fsGroup: 1001390000
