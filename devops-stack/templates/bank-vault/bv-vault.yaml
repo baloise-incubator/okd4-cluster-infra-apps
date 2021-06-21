@@ -76,6 +76,5 @@ spec:
   securityContext:
     runAsNonRoot: true
   envsConfig:
-    env:
-     - name: SKIP_CHOWN
-       value: "true"
+   - name: SKIP_CHOWN
+     value: "true"
