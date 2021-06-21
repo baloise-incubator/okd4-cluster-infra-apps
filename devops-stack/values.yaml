@@ -840,7 +840,7 @@ serviceAccount:
   name:
   annotations:
     serviceaccounts.openshift.io/oauth-redirectreference.jenkins: >-
-      {"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"jenkins"}}
+      {"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"devops-stack-jenkins"}}
   imagePullSecretName:
 
 
