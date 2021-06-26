@@ -381,7 +381,7 @@ controller:
     authorizationStrategy: |-
       globalMatrix:
         permissions:
-          - "Overall/Read:anonymous"
+  #        - "Overall/Read:anonymous"
           - "Overall/Administer:authenticated"
   # Optionally specify additional init-containers
   customInitContainers: []
