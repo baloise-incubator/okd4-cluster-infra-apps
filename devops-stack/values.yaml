@@ -807,7 +807,7 @@ additionalAgents:
           command:
           - sleep
           - infinity
-          args:
+          args: []
 persistence:
   enabled: true
   ## A manually managed Persistent Volume and Claim
