@@ -794,6 +794,7 @@ additionalAgents:
     sideContainerName: buildah
     image: docker.io/niiku/buildah-rootless
     tag: "latest"
+    workingDir: "/home/jenkins/agent"
     TTYEnabled: true
     command: "/bin/sh -c"
     args: "cat"
@@ -807,11 +808,6 @@ additionalAgents:
         - name: buildah
           securityContext:
             runAsUser: 1000
-          volumeMounts:
-            - name: workspace-volume
-              mountPath: /home/jenkins/agent
-
-
 persistence:
   enabled: true
   ## A manually managed Persistent Volume and Claim
