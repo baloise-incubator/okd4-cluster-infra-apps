@@ -806,8 +806,11 @@ additionalAgents:
           securityContext:
             runAsUser: 1000
           command:
-            - sleep
-            - infinity
+            - /bin/sh
+            - '-c'
+          args:
+            - cat
+
 persistence:
   enabled: true
   ## A manually managed Persistent Volume and Claim
