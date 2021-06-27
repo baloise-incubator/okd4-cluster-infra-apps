@@ -794,6 +794,10 @@ additionalAgents:
     image: docker.io/niiku/buildah-rootless
     tag: "latest"
     TTYEnabled: true
+    command:
+      - sleep
+      - infinity
+    args: ""
     yamlTemplate: |
       kind: Pod
       spec:
@@ -804,10 +808,6 @@ additionalAgents:
         - name: buildah
           securityContext:
             runAsUser: 1000
-          command:
-          - sleep
-          - infinity
-          args: []
 persistence:
   enabled: true
   ## A manually managed Persistent Volume and Claim
