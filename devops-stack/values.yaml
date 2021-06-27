@@ -793,8 +793,8 @@ additionalAgents:
     sideContainerName: buildah
     image: docker.io/niiku/buildah-rootless
     tag: "latest"
-    command: "sleep"
-    args: "infinity"
+    command: "sleep infinity"
+    args: ""
     TTYEnabled: true
     yamlTemplate: |
       kind: Pod
