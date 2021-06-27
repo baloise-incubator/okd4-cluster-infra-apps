@@ -222,6 +222,7 @@ Returns kubernetes pod template configuration as code
     resourceRequestCpu: {{.Values.agent.resources.requests.cpu}}
     resourceRequestMemory: {{.Values.agent.resources.requests.memory}}
     runAsUser: {{ .Values.agent.runAsUser }}
+    runAsNonRoot: {{ .Values.agent.runAsNonRoot }}
     runAsGroup: {{ .Values.agent.runAsGroup }}
     ttyEnabled: {{ .Values.agent.TTYEnabled }}
     workingDir: {{ .Values.agent.workingDir }}
