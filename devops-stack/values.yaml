@@ -711,9 +711,6 @@ agent:
   # Key Value selectors. Ex:
   # jenkins-agent: v1
 
-  # Executed command when side container gets started
-  command:
-  args: "${computer.jnlpmac} ${computer.name}"
   # Side container name
   sideContainerName: "jnlp"
   # Doesn't allocate pseudo TTY by default
@@ -794,8 +791,6 @@ additionalAgents:
     image: docker.io/niiku/buildah-rootless
     tag: "latest"
     TTYEnabled: true
-    command: "sleep"
-    args: "infinity"
     yamlTemplate: |
       kind: Pod
       spec:
@@ -806,6 +801,9 @@ additionalAgents:
         - name: buildah
           securityContext:
             runAsUser: 1000
+          command:
+            - sleep
+            - infinity
 persistence:
   enabled: true
   ## A manually managed Persistent Volume and Claim
