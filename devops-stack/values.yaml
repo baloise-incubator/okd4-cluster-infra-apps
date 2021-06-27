@@ -795,6 +795,8 @@ additionalAgents:
     image: docker.io/niiku/buildah-rootless
     tag: "latest"
     TTYEnabled: true
+    command: "/bin/sh -c"
+    args: "cat"
     yamlTemplate: |
       kind: Pod
       spec:
@@ -805,11 +807,6 @@ additionalAgents:
         - name: buildah
           securityContext:
             runAsUser: 1000
-          command:
-            - /bin/sh
-            - '-c'
-          args:
-            - cat
 
 persistence:
   enabled: true
