@@ -807,6 +807,10 @@ additionalAgents:
         - name: buildah
           securityContext:
             runAsUser: 1000
+          volumeMounts:
+            - name: workspace-volume
+              mountPath: /home/jenkins/agent
+
 
 persistence:
   enabled: true
