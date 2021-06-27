@@ -794,10 +794,8 @@ additionalAgents:
     image: docker.io/niiku/buildah-rootless
     tag: "latest"
     TTYEnabled: true
-    command:
-      - sleep
-      - infinity
-    args: ""
+    command: "sleep"
+    args: "infinity"
     yamlTemplate: |
       kind: Pod
       spec:
