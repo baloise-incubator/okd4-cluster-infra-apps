@@ -384,6 +384,17 @@ controller:
         permissions:
           - "Overall/Administer:authenticated"
   #       - "Overall/Read:anonymous"
+    jenkinsLibrary: |
+      globalLibraries:
+        libraries:
+          - name: "jenkins-library"
+            retriever:
+              modernSCM:
+                scm:
+                  git:
+                    remote: "https://github.com/baloise-incubator/jenkins-library.git"
+                    traits:
+                      - "gitBranchDiscovery"
   # Optionally specify additional init-containers
   customInitContainers: []
   # - name: custom-init
