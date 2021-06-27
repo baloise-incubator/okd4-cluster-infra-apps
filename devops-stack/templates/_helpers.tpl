@@ -221,11 +221,7 @@ Returns kubernetes pod template configuration as code
     resourceLimitMemory: {{.Values.agent.resources.limits.memory}}
     resourceRequestCpu: {{.Values.agent.resources.requests.cpu}}
     resourceRequestMemory: {{.Values.agent.resources.requests.memory}}
-{{- if eq .Values.agent.podName "buildah" }}
-    runAsUser: 1000
-{{- else }}
     runAsUser: {{ .Values.agent.runAsUser }}
-{{- end }}
     runAsGroup: {{ .Values.agent.runAsGroup }}
     ttyEnabled: {{ .Values.agent.TTYEnabled }}
     workingDir: {{ .Values.agent.workingDir }}
@@ -256,11 +252,7 @@ Returns kubernetes pod template configuration as code
   nodeUsageMode: "NORMAL"
   podRetention: {{ .Values.agent.podRetention }}
   showRawYaml: true
-{{- if eq .Values.agent.podName "buildah" }}
-  serviceAccount: "buildah"
-{{- else }}
   serviceAccount: "{{ include "jenkins.serviceAccountAgentName" . }}"
-{{- end }}
   slaveConnectTimeoutStr: "{{ .Values.agent.connectTimeout }}"
 {{- if .Values.agent.volumes }}
   volumes:
