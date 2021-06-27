@@ -221,7 +221,11 @@ Returns kubernetes pod template configuration as code
     resourceLimitMemory: {{.Values.agent.resources.limits.memory}}
     resourceRequestCpu: {{.Values.agent.resources.requests.cpu}}
     resourceRequestMemory: {{.Values.agent.resources.requests.memory}}
+{{- if eq .Values.agent.podName "buildah" }}
+    runAsUser: 1000
+{{- else }}
     runAsUser: {{ .Values.agent.runAsUser }}
+{{- end }}
     runAsGroup: {{ .Values.agent.runAsGroup }}
     ttyEnabled: {{ .Values.agent.TTYEnabled }}
     workingDir: {{ .Values.agent.workingDir }}
