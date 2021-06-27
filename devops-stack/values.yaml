@@ -793,6 +793,9 @@ additionalAgents:
     sideContainerName: buildah
     image: docker.io/niiku/buildah-rootless
     tag: "latest"
+    command: "/bin/sh -c"
+    args: "cat"
+    TTYEnabled: true
     yamlTemplate: |
       kind: Pod
       spec:
