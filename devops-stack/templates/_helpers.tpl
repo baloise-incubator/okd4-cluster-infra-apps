@@ -252,7 +252,11 @@ Returns kubernetes pod template configuration as code
   nodeUsageMode: "NORMAL"
   podRetention: {{ .Values.agent.podRetention }}
   showRawYaml: true
+{{- if eq .Values.agent.podName "buildah" }}
+  serviceAccount: "buildah"
+{{- else }}
   serviceAccount: "{{ include "jenkins.serviceAccountAgentName" . }}"
+{{- end }}
   slaveConnectTimeoutStr: "{{ .Values.agent.connectTimeout }}"
 {{- if .Values.agent.volumes }}
   volumes:
