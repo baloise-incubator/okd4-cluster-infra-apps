@@ -711,6 +711,9 @@ agent:
   # Key Value selectors. Ex:
   # jenkins-agent: v1
 
+  # Executed command when side container gets started
+  command:
+  args: ""
   # Side container name
   sideContainerName: "jnlp"
   # Doesn't allocate pseudo TTY by default
