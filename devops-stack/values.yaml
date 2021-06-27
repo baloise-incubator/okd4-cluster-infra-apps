@@ -378,16 +378,17 @@ controller:
            pattern: "yyyy-MM-dd HH:mm:ss z"
            timezone: "Europe/Zurich"
       jenkins-library: |
-        globalLibraries:
-          libraries:
-            - name: "jenkins-library"
-              retriever:
-                modernSCM:
-                  scm:
-                    git:
-                      remote: "https://github.com/baloise-incubator/jenkins-library.git"
-                      traits:
-                        - "gitBranchDiscovery"
+        unclassified:
+          globalLibraries:
+            libraries:
+              - name: "jenkins-library"
+                retriever:
+                  modernSCM:
+                    scm:
+                      git:
+                        remote: "https://github.com/baloise-incubator/jenkins-library.git"
+                        traits:
+                          - "gitBranchDiscovery"
     securityRealm: |-
       openShiftOAuth2: {}
     authorizationStrategy: |-
