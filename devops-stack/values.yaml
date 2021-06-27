@@ -796,8 +796,6 @@ additionalAgents:
     yamlTemplate: |
       kind: Pod
       spec:
-        serviceAccount: buildah
-        serviceAccountName: buildah
         containers:
         - name: jnlp
           securityContext:
