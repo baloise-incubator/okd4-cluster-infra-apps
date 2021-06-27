@@ -793,9 +793,17 @@ additionalAgents:
     sideContainerName: buildah
     image: docker.io/niiku/buildah-rootless
     tag: "latest"
-    command: "/bin/sh -c"
-    args: "cat"
-    TTYEnabled: true
+    yamlTemplate: |
+      kind: Pod
+      spec:
+        serviceAccountName: buildah
+        containers:
+        - name: jnlp
+          securityContext:
+            runAsUser: 1000
+        - name: buildah
+          securityContext:
+            runAsUser: 1000
 
 persistence:
   enabled: true
