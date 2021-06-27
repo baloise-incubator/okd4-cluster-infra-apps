@@ -796,6 +796,7 @@ additionalAgents:
     command: "/bin/sh -c"
     args: "cat"
     TTYEnabled: true
+    runAsUser: 1000
 
 persistence:
   enabled: true
