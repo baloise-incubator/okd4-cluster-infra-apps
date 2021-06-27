@@ -787,6 +787,15 @@ additionalAgents:
     command: "/bin/sh -c"
     args: "cat"
     TTYEnabled: true
+  buildah:
+    podName: buildah
+    customJenkinsLabels: buildah
+    sideContainerName: buildah
+    image: docker.io/niiku/buildah-rootless
+    tag: "latest"
+    command: "/bin/sh -c"
+    args: "cat"
+    TTYEnabled: true
 
 persistence:
   enabled: true
