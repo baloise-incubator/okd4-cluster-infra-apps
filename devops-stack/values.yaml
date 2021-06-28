@@ -219,29 +219,29 @@ controller:
     - caffeine-api:2.9.1-23.v51c4e2c879c8
     - cloudbees-folder:6.15
     - configuration-as-code:1.51
-    - credentials-binding:1.25
+    - credentials-binding:1.26
     - credentials:2.5
     - display-url-api:2.3.5
-    - docker-commons:1.15
-    - docker-workflow:1.14
+    - docker-commons:1.17
+    - docker-workflow:1.26
     - durable-task:1.37
     - git-client:3.7.2
     - git-server:1.9
-    - git:4.7.1
+    - git:4.7.2
     - handlebars:3.0.8
-    - icon-shim:1.0.3
+    - icon-shim:3.0.0
     - jackson2-api:2.12.3
     - jquery-detached:1.2.1
     - jsch:0.1.55.2
     - junit:1.50
-    - kubernetes-client-api:4.13.3-1
+    - kubernetes-client-api:5.4.1
     - kubernetes-credentials:0.9.0
-    - kubernetes:1.29.4
+    - kubernetes:1.30.0
     - lockable-resources:2.11
     - mailer:1.34
-    - matrix-auth:2.6.5
+    - matrix-auth:2.6.7
     - matrix-project:1.19
-    - metrics:4.0.2.7
+    - metrics:4.0.2.8
     - momentjs:1.1.1
     - openshift-login:1.0.26
     - pipeline-build-step:2.13
@@ -259,38 +259,39 @@ controller:
     - plain-credentials:1.7
     - scm-api:2.6.4
     - script-security:1.77
-    - snakeyaml-api:1.27.0
+    - snakeyaml-api:1.29.1
     - ssh-credentials:1.19
     - structs:1.23
     - trilead-api:1.0.13
     - variant:1.4
     - workflow-aggregator:2.6
-    - workflow-api:2.42
+    - workflow-api:2.46
     - workflow-basic-steps:2.23
-    - workflow-cps-global-lib:2.19
+    - workflow-cps-global-lib:2.21
     - workflow-cps:2.92
     - workflow-durable-task-step:2.39
     - workflow-job:2.41
-    - workflow-multibranch:2.24
-    - workflow-scm-step:2.12
+    - workflow-multibranch:2.26
+    - workflow-scm-step:2.13
     - workflow-step-api:2.23
     - workflow-support:3.8
-    - command-launcher:1.2
-    - jdk-tool:1.0
+    - command-launcher:1.6
     - sshd:3.0.3
-    - jaxb:2.3.0
-    - windows-slaves:1.0
-    - antisamy-markup-formatter:1.1
+    - windows-slaves:1.8
+    - antisamy-markup-formatter:2.1
+    - jdk-tool:1.5
+    - jaxb:2.3.0.1
     - bootstrap4-api:4.6.0-3
     - build-timestamp:1.0.3
     - checks-api:1.7.0
-    - echarts-api:5.1.0-2
-    - font-awesome-api:5.15.3-2
+    - echarts-api:5.1.2-2
+    - font-awesome-api:5.15.3-3
     - jquery3-api:3.6.0-1
-    - plugin-util-api:2.2.0
+    - plugin-util-api:2.3.0
     - popper-api:1.16.1-2
     - hashicorp-vault-plugin:3.8.0
-
+    - popper2-api:2.5.4-2
+    - bootstrap5-api:5.0.1-2
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: false
