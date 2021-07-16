@@ -13,6 +13,7 @@ spec:
       labels:
         app: moon
     spec:
+      serviceAccountName: moon
 {{- if .Values.affinity }}
       affinity:
 {{ toYaml .Values.affinity | indent 8 }}
