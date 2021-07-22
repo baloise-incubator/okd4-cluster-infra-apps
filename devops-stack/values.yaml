@@ -292,6 +292,7 @@ controller:
     - hashicorp-vault-plugin:3.8.0
     - popper2-api:2.5.4-2
     - bootstrap5-api:5.0.1-2
+    - generic-webhook-trigger:1.74
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: false
@@ -821,6 +822,16 @@ additionalAgents:
         - name: buildah
           securityContext:
             runAsUser: 1000
+  gitopscli:
+    podName: gitopscli
+    customJenkinsLabels: gitopscli
+    sideContainerName: gitopscli
+    image: baloise/gitopscli
+    tag: "4.5"
+    command: "/bin/sh -c"
+    args: "cat"
+    TTYEnabled: true
+
 persistence:
   enabled: true
   ## A manually managed Persistent Volume and Claim
