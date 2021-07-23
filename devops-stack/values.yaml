@@ -790,8 +790,7 @@ additionalAgents:
   maven:
     podName: maven
     customJenkinsLabels: maven
-    # An example of overriding the jnlp container
-    # sideContainerName: jnlp
+    workingDir: "/home/jenkins/agent"
     image: jenkins/jnlp-agent-maven
     tag: latest
   python:
@@ -800,6 +799,7 @@ additionalAgents:
     sideContainerName: python
     image: python
     tag: "3"
+    workingDir: "/home/jenkins/agent"
     command: "/bin/sh -c"
     args: "cat"
     TTYEnabled: true
