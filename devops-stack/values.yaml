@@ -293,6 +293,7 @@ controller:
     - popper2-api:2.5.4-2
     - bootstrap5-api:5.0.1-2
     - generic-webhook-trigger:1.74
+    - pipeline-utility-steps:2.8.0
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: false
