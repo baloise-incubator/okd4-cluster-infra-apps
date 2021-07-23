@@ -829,6 +829,7 @@ additionalAgents:
     sideContainerName: gitopscli
     image: baloise/gitopscli
     tag: "4.5"
+    workingDir: "/home/jenkins/agent"
     command: "/bin/sh -c"
     args: "cat"
     TTYEnabled: true
