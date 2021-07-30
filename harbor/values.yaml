@@ -2666,7 +2666,7 @@ trivy:
   ## @param trivy.updateStrategy.type Update strategy
   ##
   updateStrategy:
-    type: Recreate
+    type: RollingUpdate
   ## @param trivy.debugMode The flag to enable Trivy debug mode
   ##
   debugMode: false
