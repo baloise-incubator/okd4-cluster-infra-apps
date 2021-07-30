@@ -2982,16 +2982,21 @@ redis:
   master:
     persistence:
       enabled: true
+    podSecurityContext:
+      enabled: false
+    containerSecurityContext:
+      enabled: false
+
   ## Redis&trade; Replica parameters
   ## @param redis.replica.persistence.enabled Enable persistence for replica Redis
   ##
   replica:
     persistence:
       enabled: true
-
-  securityContext:
-    fsGroup: 1000570000
-    runAsUser: 1000570000
+    podSecurityContext:
+      enabled: false
+    containerSecurityContext:
+      enabled: false
 
 ## If the Redis&trade; included in the chart is disabled, Harbor will use below
 ## Redis&trade; parameters to connect to an external Redis&trade; server.
