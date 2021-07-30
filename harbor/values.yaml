@@ -2879,6 +2879,9 @@ postgresql:
     enabled: false
   securityContext:
     enabled: false
+  containerSecurityContext:
+    enabled: false
+
   shmVolume:
     enabled: false
 
