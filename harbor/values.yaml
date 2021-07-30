@@ -117,7 +117,7 @@ containerSecurityContext:
 podSecurityContext:
 ## @param logLevel The log level used for Harbor services. Allowed values are [ fatal | error | warn | info | debug | trace ]
 ##
-logLevel: debug
+logLevel: info
 ## @param forcePassword Option to force users to specify passwords (core.secret, harborAdminPassword, and secretKey). That is required for 'helm upgrade' to work properly.
 ## If it is not forced, random values will be generated.
 ##
