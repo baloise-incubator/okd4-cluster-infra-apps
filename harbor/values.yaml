@@ -500,7 +500,7 @@ nginx:
   ## terminate the single previous pod, so that the new, incoming pod can attach to the PV
   ##
   updateStrategy:
-    type: updateStrategy
+    type: Recreate
   ## @param nginx.customLivenessProbe Override default liveness probe
   ##
   customLivenessProbe: {}
@@ -695,7 +695,7 @@ portal:
   ## terminate the single previous pod, so that the new, incoming pod can attach to the PV
   ##
   updateStrategy:
-    type: updateStrategy
+    type: Recreate
   ## Use TLS in the container
   ##
   tls:
@@ -1123,13 +1123,13 @@ jobservice:
   ## @param jobservice.replicas The replica count
   ##
   replicas: 1
-  ## @param jobservice.updateStrategy.type The update strategy for deployments with persistent volumes: updateStrategy or updateStrategy. Set it as Recreate when RWM for volumes isn't supported
+  ## @param jobservice.updateStrategy.type The update strategy for deployments with persistent volumes: RollingUpdate or Recreate. Set it as Recreate when RWM for volumes isn't supported
   ## If replicas = 1, an update can get "stuck", as the previous pod remains attached to the
   ## PV, and the "incoming" pod can never start. Changing the strategy to "Recreate" will
   ## terminate the single previous pod, so that the new, incoming pod can attach to the PV
   ##
   updateStrategy:
-    type: updateStrategy
+    type: Recreate
   ## @param jobservice.maxJobWorkers The max job workers
   ##
   maxJobWorkers: 10
@@ -1357,13 +1357,13 @@ registry:
   ## @param registry.replicas The replica count
   ##
   replicas: 1
-  ## @param registry.updateStrategy.type The update strategy for deployments with persistent volumes: updateStrategy or Recreate. Set it as Recreate when RWM for volumes isn't supported
+  ## @param registry.updateStrategy.type The update strategy for deployments with persistent volumes: RollingUpdate or Recreate. Set it as Recreate when RWM for volumes isn't supported
   ## If replicas = 1, an update can get "stuck", as the previous pod remains attached to the
   ## PV, and the "incoming" pod can never start. Changing the strategy to "Recreate" will
   ## terminate the single previous pod, so that the new, incoming pod can attach to the PV
   ##
   updateStrategy:
-    type: updateStrategy
+    type: Recreate
   ## Use TLS in the containers
   ##
   tls:
@@ -1974,7 +1974,7 @@ clair:
   ## terminate the single previous pod, so that the new, incoming pod can attach to the PV
   ##
   updateStrategy:
-    type: updateStrategy
+    type: Recreate
   ## The http(s) proxy used to update vulnerabilities database from internet
   ## @param clair.httpProxy The http proxy used to update vulnerabilities database from internet
   ## @param clair.httpsProxy The https proxy used to update vulnerabilities database from internet
@@ -2299,7 +2299,7 @@ notary:
     ## terminate the single previous pod, so that the new, incoming pod can attach to the PV
     ##
     updateStrategy:
-      type: updateStrategy
+      type: Recreate
     ## @param notary.server.extraEnvVars Array containing extra env vars
     ## For example:
     ##  - name: BEARER_AUTH
@@ -2455,7 +2455,7 @@ notary:
     ## terminate the single previous pod, so that the new, incoming pod can attach to the PV
     ##
     updateStrategy:
-      type: updateStrategy
+      type: Recreate
     ## @param notary.signer.extraEnvVars Array containing extra env vars
     ## For example:
     ## extraEnvVars:
@@ -2666,7 +2666,7 @@ trivy:
   ## @param trivy.updateStrategy.type Update strategy
   ##
   updateStrategy:
-    type: updateStrategy
+    type: Recreate
   ## @param trivy.debugMode The flag to enable Trivy debug mode
   ##
   debugMode: false
