@@ -892,7 +892,7 @@ core:
   ## e.g:
   ## secretKey: "not-a-secure-string"
   ##
-  secretKey: ""
+  secretKey: "not-a-secure-string"
   ## @param core.updateStrategy.type Update strategy - only really applicable for deployments with RWO PVs attached
   ## If replicas = 1, an update can get "stuck", as the previous pod remains attached to the
   ## PV, and the "incoming" pod can never start. Changing the strategy to "Recreate" will
