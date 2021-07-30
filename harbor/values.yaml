@@ -2878,8 +2878,7 @@ postgresql:
   volumePermissions:
     enabled: false
   securityContext:
-    fsGroup: 1000570000
-    runAsUser: 1000570000
+    enabled: false
   shmVolume:
     enabled: false
 
