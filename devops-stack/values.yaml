@@ -374,6 +374,10 @@ controller:
               env:
               - key: "REGISTRY_URL"
                 value: "registry.baloise.dev"
+              - key: "GIT_PROVIDER_URL"
+                value: "https://github.com/"
+              - key: "GIT_PROVIDER"
+                value: "github"
       build-timestamp: |
         unclassified:
          buildTimestamp:
