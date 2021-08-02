@@ -3,7 +3,7 @@ apiVersion: route.openshift.io/v1
 metadata:
   name: vault
 spec:
-  host: vault-devops-stack.apps.baloise.dev
+  host: vault.baloise.dev
   to:
     kind: Service
     name: vault
