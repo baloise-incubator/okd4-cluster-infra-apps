@@ -50,11 +50,11 @@ pipeline {
                         } else if (commentText.startsWith("/preview")) {
                             createPrPreview payload: parsedWebhookPayload
                         } else if (commentText.startsWith("/undeploy")) {
-                            if (hasPreview(parsedWebhookPayload, commentId)) {
+                            //if (hasPreview(parsedWebhookPayload)) {
                                 deletePrPreview payload: parsedWebhookPayload
-                            } else {
+                            /*} else {
                                 createPrComment payload: parsedWebhookPayload, comment: "Nothing to undeploy. Please create a peview environment with \\`/preview\\` first."
-                            }
+                            }*/
                         }
                     }
                 }
