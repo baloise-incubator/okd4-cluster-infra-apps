@@ -83,7 +83,7 @@ controller:
   # jenkinsUrlProtocol: "https"
   # If you are not using the provided ingress you can specify `controller.jenkinsUrl` to change the url definition.
   # jenkinsUrl: ""
-  jenkinsUrl: "https://jenkins-devops-stack.apps.baloise.dev/"
+  jenkinsUrl: "https://ci.baloise.dev/"
   jenkinsAdminEmail: no-reply@baloise.dev
 
   # If you set this prefix and use ingress controller then you might want to set the ingress path below
@@ -481,7 +481,7 @@ controller:
   updateStrategy: {}
 
   ingress:
-    resourceRootUrl: jenkins-devops-stack.apps.baloise.dev
+    resourceRootUrl: ci.baloise.dev
     enabled: false
     # Override for the default paths that map requests to the backend
     paths: []
@@ -552,7 +552,7 @@ controller:
   # Openshift route
   route:
     enabled: true
-    path: jenkins-devops-stack.apps.baloise.dev
+    path: ci.baloise.dev
 
   # controller.hostAliases allows for adding entries to Pod /etc/hosts:
   # https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
