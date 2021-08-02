@@ -832,7 +832,7 @@ additionalAgents:
     customJenkinsLabels: gitopscli
     sideContainerName: gitopscli
     image: baloise/gitopscli
-    tag: "4.5"
+    tag: "4.8"
     workingDir: "/home/jenkins/agent"
     command: "/bin/sh -c"
     args: "cat"
