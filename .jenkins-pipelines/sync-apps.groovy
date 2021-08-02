@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     def parsedWebhookPayload = readJSON text: "${webhookPayload}"
-                    build.description = parsedWebhookPayload["repository"]["full_name"]
+                    currentBuild.description = parsedWebhookPayload["repository"]["full_name"]
                     syncApps payload: parsedWebhookPayload, rootOrg: "baloise-incubator", rootRepo: "okd4-apps-root-config"
                 }
 
