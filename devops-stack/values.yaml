@@ -228,6 +228,7 @@ controller:
     - git-client:3.7.2
     - git-server:1.9
     - git:4.7.2
+    - github:1.33.1
     - handlebars:3.0.8
     - icon-shim:3.0.0
     - jackson2-api:2.12.3
