@@ -36,3 +36,11 @@ data:
           clientID: system:serviceaccount:argocd:argocd-dex-server
           clientSecret: $dex.clientSecret
           redirectURI: https://argocd.baloise.dev/api/dex/callback
+  configManagementPlugins: |
+  - name: kustomized-helm
+    init:
+      command: ["/bin/sh", "-c"]
+      args: ["helm dependency build || true"]
+    generate:
+      command: [sh, -c]
+      args: ["helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE --include-crds > all.yaml && kustomize build"]
