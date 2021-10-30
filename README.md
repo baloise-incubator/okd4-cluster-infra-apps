@@ -31,6 +31,7 @@ The following deployments are currently in the cluster, managed by ArgoCD:
 | Tekton ChatOps Handler     |[tekton-chatopshandler](tekton-chatopshandler)      |[![App Status](https://argocd.baloise.dev/api/badge?name=tekton-chatopshandler)](https://argocd.baloise.dev/applications/tekton-chatopshandler)|
 | Tekton Dashboard           |[tekton-dashboard](tekton-dashboard)                |[![App Status](https://argocd.baloise.dev/api/badge?name=tekton-dashboard)](https://argocd.baloise.dev/applications/tekton-dashboard)|
 | Tekton Pipelines           |[tekton-pipelines](tekton-pipelines)                |[![App Status](https://argocd.baloise.dev/api/badge?name=tekton-pipelines)](https://argocd.baloise.dev/applications/tekton-pipelines)|
+| Camel K                    |[camel-k](camel-k)                                  |[![App Status](https://argocd.baloise.dev/api/badge?name=camel-k)](https://argocd.baloise.dev/applications/camel-k)|
 
 ### Adding a new app
 
