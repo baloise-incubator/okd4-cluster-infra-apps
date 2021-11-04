@@ -5,7 +5,7 @@ namespace: argo-workflows
 resources:
   - base/argo-server-route.yaml
   - base/argo-default-crb.yaml
-  - https://github.com/argoproj/argo-workflows/manifests/cluster-install?ref=release-3.0
+  - https://github.com/argoproj/argo-workflows/manifests/cluster-install?ref=release-3.2.3
 
 patchesStrategicMerge:
   - overlays/argo-server-deploy.yaml
