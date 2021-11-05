@@ -5,6 +5,7 @@ bases:
   - github.com/argoproj/argo-cd/manifests/ha/cluster-install?ref=v2.1.6
 
 resources:
+  - https://raw.githubusercontent.com/argoproj-labs/argocd-notifications/v1.1.1/manifests/install.yaml
   - base/argocd-ui-route.yaml
   - base/argocd-sealed-secret.yaml
   - base/default-appprojects.yaml
