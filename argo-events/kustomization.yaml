@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: argo-events
 
 resources:
-  - base/argo-default-crb.yaml
   - https://raw.githubusercontent.com/argoproj/argo-events/v1.5.0/manifests/install.yaml
 
 
