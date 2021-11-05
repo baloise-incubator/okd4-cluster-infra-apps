@@ -12,6 +12,7 @@ resources:
   - base/servicemonitors.yaml
 
 patchesStrategicMerge:
+  - overlays/catalog-install.yaml
   - overlays/argocd-application-controller.yaml
   - overlays/argocd-cm.yaml
   - overlays/argocd-dex-server.yaml
