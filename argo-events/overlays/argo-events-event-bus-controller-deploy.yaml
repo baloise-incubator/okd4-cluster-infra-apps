@@ -1,0 +1,19 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: eventbus-controller
+  namespace: argo-events
+  labels:
+    app.kubernetes.io/instance: argo-events
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eventbus-controller
+  template:
+    metadata:
+      labels:
+        app: eventbus-controller
+    spec:
+      securityContext:
+        runAsNonRoot: true
