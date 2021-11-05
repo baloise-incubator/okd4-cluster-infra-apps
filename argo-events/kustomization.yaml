@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argo-events
+
+resources:
+  - base/argo-default-crb.yaml
+  - https://github.com/argoproj/argo-events/blob/v1.5.0/manifests/install.yaml
+
+
