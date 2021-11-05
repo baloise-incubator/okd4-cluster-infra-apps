@@ -22,3 +22,4 @@ patchesStrategicMerge:
   - overlays/argocd-redis-ha-haproxy.yaml
   - overlays/argocd-server-deploy.yaml
   - overlays/argocd-repo-server-deploy.yaml
+  - overlays/argocd-notifications-cm.yaml
