@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eventbus-controller
+spec:
+  template:
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001530000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eventsource-controller
+spec:
+  template:
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001530000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sensor-controller
+spec:
+  template:
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001530000

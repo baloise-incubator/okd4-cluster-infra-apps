@@ -4,4 +4,4 @@ bases:
   - github.com/argoproj/argo-events/manifests/cluster-install?ref=v1.5.3
 resources: []
 patchesStrategicMerge:
-  - overlays/eventbus-controller-deploy.yaml
+  - overlays/uid-fixes.yaml
