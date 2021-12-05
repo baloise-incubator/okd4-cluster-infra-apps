@@ -21,11 +21,9 @@ patchesJson6902:
       version: v1
       kind: Deployment
       name: camel-k-operator
-    # Patches WATCH_NAMESPACE to ""
     patch: |-
       - op: remove
         path: /spec/template/spec/containers/0/env/0/valueFrom
       - op: add
         path: /spec/template/spec/containers/0/env/0/value
-        value: ""
-
+        value: "camel-k-resources"
