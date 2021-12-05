@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: argo-events
 
 resources:
-  - https://raw.githubusercontent.com/argoproj/argo-events/v1.5.0/manifests/install.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-events/v1.5.3/manifests/install.yaml
 
 patchesStrategicMerge:
   - overlays/argo-events-event-bus-controller-deploy.yaml
