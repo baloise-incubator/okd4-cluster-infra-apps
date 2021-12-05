@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - https://github.com/jetstack/cert-manager/releases/download/v1.6.1/cert-manager.yaml
+  - base/cloudflare-api-key-sealed-secret.yaml
+  - base/cloudflare-lets-encrypt-prod-clusterissuer.yaml
+  - base/default-ingress-tls-certificate.yaml
+  - base/default-ingresscontroller.yaml
+  - base/master-apiserver-tls-certificate.yaml
+
+patchesStrategicMerge:
+  - overlays/delete-ns-cert-manager.yaml
