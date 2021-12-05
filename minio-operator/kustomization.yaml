@@ -3,6 +3,8 @@ kind: Kustomization
 namespace: minio-operator
 bases:
   - github.com/minio/operator?ref=v4.3.6
+resources:
+  - base/console-route.yaml
 
 patchesStrategicMerge:
   - overlays/delete-minio-ns.yaml
