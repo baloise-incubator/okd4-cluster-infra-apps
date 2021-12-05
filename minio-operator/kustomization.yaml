@@ -6,3 +6,5 @@ bases:
 
 patchesStrategicMerge:
   - overlays/delete-minio-ns.yaml
+  - overlays/console-deploy.yaml
+  - overlays/minio-operator-deploy.yaml
