@@ -28,9 +28,9 @@ The following deployments are currently in the cluster, managed by ArgoCD:
 | Rook Ceph                  |[rook-ceph](rook-ceph)                              |[![App Status](https://argocd.baloise.dev/api/badge?name=rook-ceph)](https://argocd.baloise.dev/applications/rook-ceph)|
 | Sealed Secrets             |[sealed-secrets](sealed-secrets)                    |[![App Status](https://argocd.baloise.dev/api/badge?name=sealed-secrets)](https://argocd.baloise.dev/applications/sealed-secrets)|
 | Sonarqube                  |[sonarqube](sonarqube)                              |[![App Status](https://argocd.baloise.dev/api/badge?name=sonarqube)](https://argocd.baloise.dev/applications/sonarqube)|
-| Tekton ChatOps Handler     |[tekton-chatopshandler](tekton-chatopshandler)      |[![App Status](https://argocd.baloise.dev/api/badge?name=tekton-chatopshandler)](https://argocd.baloise.dev/applications/tekton-chatopshandler)|
-| Tekton Dashboard           |[tekton-dashboard](tekton-dashboard)                |[![App Status](https://argocd.baloise.dev/api/badge?name=tekton-dashboard)](https://argocd.baloise.dev/applications/tekton-dashboard)|
-| Tekton Pipelines           |[tekton-pipelines](tekton-pipelines)                |[![App Status](https://argocd.baloise.dev/api/badge?name=tekton-pipelines)](https://argocd.baloise.dev/applications/tekton-pipelines)|
+| Tekton ChatOps Handler     |[tekton-chatopshandler](.disabled/tekton-chatopshandler)      |[![App Status](https://argocd.baloise.dev/api/badge?name=tekton-chatopshandler)](https://argocd.baloise.dev/applications/tekton-chatopshandler)|
+| Tekton Dashboard           |[tekton-dashboard](.disabled/tekton-dashboard)                |[![App Status](https://argocd.baloise.dev/api/badge?name=tekton-dashboard)](https://argocd.baloise.dev/applications/tekton-dashboard)|
+| Tekton Pipelines           |[tekton-pipelines](.disabled/tekton-pipelines)                |[![App Status](https://argocd.baloise.dev/api/badge?name=tekton-pipelines)](https://argocd.baloise.dev/applications/tekton-pipelines)|
 | Camel K                    |[camel-k](camel-k)                                  |[![App Status](https://argocd.baloise.dev/api/badge?name=camel-k)](https://argocd.baloise.dev/applications/camel-k)|
 
 ### Adding a new app
