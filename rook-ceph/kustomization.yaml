@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: rook-ceph
+resources:
+  - https://raw.githubusercontent.com/rook/rook/v1.7.9/cluster/examples/kubernetes/ceph/common.yaml
+  - https://raw.githubusercontent.com/rook/rook/v1.7.9/cluster/examples/kubernetes/ceph/crds.yaml
+  - https://raw.githubusercontent.com/rook/rook/v1.7.9/cluster/examples/kubernetes/ceph/operator-openshift.yaml
+  - base/20_ceph-cluster.yaml
+  - base/30_ceph-block-pool.yaml
+  - base/35_ceph-filesystem.yaml
+  - base/40_ceph-storage-class.yaml
+  - base/45_cephfs-storage-class.yaml
+
+patchesStrategicMerge:
+  - overlays/delete-ns-cert-manager.yaml
