@@ -6,8 +6,6 @@ bases:
   - github.com/apache/camel-k/config/crd?ref=v1.7.0
   - github.com/apache/camel-k/install/operator?ref=v1.7.0
 
-patchesStrategicMerge:
-  - overlays/camel-k-operator-deploy.yaml
 patchesJson6902:
   - target:
       group: rbac.authorization.k8s.io
@@ -18,3 +16,16 @@ patchesJson6902:
       - op: replace
         path: /subjects/0/namespace
         value: camel-k-operator
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: camel-k-operator
+    # Patches WATCH_NAMESPACE to ""
+    patch: |-
+      - op: remove
+        path: /spec/template/spec/containers/0/env/0/valueFrom
+      - op: add
+        path: /spec/template/spec/containers/0/env/0/value
+        value: ""
+
