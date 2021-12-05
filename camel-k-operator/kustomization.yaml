@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: camel-k-operator
 bases:
   - github.com/apache/camel-k/install/setup?ref=v1.7.0
+  - github.com/apache/camel-k/install/setup-cluster?ref=v1.7.0
   - github.com/apache/camel-k/install/operator?ref=v1.7.0
 patchesJson6902:
   - target:
