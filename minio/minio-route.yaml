@@ -1,0 +1,14 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: minio
+spec:
+  host: minio.apps.baloise.dev
+  to:
+    kind: Service
+    name: minio-console
+  port:
+    targetPort: http-console
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
