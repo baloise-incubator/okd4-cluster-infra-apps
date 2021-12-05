@@ -1,4 +1,0 @@
-apiVersion: incubator.baloise.com/v1beta1
-kind: PostgresClaim
-metadata:
-  name: inmynamespace-postgres-claim3

@@ -1,7 +1,0 @@
-postgres-operator:
-  image:
-    repository: baloiseincubator/postgres-operator
-    tag: v0.10.0
-  serviceAccount:
-    name: k8sapi-sa
-    automountServiceAccountToken: true

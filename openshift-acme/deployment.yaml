@@ -20,8 +20,8 @@ spec:
       serviceAccountName: openshift-acme
       containers:
       - name: openshift-acme
-        image: quay.io/tnozicka/openshift-acme:controller
+        image: quay.io/tnozicka/openshift-acme:controller-0.9
         imagePullPolicy: Always
         args:
-        - --exposer-image=quay.io/tnozicka/openshift-acme:exposer
+        - --exposer-image=quay.io/tnozicka/openshift-acme:exposer-0.9
         - --loglevel=4

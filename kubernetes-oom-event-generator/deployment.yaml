@@ -17,7 +17,7 @@ spec:
       serviceAccountName: kubernetes-oom-event-generator
       containers:
         - name: kubernetes-oom-event-generator
-          image: xingse/kubernetes-oom-event-generator
+          image: xingse/kubernetes-oom-event-generator:v1.2.0
           env:
           - name: VERBOSE
             value: "2"
