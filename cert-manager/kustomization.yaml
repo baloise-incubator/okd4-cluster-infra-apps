@@ -5,6 +5,7 @@ resources:
   - https://github.com/jetstack/cert-manager/releases/download/v1.6.1/cert-manager.yaml
   - base/cloudflare-api-key-sealed-secret.yaml
   - base/cloudflare-lets-encrypt-prod-clusterissuer.yaml
+  - base/cluster-apiserver.yaml
   - base/default-ingress-tls-certificate.yaml
   - base/default-ingresscontroller.yaml
   - base/master-apiserver-tls-certificate.yaml
