@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: keycloak-operator
+bases:
+  - github.com/keycloak/keycloak-operator/deploy?ref=15.0.2
+resources:
+  - https://raw.githubusercontent.com/keycloak/keycloak-operator/15.0.2/deploy/cluster_roles/cluster_role.yaml
+  - https://raw.githubusercontent.com/keycloak/keycloak-operator/15.0.2/deploy/cluster_roles/cluster_role_binding.yaml
+
+patchesStrategicMerge:
+  - overlays/delete-ns-keycloak-operator.yaml
