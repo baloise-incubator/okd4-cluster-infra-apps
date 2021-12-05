@@ -4,6 +4,8 @@ metadata:
   name: minio
   namespace: minio
 spec:
+  credsSecret:
+    name: storage-creds-secret
   ## Specification for MinIO Pool(s) in this Tenant.
   pools:
     ## Servers specifies the number of MinIO Tenant Pods / Servers in this pool.
