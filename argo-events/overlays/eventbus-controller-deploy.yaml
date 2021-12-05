@@ -6,4 +6,5 @@ spec:
   template:
     spec:
       securityContext:
+        runAsNonRoot: true
         runAsUser: 1001530000
