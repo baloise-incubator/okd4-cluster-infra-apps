@@ -19,7 +19,7 @@ controller:
   # Used for label app.kubernetes.io/component
   componentName: "jenkins-controller"
   image: "jenkins/jenkins"
-  tag: "2.289.1-jdk11"
+  tag: "2.319.1-lts-jdk11"
   imagePullPolicy: "Always"
   imagePullSecretName:
   # Optionally configure lifetime for controller-container
@@ -655,7 +655,7 @@ agent:
   maxRequestsPerHostStr: "32"
   namespace:
   image: "jenkins/inbound-agent"
-  tag: "4.6-1"
+  tag: "4.11-1-jdk11"
   workingDir: "/home/jenkins"
   customJenkinsLabels: []
   # name of the secret to be used for image pulling
@@ -833,7 +833,7 @@ additionalAgents:
     customJenkinsLabels: gitopscli
     sideContainerName: gitopscli
     image: baloise/gitopscli
-    tag: "5.0"
+    tag: "5.1"
     workingDir: "/home/jenkins/agent"
     command: "/bin/sh -c"
     args: "cat"
