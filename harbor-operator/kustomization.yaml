@@ -6,3 +6,4 @@ resources:
 
 patchesStrategicMerge:
   - overlays/delete-ns-harbor-operator.yaml
+  - overlays/harbor-operator-deploy.yaml

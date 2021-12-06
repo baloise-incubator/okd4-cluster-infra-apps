@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harbor-operator
+  namespace: harbor-operator-ns
+spec:
+  template:
+    spec:
+      securityContext:
+        $patch: delete
