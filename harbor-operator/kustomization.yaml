@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: harbor-operator
 resources:
-  - https://raw.githubusercontent.com/goharbor/harbor-operator/master/manifests/harbor/deployment.yaml
+  - https://raw.githubusercontent.com/goharbor/harbor-operator/v1.1.1/manifests/harbor/deployment.yaml
 
 patchesStrategicMerge:
   - overlays/delete-ns-harbor-operator.yaml
