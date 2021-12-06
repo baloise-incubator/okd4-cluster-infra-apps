@@ -159,7 +159,11 @@ jfrog-platform:
       #   secret:
       #   dataKey:
     nginx:
-      ssloffload: true
+      service:
+        ## For minikube, set this to NodePort, elsewhere use LoadBalancer
+        type: ClusterIP
+        ssloffload: true
+
 
   xray:
     enabled: true
