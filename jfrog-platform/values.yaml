@@ -1,0 +1,244 @@
+  jfrog-platform:
+  # Default values for jfrog-platform
+
+  # nameOverride:
+  # fullnameOverride:
+
+  # If this is an upgrade over an existing platform chart(>= 10.0.0), explicitly pass 'gaUpgradeReady=true' to upgrade
+  gaUpgradeReady: false
+
+  global:
+    # imagePullSecrets:
+    #   - myRegistryKeySecretName
+    imageRegistry: releases-docker.jfrog.io
+    jfrogUrl: '{{ include "jfrog-platform.jfrogUrl" . }}'
+    ## Artifactory UI URL - Mandatory
+    ## Update jfrogUrlUI before running builds on Pipelines
+    ## This must be the external URL of Artifactory, for example: https://artifactory.example.com
+    jfrogUrlUI: '{{ include "jfrog-platform.jfrogUrl" . }}'
+    joinKey: EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+    masterKey: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+    ## Chart.AppVersion for each product can be overidden using global.versions.<product>
+    ## For example : For artifactory, using global.versions.artifactory
+    ## Note: Order of preference is 1) global.versions 2) .Values.artifactory.image.tag 3) Chart.AppVersion
+    versions:
+      router: 7.28.2
+    #   artifactory:
+    #   xray:
+    #   distribution:
+    #   insight:
+    #   pipelines:
+    database:
+      host: "{{ .Release.Name }}-postgresql"
+      port: 5432
+      sslMode: disable
+      adminUsername: postgres
+      adminPassword: postgres
+      secrets: {}
+        # adminUsername:
+        #   name: "jp-database-creds"
+        #   key: "db-admin-user"
+        # adminPassword:
+        #   name: "jp-database-creds"
+      #   key: "db-admin-password"
+      initContainerSetupDBImage: releases-docker.jfrog.io/postgres:13.4-alpine
+      initContainerImagePullPolicy: Always
+      # If you are using external postgresql, set initDBCreation: false
+      initDBCreation: true
+    ## certificates added to this secret will be copied to $JFROG_HOME/<product>/var/etc/security/keys/trusted directory
+    customCertificates:
+      enabled: false
+      # certificateSecretName:
+
+    customInitContainersBegin: |
+      {{ template "initdb" . }}
+    customVolumes: |
+      {{ template "initdb-volume" . }}
+
+  ## This Postgresql is used by all products , set postgresql.enabled: false, when you want to use external postgresql for all products
+  postgresql:
+    enabled: true
+    image:
+      repository: bitnami/postgresql
+      tag: 13.4.0-debian-10-r39
+    postgresqlUsername: postgres
+    postgresqlPassword: postgres
+    postgresqlExtendedConf:
+      max_connections: 1000
+      max_wal_size: 1000MB
+    persistence:
+      size: 500Gi
+
+  ## This Rabbitmq is used by Xray and Pipelines only, set rabbitmq.enabled: false, when Xray or Pipelines is not enabled
+  rabbitmq:
+    enabled: true
+    image:
+      repository: bitnami/rabbitmq
+      tag: 3.8.14-debian-10-r32
+    auth:
+      username: admin
+      password: password
+      erlangCookie: secretcookie
+    maxAvailableSchedulers: null
+    onlineSchedulers: null
+    persistence:
+      size: 50Gi
+    extraEnvVars:
+      - name: RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS
+        value: "+S 2:2 +sbwt none +sbwtdcpu none +sbwtdio none"
+    extraSecrets:
+      load-definition:
+        load_definition.json: |
+          {
+            "vhosts": [
+              {
+                "name": "xray"
+              }
+            ],
+            "permissions": [
+            {
+              "user": "admin",
+              "vhost": "xray",
+              "configure": ".*",
+              "write": ".*",
+              "read": ".*"
+            }
+            ],
+            "policies": [
+              {
+                "name": "ha-all",
+                "apply-to": "all",
+                "pattern": ".*",
+                "vhost": "xray",
+                "definition": {
+                  "ha-mode": "all",
+                  "ha-sync-mode": "automatic",
+                }
+              }
+            ]
+          }
+    loadDefinition:
+      enabled: true
+      existingSecret: load-definition
+    extraConfiguration: |
+      management.load_definitions = /app/load_definition.json
+
+  ## This Redis is used by pipelines only, set redis.enabled: false, when pipelines is not enabled
+  redis:
+    enabled: true
+    image:
+      repository: bitnami/redis
+      tag: 6.2.1-debian-10-r9
+    cluster:
+      enabled: false
+    usePassword: false
+
+  artifactory:
+    installerInfo: '{"productId": "Helm_JFrogPlatform/{{ printf "10.0.4-%s" .Chart.AppVersion  }}", "features": [ { "featureId": "Platform/{{ printf "%s-%s" "kubernetes" .Capabilities.KubeVersion.Version }}"}]}'
+    enabled: true
+    postgresql:
+      enabled: false
+    waitForDatabase: false
+    database:
+      type: postgresql
+      driver: org.postgresql.Driver
+      url: '{{ include "database.url" . }}'
+      user: artifactory
+      password: artifactory
+    # Note: For artifactory Pro license, mission-control is not supported, Hence, set mc.enabled: false
+    mc:
+      enabled: true
+    artifactory:
+      # Note: For HA deployments, set replicaCount >1 (recommended 3)
+      replicaCount: 1
+      migration:
+        enabled: false
+      persistence:
+        size: 200Gi
+      # license:
+      #   secret:
+      #   dataKey:
+
+  xray:
+    enabled: true
+    unifiedUpgradeAllowed: true
+    postgresql:
+      enabled: false
+    database:
+      url: '{{ include "database.url" . }}'
+      user: xray
+      password: xray
+    common:
+      persistence:
+        size: 200Gi
+      rabbitmq:
+        connectionConfigFromEnvironment: false
+    rabbitmq:
+      enabled: false
+      external:
+        username: admin
+        password: password
+        url: "amqp://{{ .Release.Name }}-rabbitmq:5672/xray"
+        erlangCookie: secretcookie
+
+  distribution:
+    enabled: true
+    unifiedUpgradeAllowed: true
+    postgresql:
+      enabled: false
+    database:
+      url: '{{ include "database.url" . }}'
+      user: distribution
+      password: distribution
+
+  insight:
+    enabled: true
+    unifiedUpgradeAllowed: true
+    postgresql:
+      enabled: false
+    database:
+      url: '{{ include "database.url" . }}'
+      user: insight
+      password: insight
+      name: '{{ include "database.name" . }}'
+    elasticsearch:
+      javaOpts:
+        xms: "2g"
+        xmx: "2g"
+
+  pipelines:
+    enabled: true
+    unifiedUpgradeAllowed: true
+    postgresql:
+      enabled: false
+    global:
+      postgresql:
+        host: "{{ .Release.Name }}-postgresql"
+        port: 5432
+        database: "pipelinesdb"
+        user: "apiuser"
+        password: "pipeline"
+    pipelines:
+      api:
+        externalUrl: http://pipelines.test.com
+      www:
+        externalUrl: http://pipelines.test.com
+      msg:
+        uiUserPassword: password
+    redis:
+      enabled: false
+    rabbitmq:
+      enabled: false
+      internal_ip: "{{ .Release.Name }}-rabbitmq"
+      msg_hostname: "{{ .Release.Name }}-rabbitmq"
+      port: 5672
+      manager_port: 15672
+      ms_username: admin
+      ms_password: password
+      cp_username: admin
+      cp_password: password
+      root_vhost_exchange_name: rootvhost
+      erlang_cookie: secretcookie
+      build_vhost_name: pipelines
+      root_vhost_name: pipelinesRoot
+      protocol: amqp
