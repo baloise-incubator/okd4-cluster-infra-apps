@@ -158,6 +158,8 @@ jfrog-platform:
       # license:
       #   secret:
       #   dataKey:
+    nginx:
+      ssloffload: true
 
   xray:
     enabled: true
