@@ -134,6 +134,7 @@ jfrog-platform:
     usePassword: false
 
   artifactory:
+    setSecurityContext: false
     installerInfo: '{"productId": "Helm_JFrogPlatform/{{ printf "10.0.4-%s" .Chart.AppVersion  }}", "features": [ { "featureId": "Platform/{{ printf "%s-%s" "kubernetes" .Capabilities.KubeVersion.Version }}"}]}'
     enabled: true
     postgresql:
