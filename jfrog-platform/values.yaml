@@ -149,7 +149,6 @@ jfrog-platform:
     mc:
       enabled: true
     artifactory:
-      setSecurityContext: false
       # Note: For HA deployments, set replicaCount >1 (recommended 3)
       replicaCount: 1
       migration:
