@@ -4,6 +4,7 @@ metadata:
   name: harbor-operator
   namespace: harbor-operator-ns
 spec:
+  replicas: 0
   template:
     spec:
       securityContext:
