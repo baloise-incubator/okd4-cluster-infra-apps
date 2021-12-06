@@ -1,4 +1,4 @@
-  jfrog-platform:
+jfrog-platform:
   # Default values for jfrog-platform
 
   # nameOverride:
