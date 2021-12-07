@@ -222,6 +222,10 @@ jfrog-platform:
             proxy_set_header    X-Forwarded-For   $proxy_add_x_forwarded_for;
             add_header Strict-Transport-Security always;
 
+            proxy_buffering off;
+            proxy_request_buffering off;
+
+
             location /artifactory/ {
               if ( $request_uri ~ ^/artifactory/(.*)$ ) {
                 proxy_pass       {{ include "artifactory.scheme" . }}://{{ include "artifactory.fullname" . }}:{{ .Values.artifactory.externalArtifactoryPort }}/artifactory/$1;
