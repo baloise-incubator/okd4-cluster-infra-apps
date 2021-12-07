@@ -159,6 +159,9 @@ jfrog-platform:
       #   secret:
       #   dataKey:
     nginx:
+      logs:
+        stderr: true
+        level: debug
       service:
         ## For minikube, set this to NodePort, elsewhere use LoadBalancer
         type: ClusterIP
