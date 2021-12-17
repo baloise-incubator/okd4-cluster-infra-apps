@@ -4,6 +4,7 @@ metadata:
   name: ceph-block
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
+allowVolumeExpansion: true
 # Change "rook-ceph" provisioner prefix to match the operator namespace if needed
 provisioner: rook-ceph.rbd.csi.ceph.com
 parameters:
