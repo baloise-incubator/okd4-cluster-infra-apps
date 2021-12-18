@@ -10,6 +10,8 @@ resources:
   - base/35_ceph-filesystem.yaml
   - base/40_ceph-storage-class.yaml
   - base/45_cephfs-storage-class.yaml
+  - base/50_ceph-volumesnapshotclass.yaml
+  - base/55_cephfs-volumesnapshotclass.yaml
 
 patchesStrategicMerge:
   - overlays/delete-ns-cert-manager.yaml
