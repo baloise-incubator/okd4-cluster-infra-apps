@@ -64,5 +64,11 @@ rules:
   - "routes"
   verbs:
     - "*"
+- verbs:
+    - "*"
+  apiGroups:
+    - route.openshift.io
+  resources:
+    - routes/custom-host
 
 #+kubebuilder:scaffold:rules
