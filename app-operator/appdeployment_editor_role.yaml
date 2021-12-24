@@ -1,0 +1,24 @@
+# permissions for end users to edit appdeployments.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: appdeployment-editor-role
+rules:
+- apiGroups:
+  - apps.baloise.dev
+  resources:
+  - appdeployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apps.baloise.dev
+  resources:
+  - appdeployments/status
+  verbs:
+  - get
