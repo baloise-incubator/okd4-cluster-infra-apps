@@ -1,0 +1,20 @@
+# permissions for end users to view appdeployments.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: appdeployment-viewer-role
+rules:
+- apiGroups:
+  - apps.baloise.dev
+  resources:
+  - appdeployments
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps.baloise.dev
+  resources:
+  - appdeployments/status
+  verbs:
+  - get
