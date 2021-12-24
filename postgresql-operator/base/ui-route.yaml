@@ -1,0 +1,14 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: postgresql-operator-ui
+spec:
+  host: postgresql-operator-ui.apps.okd.baloise.dev
+  to:
+    kind: Service
+    name: postgres-operator-ui
+  port:
+    targetPort: 8081
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
