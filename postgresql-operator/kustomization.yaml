@@ -3,5 +3,6 @@ kind: Kustomization
 namespace: postgresql-operator
 resources:
   - github.com/zalando/postgres-operator/manifests?ref=v1.7.1
+  - github.com/zalando/postgres-operator/ui/manifests?ref=v1.7.1
 patchesStrategicMerge:
   - overlays/uid-fixes.yaml
