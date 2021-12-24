@@ -58,11 +58,11 @@ rules:
   - "apps"
   resources:
   - "deployments"
-- verbs:
-  - "*"
-  apiGroups:
-  - "route.openshift.io"
+- apiGroups:
+    - "route.openshift.io"
   resources:
-  - "route"
+  - "routes"
+  verbs:
+    - "*"
 
 #+kubebuilder:scaffold:rules
