@@ -6,5 +6,5 @@ resources:
   - github.com/zalando/postgres-operator/ui/manifests?ref=v1.7.1
   - base/ui-route.yaml
 patchesStrategicMerge:
-  - overlays/uid-fixes.yaml
+  - overlays/postgres-operator.yaml
   - overlays/delete-ui-ingress.yaml
