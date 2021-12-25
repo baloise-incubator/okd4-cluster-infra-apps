@@ -3,3 +3,6 @@ kind: Kustomization
 namespace: awx-operator
 resources:
   - github.com/ansible/awx-operator/config/manifests
+
+patchesStrategicMerge:
+  - overlays/delete-ns.yaml
