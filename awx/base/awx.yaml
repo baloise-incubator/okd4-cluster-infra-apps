@@ -15,3 +15,6 @@ spec:
     requests:
       cpu: 200m
       memory: 64M
+  ingress_type: route
+  route_host: awx.apps.baloise.dev
+  route_tls_termination_mechanism: Edge
