@@ -3,4 +3,4 @@ apiVersion: v1
 metadata:
   name: postgres-operator
 data:
-  kubernetes_use_configmaps: true
+  kubernetes_use_configmaps: "true"
