@@ -8,3 +8,4 @@ resources:
 patchesStrategicMerge:
   - overlays/postgres-operator.yaml
   - overlays/delete-ui-ingress.yaml
+  - overlays/postgresql-operator-cm.yaml
