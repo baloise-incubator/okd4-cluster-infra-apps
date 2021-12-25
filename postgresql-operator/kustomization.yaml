@@ -9,3 +9,4 @@ patchesStrategicMerge:
   - overlays/postgres-operator.yaml
   - overlays/delete-ui-ingress.yaml
   - overlays/postgresql-operator-cm.yaml
+  - overlays/postgresql-pod-cr.yaml
