@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: vmc-operator
+resources:
+  - github.com/baloise-incubator/vmc-operator/config/default
+
+patchesStrategicMerge:
+  - overlays/delete-ns.yaml
