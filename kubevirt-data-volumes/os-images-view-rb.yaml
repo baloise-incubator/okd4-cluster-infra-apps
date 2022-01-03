@@ -11,5 +11,5 @@ subjects:
     name: 'system:serviceaccounts'
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: ole
+  kind: Role
   name: 'os-images.kubevirt.io:view'
