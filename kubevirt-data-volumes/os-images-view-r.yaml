@@ -1,0 +1,36 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: 'os-images.kubevirt.io:view'
+rules:
+  - verbs:
+      - get
+      - list
+      - watch
+    apiGroups:
+      - ''
+    resources:
+      - persistentvolumeclaims
+      - persistentvolumeclaims/status
+  - verbs:
+      - get
+      - list
+      - watch
+    apiGroups:
+      - cdi.kubevirt.io
+    resources:
+      - datavolumes
+  - verbs:
+      - create
+    apiGroups:
+      - cdi.kubevirt.io
+    resources:
+      - datavolumes/source
+  - verbs:
+      - get
+      - list
+      - watch
+    apiGroups:
+      - ''
+    resources:
+      - namespaces
