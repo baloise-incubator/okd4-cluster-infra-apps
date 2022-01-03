@@ -1,0 +1,19 @@
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  annotations:
+    cdi.kubevirt.io/storage.bind.immediate.requested: 'true'
+    kubevirt.ui/provider: Rocky Linux
+  name: rocky-linux-upstream
+spec:
+  pvc:
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 20Gi
+    storageClassName: ceph-block
+    volumeMode: Block
+  source:
+    http:
+      url: https://download.rockylinux.org/pub/rocky/8/images/Rocky-8-GenericCloud-8.5-20211114.2.x86_64.qcow2
