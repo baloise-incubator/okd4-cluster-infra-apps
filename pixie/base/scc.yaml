@@ -1,0 +1,20 @@
+kind: SecurityContextConstraints
+apiVersion:  security.openshift.io/v1
+metadata:
+ name: pixie-scc
+allowPrivilegedContainer: true
+allowHostPID: true
+allowHostIPC: false
+allowHostPorts: false
+readOnlyRootFilesystem: false
+allowedCapabilities:
+- SYS_ADMIN
+- SYS_PTRACE
+allowHostNetwork: true
+allowHostDirVolumePlugin: true
+runAsUser:
+ type: RunAsAny
+seLinuxContext:
+ type: RunAsAny
+users:
+- system:serviceaccount:pixie:default

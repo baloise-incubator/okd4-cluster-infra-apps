@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: pixie
 resources:
   - github.com/pixie-io/pixie/k8s/cloud_deps/public
+  - base/scc.yaml
 
 patchesStrategicMerge:
   - overlays/delete-ns-pixie.yaml
