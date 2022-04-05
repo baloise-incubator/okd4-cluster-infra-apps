@@ -165,6 +165,7 @@ jfrog-platform:
     nginx:
       tlsSecretName: jfrog-tls
       service:
+        type: ClusterIP
         annotations:
           service.beta.openshift.io/serving-cert-secret-name: jfrog-tls
       http:
