@@ -5,4 +5,4 @@ resources:
   - github.com/baloise-incubator/vmc-operator/config/default
 
 patchesStrategicMerge:
-  - overlays/delete-ns.yaml
+  - overlays/delee-ns.yaml
