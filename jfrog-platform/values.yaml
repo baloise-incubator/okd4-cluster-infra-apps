@@ -166,6 +166,7 @@ jfrog-platform:
       tlsSecretName: jfrog-tls
       service:
         type: ClusterIP
+        ssloffload: true
         annotations:
           service.beta.openshift.io/serving-cert-secret-name: jfrog-tls
       http:
