@@ -220,8 +220,8 @@ jfrog-platform:
         host: "{{ .Release.Name }}-postgresql"
         port: 5432
         database: "pipelinesdb"
-        user: "apiuser"
-        password: "pipeline"
+        user: "postgres"
+        password: "postgres"
     pipelines:
       api:
         externalUrl: http://pipelines.test.com
