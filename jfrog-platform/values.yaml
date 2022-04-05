@@ -162,6 +162,19 @@ jfrog-platform:
       # license:
       #   secret:
       #   dataKey:
+    nginx:
+      tlsSecretName: jfrog-tls
+      service:
+        annotations:
+          service.beta.openshift.io/serving-cert-secret-name: jfrog-tls
+      http:
+        enabled: true
+        externalPort: 80
+        internalPort: 8080
+      https:
+        enabled: true
+        externalPort: 443
+        internalPort: 8443
 
   xray:
     enabled: true
