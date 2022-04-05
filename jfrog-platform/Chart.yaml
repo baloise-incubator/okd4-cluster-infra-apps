@@ -2,6 +2,6 @@ apiVersion: v2
 name: jfrog-platform
 version: 0.1.0
 dependencies:
-  - version: 10.0.4
+  - version: 10.4.1
     name: jfrog-platform
     repository: https://charts.jfrog.io
