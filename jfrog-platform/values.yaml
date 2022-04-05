@@ -154,7 +154,7 @@ jfrog-platform:
       enabled: false
     artifactory:
       # Note: For HA deployments, set replicaCount >1 (recommended 3)
-      replicaCount: 2
+      replicaCount: 1
       migration:
         enabled: false
       persistence:
