@@ -1,0 +1,14 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: jfrog
+spec:
+  host: jfrog.apps.baloise.dev
+  to:
+    kind: Service
+    name: jfrog-platform-artifactory-nginx
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
