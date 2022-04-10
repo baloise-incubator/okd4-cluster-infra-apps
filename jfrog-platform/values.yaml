@@ -272,7 +272,7 @@ jfrog-platform:
         erlangCookie: secretcookie
 
   distribution:
-    enabled: true
+    enabled: false
     unifiedUpgradeAllowed: true
     postgresql:
       enabled: false
@@ -297,7 +297,7 @@ jfrog-platform:
         xmx: "2g"
 
   pipelines:
-    enabled: true
+    enabled: false
     unifiedUpgradeAllowed: true
     postgresql:
       enabled: false
