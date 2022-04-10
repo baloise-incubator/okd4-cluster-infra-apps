@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: argocd-repo-server
 spec:
-  replicas: 5
+  replicas: 2
   template:
     spec:
       affinity: null
