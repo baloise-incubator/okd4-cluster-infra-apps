@@ -6,3 +6,4 @@ data:
   policy.default: 'role:readonly'
   policy.csv: |
     g, cluster-admins, role:admin
+    g, F-AAD-APP-OS1-CH-T-Security-Engineer, role:ch-iam-non-prod
