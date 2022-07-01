@@ -116,7 +116,7 @@ hub:
   livenessProbe:
     # The livenessProbe's aim to give JupyterHub sufficient time to startup but
     # be able to restart if it becomes unresponsive for ~5 min.
-    enabled: true
+    #enabled: true
     initialDelaySeconds: 300
     periodSeconds: 10
     failureThreshold: 30
@@ -126,7 +126,7 @@ hub:
     # but following that never become unready before its livenessProbe fail and
     # restarts it if needed. To become unready following startup serves no
     # purpose as there are no other pod to fallback to in our non-HA deployment.
-    enabled: true
+    #enabled: true
     initialDelaySeconds: 0
     periodSeconds: 2
     failureThreshold: 1000
