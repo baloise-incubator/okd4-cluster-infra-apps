@@ -1,4 +1,4 @@
-gitops-demo:
+jupyterhub:
   image:
     repository: jupyterhub/jupyterhub
     tag: latest
