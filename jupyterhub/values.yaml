@@ -1,0 +1,8 @@
+gitops-demo:
+  image:
+    repository: jupyterhub/jupyterhub
+    tag: latest
+  network:
+    http:
+      ingress:
+        host: jupyterhub-test.apps.baloise.dev
