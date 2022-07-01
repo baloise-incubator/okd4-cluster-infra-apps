@@ -5,4 +5,40 @@ dependencies:
   - name: generic-chart
     version: 2.0.0
     repository: https://registry.baloise.dev/chartrepo/library
-    alias: jupyterhub
+    alias: hub
+  - name: generic-chart
+    version: 2.0.0
+    repository: https://registry.baloise.dev/chartrepo/library
+    alias: rbac
+  - name: generic-chart
+    version: 2.0.0
+    repository: https://registry.baloise.dev/chartrepo/library
+    alias: proxy
+  - name: generic-chart
+    version: 2.0.0
+    repository: https://registry.baloise.dev/chartrepo/library
+    alias: singleuser
+  - name: generic-chart
+    version: 2.0.0
+    repository: https://registry.baloise.dev/chartrepo/library
+    alias: scheduling    
+  - name: generic-chart
+    version: 2.0.0
+    repository: https://registry.baloise.dev/chartrepo/library
+    alias: prePuller  
+  - name: generic-chart
+    version: 2.0.0
+    repository: https://registry.baloise.dev/chartrepo/library
+    alias: ingress          
+  - name: generic-chart
+    version: 2.0.0
+    repository: https://registry.baloise.dev/chartrepo/library
+    alias: cull          
+  - name: generic-chart
+    version: 2.0.0
+    repository: https://registry.baloise.dev/chartrepo/library
+    alias: debug      
+  - name: generic-chart
+    version: 2.0.0
+    repository: https://registry.baloise.dev/chartrepo/library
+    alias: global         
