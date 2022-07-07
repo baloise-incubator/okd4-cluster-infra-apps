@@ -52,7 +52,7 @@ spec:
           - name: com.usu.keycloak.issuerUrls
             value: "https://usu-portal.apps.okd.baloise.dev/auth/"
           - name: com.usu.keycloak.authServerUrl
-            value: "http://um-keycloak/auth/"
+            value: "https://usu-portal.apps.okd.baloise.dev/auth/"
           - name: com.usu.keycloak.resource
             value: vm:valuemation-web
           - name: usu.portal.vm.webServiceClient-accessTokenPortal
