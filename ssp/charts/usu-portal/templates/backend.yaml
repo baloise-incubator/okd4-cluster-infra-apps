@@ -56,7 +56,7 @@ spec:
           - name: external-host-whitelist
             value: 'usu.com'
           - name: spring.datasource.url
-            value: 'jdbc:mariadb://usu-portal-mariadb-app:3307/portal'
+            value: 'jdbc:mariadb://ssp-mariadb-app:3307/portal'
           - name: spring.datasource.username
             valueFrom:
               secretKeyRef:
