@@ -1,0 +1,4 @@
+---------- User Management Admin UI Deployment -----------
+{{ include "usuCommon.notes.info" (dict "Values" (index .Values "angular-base") "Release" .Release) }}
+{{ include "usuCommon.notes.warning" (dict "Values" (index .Values "angular-base") .Release) }}
+---------------------------------------------------------

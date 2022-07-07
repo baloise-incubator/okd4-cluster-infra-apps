@@ -1,0 +1,16 @@
+portalApp:
+    client:
+        container:
+            tag: develop
+    backend:
+        container:
+            tag: develop
+    schemas:
+        container:
+            tag: develop
+    valuemationPortalPdapter:
+        container:
+            tag: develop
+    valuemationAnalytcsPortalAdapter:
+        container:
+            tag: develop
