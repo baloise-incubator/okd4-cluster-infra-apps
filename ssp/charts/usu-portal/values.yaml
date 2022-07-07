@@ -17,7 +17,7 @@ imagePullSecrets:
 global:
   ingress:
     className: nginx
-    hostname: kubernetes.docker.internal
+    hostname: usu-portal.apps.okd.baloise.dev
   imagePullSecrets:
     - name: usu-regcred
 
@@ -111,8 +111,8 @@ user-management:
     angular-base:
       env:
         baseUrl: /user-management-ui/
-        apiUrl: http://kubernetes.docker.internal/user-management-service/
-        keycloakUrl: http://kubernetes.docker.internal/auth/
+        apiUrl: https://usu-portal.apps.okd.baloise.dev/user-management-service/
+        keycloakUrl: https://usu-portal.apps.okd.baloise.dev/auth/
 
   user-management-service:
     enabled: true
@@ -125,7 +125,7 @@ user-management:
         auth:
           user: admin
           password: admin
-        externalUrl: "http://kubernetes.docker.internal/auth/"
+        externalUrl: "https://usu-portal.apps.okd.baloise.dev/auth/"
         internalUrl: "http://um-keycloak/auth/"
     initContainers:
       - name: wait-for-dependent-service
@@ -175,7 +175,7 @@ ingress:
   pathPrefix: ""
   pathType: ImplementationSpecific
   hosts:
-    - host: kubernetes.docker.internal
+    - host: usu-portal.apps.okd.baloise.dev
   class: nginx
 
 serviceAccount:

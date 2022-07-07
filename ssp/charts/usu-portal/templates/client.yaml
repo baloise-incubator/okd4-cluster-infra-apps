@@ -48,7 +48,7 @@ spec:
           - name: CLIENT_BASE_PATH
             value: ''
           - name: KEY_CLOAK_URL
-            value: "http://kubernetes.docker.internal/auth/"
+            value: "https://usu-portal.apps.okd.baloise.dev/auth/"
           - name: HELP_PAGE_URL
             value: 'https://google.com'
           - name: PROFILE_URL
