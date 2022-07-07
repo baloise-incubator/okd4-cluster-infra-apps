@@ -50,9 +50,9 @@ spec:
           - name: spring.cloud.consul.discovery.port
             value: '80'
           - name: com.usu.keycloak.issuerUrls
-            value: "http://kubernetes.docker.internal/auth/"
+            value: "https://usu-portal.apps.okd.baloise.dev/auth/"
           - name: com.usu.keycloak.authServerUrl
-            value: "http://um-keycloak/auth/"
+            value: "https://usu-portal.apps.okd.baloise.dev/auth/"
           - name: usu.portal.vma.legacy-authorization.enabled
             value: 'true'
           - name: usu.portal.vma.legacy-authorization.header
