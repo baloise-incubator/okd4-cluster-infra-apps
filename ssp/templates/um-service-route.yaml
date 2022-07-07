@@ -1,0 +1,17 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: um-service
+spec:
+  host: usu-portal.apps.okd.baloise.dev
+  path: /user-management-service
+  to:
+    kind: Service
+    name: um-service
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None

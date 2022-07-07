@@ -3,3 +3,19 @@ global:
     enabled: false
   ingress:
     hostname: usu-portal.apps.okd.baloise.dev
+usu-portal:
+  user-management:
+    user-management-ui:
+      angular-base:
+        env:
+          baseUrl: /user-management-ui/
+          apiUrl: https://usu-portal.apps.okd.baloise.dev/user-management-service/
+          keycloakUrl: https://usu-portal.apps.okd.baloise.dev/auth/
+  user-management-service:
+    env:
+      kcConnection:
+        externalUrl: "https://usu-portal.apps.okd.baloise.dev/auth/"
+        internalUrl: "https://usu-portal.apps.okd.baloise.dev/auth/"
+  ingress:
+    hosts:
+      - host: usu-portal.apps.okd.baloise.dev
