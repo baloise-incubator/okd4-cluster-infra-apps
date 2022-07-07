@@ -50,7 +50,7 @@ spec:
           - name: spring.cloud.consul.discovery.port
             value: '80'
           - name: com.usu.keycloak.issuerUrls
-            value: "https://usu-portal.apps.okd.baloise.dev/auth//"
+            value: "https://usu-portal.apps.okd.baloise.dev/auth/"
           - name: com.usu.keycloak.authServerUrl
             value: "http://um-keycloak/auth/"
           - name: com.usu.keycloak.resource
