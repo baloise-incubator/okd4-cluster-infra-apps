@@ -1,0 +1,16 @@
+env:
+  kcConnection:
+    realm: usu
+    auth:
+      user: admin
+      password: admin
+    externalUrl: http://kubernetes.docker.internal/auth
+    internalUrl: http://um-usu-keycloak.user-management/auth
+#
+ingress:
+  enabled: true
+  className: nginx
+  hostname: kubernetes.docker.internal
+  path: /user-management-service
+  tls: true
+  selfSigned: true

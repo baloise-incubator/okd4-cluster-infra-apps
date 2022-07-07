@@ -1,0 +1,24 @@
+apiVersion: v2
+appVersion: 16.1.1
+description: The Keycloak deployment
+home: https://www.keycloak.org/
+icon: https://www.keycloak.org/resources/images/keycloak_icon_512px.svg
+keywords:
+- access-management
+- sso
+- idm
+- openid connect
+- saml
+- kerberos
+- ldap
+maintainers:
+- email: samuel.schober@usu.com
+  name: usisschobe
+- email: nicholas.dietz@usu.com
+  name: usindietz\
+- email: jiri.altman@usu.com
+  name: uzijaltman
+name: keycloak
+sources:
+- https://gitlab.devops.usu.group/usu-shared/usu-user-management/keycloak
+version: 4.0.0-g62d8c36

@@ -1,0 +1,12 @@
+apiVersion: v2
+appVersion: 2.1.0
+description: The user-management-service deployment.
+maintainers:
+- email: samuel.schober@usu.com
+  name: usisschobe
+- email: nicholas.dietz@usu.com
+  name: usindietz
+name: user-management-service
+sources:
+- https://gitlab.devops.usu.group/usu-shared/usu-user-management/user-management-service
+version: 2.1.1
