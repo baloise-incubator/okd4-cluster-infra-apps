@@ -1,5 +1,11 @@
 apiVersion: v2
-appVersion: 1.16.0
+name: incident-ssp-portal
 description: A Helm chart for Kubernetes
-name: usu-portal
+type: application
 version: 0.2.0
+
+dependencies:
+  - name: usu-portal
+    version: 0.2.0
+    repository: https://charts.shapp.os1.balgroupit.com/shared/release
+
