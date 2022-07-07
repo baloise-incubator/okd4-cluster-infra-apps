@@ -1,12 +1,13 @@
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: usu-portal
+  name: usu-portal-backend
 spec:
   host: usu-portal.apps.okd.baloise.dev
+  path: /backend
   to:
     kind: Service
-    name: ssp-usu-portal-client-service
+    name: ssp-usu-portal-backend-service
     weight: 100
   port:
     targetPort: http
