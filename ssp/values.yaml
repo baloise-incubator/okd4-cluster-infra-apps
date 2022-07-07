@@ -7,6 +7,8 @@ usu-portal:
   consul:
     client:
       enabled: false
+    connectInject:
+      enabled: false
   user-management:
     user-management-ui:
       angular-base:
