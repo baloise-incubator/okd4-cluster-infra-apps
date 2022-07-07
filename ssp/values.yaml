@@ -6,7 +6,7 @@ global:
 usu-portal:
   consul:
     client:
-      enabled: "false"
+      enabled: false
   user-management:
     user-management-ui:
       angular-base:
