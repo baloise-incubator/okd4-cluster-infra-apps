@@ -4,6 +4,9 @@ global:
   ingress:
     hostname: usu-portal.apps.okd.baloise.dev
 usu-portal:
+  consul:
+    client:
+      enabled: "false"
   user-management:
     user-management-ui:
       angular-base:
