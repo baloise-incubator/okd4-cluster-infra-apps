@@ -20,6 +20,8 @@ global:
     hostname: kubernetes.docker.internal
   imagePullSecrets:
     - name: usu-regcred
+  openshift:
+    enabled: true
 
 portalApp:
   client:
