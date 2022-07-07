@@ -1,3 +1,5 @@
 global:
   openshift:
     enabled: false
+  ingress:
+    hostname: usu-portal.apps.okd.baloise.dev
