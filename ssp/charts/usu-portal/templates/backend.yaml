@@ -52,7 +52,7 @@ spec:
           - name: com.usu.keycloak.issuerUrls
             value: "https://usu-portal.apps.okd.baloise.dev/auth/"
           - name: com.usu.keycloak.authServerUrl
-            value: "http://um-keycloak/auth"
+            value: "https://usu-portal.apps.okd.baloise.dev/auth/"
           - name: external-host-whitelist
             value: 'usu.com'
           - name: spring.datasource.url

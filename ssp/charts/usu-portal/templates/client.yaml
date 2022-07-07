@@ -54,7 +54,7 @@ spec:
           - name: PROFILE_URL
             value: 'http://localhost/'
           - name: USER_MANAGEMENT_URL
-            value: "http://um-keycloak/auth/"
+            value: "https://usu-portal.apps.okd.baloise.dev/auth/"
           - name: THEME_NAME
             value: ''
           - name: FALLBACK_LANGUAGE
