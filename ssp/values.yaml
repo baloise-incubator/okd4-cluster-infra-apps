@@ -11,6 +11,8 @@ usu-portal:
       enabled: false
     server:
       replicas: 1
+      disruptionBudget:
+        enabled: false
       securityContext:
         runAsNonRoot: false
         runAsGroup: 0
