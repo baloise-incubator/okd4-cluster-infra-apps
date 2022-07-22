@@ -3,12 +3,24 @@ kind: Contour
 metadata:
   name: contour-incubator
 spec:
+  namespace:
+    name: contour
+    removeOnDeletion: true
   networkPublishing:
     envoy:
-      type: NodePortService
-      # nodePorts are auto-assigned by k8s if unspecified.
+      containerPorts:
+        - name: http
+          portNumber: 8080
+        - name: https
+          portNumber: 8443
+      loadBalancer:
+        providerParameters:
+          type: AWS
+        scope: External
       nodePorts:
         - name: http
           portNumber: 30080
         - name: https
           portNumber: 30443
+      type: NodePortService
+  replicas: 2
