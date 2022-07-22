@@ -19,8 +19,8 @@ spec:
         scope: External
       nodePorts:
         - name: http
-          portNumber: 30080
+          portNumber: 31080
         - name: https
-          portNumber: 30443
+          portNumber: 31443
       type: NodePortService
   replicas: 2
