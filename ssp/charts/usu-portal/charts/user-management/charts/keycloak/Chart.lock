@@ -1,9 +1,0 @@
-dependencies:
-- name: common
-  repository: https://charts.bitnami.com/bitnami
-  version: 1.13.1
-- name: usu-common
-  repository: https://helm.devops.usu.group/repository/helm-usu-shared/
-  version: 1.0.2
-digest: sha256:b306689a6bf3d3913241b82c6c7e4079b69e8719ffcb74c90bf40a738c68ce5f
-generated: "2022-05-11T15:59:53.823779527+02:00"

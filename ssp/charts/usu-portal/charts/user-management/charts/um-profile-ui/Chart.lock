@@ -1,6 +1,0 @@
-dependencies:
-- name: angular-base
-  repository: https://helm.devops.usu.group/repository/helm-usu-shared/
-  version: 1.0.6
-digest: sha256:acafd0c482c6bfb97aa158de7e8b5fa14273dafcf56fb6bc266ef55bc0a378d2
-generated: "2022-05-13T11:07:19.754531975+02:00"
