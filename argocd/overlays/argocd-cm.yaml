@@ -3,6 +3,7 @@ metadata:
   name: argocd-cm
 apiVersion: v1
 data:
+  application.instanceLabelKey: argocd.argoproj.io/instance
   url: https://argocd.baloise.dev
   users.anonymous.enabled: 'true'
   statusbadge.enabled: 'true'
