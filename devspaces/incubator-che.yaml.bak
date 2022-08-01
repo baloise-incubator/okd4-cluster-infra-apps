@@ -1,0 +1,92 @@
+apiVersion: org.eclipse.che/v1
+kind: CheCluster
+metadata:
+  name: codeready-workspaces
+spec:
+  auth:
+    identityProviderURL: 'https://keycloak-openshift-workspaces.apps.okd.baloise.dev/auth'
+    identityProviderRealm: codeready
+    updateAdminPassword: false
+    identityProviderIngress: {}
+    oAuthSecret: qt7L2vyBiDbZ
+    oAuthClientName: codeready-workspaces-openshift-identity-provider-8j8buw
+    identityProviderContainerResources:
+      limits: {}
+      request: {}
+    identityProviderClientId: codeready-public
+    identityProviderAdminUserName: niiku
+    identityProviderPostgresSecret: che-identity-postgres-secret
+    identityProviderRoute: {}
+    externalIdentityProvider: false
+    identityProviderSecret: che-identity-secret
+    openShiftoAuth: true
+  dashboard: {}
+  database:
+    chePostgresContainerResources:
+      limits: {}
+      request: {}
+    chePostgresDb: dbche
+    chePostgresHostName: postgres
+    chePostgresPort: '5432'
+    chePostgresSecret: che-postgres-secret
+    externalDb: false
+    postgresVersion: '9.6'
+
+  devWorkspace:
+    enable: false
+  imagePuller:
+    enable: true
+    spec:
+      configMapName: k8s-image-puller
+      deploymentName: kubernetes-image-puller
+      imagePullerImage: 'quay.io/eclipse/kubernetes-image-puller:next'
+  metrics:
+    enable: true
+  server:
+    cheLogLevel: INFO
+    dashboardIngress: {}
+    customCheProperties:
+      CHE_LIMITS_USER_WORKSPACES_RUN_COUNT: '-1'
+      CHE_LIMITS_WORKSPACE_IDLE_TIMEOUT: '-1'
+      CHE_WORKSPACE_PLUGIN__BROKER_PULL__POLICY: IfNotPresent
+      CHE_WORKSPACE_SIDECAR_IMAGE__PULL__POLICY: IfNotPresent
+    externalDevfileRegistry: false
+    pluginRegistryIngress: {}
+    cheServerRoute: {}
+    devfileRegistryIngress: {}
+    cheHost: codeready.baloise.dev
+    selfSignedCert: false
+    cheServerIngress: {}
+    cheDebug: 'false'
+    tlsSupport: true
+    dashboardRoute: {}
+    allowUserDefinedWorkspaceNamespaces: false
+    serverTrustStoreConfigMapName: ca-certs
+    pluginRegistryRoute: {}
+    devfileRegistryRoute: {}
+    externalPluginRegistry: false
+    serverExposureStrategy: multi-host
+    gitSelfSignedCert: false
+    useInternalClusterSVCNames: false
+    cheFlavor: codeready
+  k8s:
+    securityContextFsGroup: '1724'
+    securityContextRunAsUser: '1724'
+  storage:
+    preCreateSubPaths: true
+    pvcClaimSize: 10Gi
+    pvcStrategy: per-workspace
+status:
+  gitHubOAuthProvisioned: false
+  devfileRegistryURL: 'https://devfile-registry-openshift-workspaces.apps.okd.baloise.dev'
+  keycloakProvisioned: true
+  cheClusterRunning: Available
+  cheURL: 'https://codeready.baloise.dev'
+  devworkspaceStatus:
+    message: DevWorkspace CRDs are not installed
+    phase: Inactive
+  openShiftoAuthProvisioned: true
+  dbProvisioned: true
+  cheVersion: 2.15.4
+  keycloakURL: 'https://keycloak-openshift-workspaces.apps.okd.baloise.dev/auth'
+  pluginRegistryURL: 'https://plugin-registry-openshift-workspaces.apps.okd.baloise.dev/v3'

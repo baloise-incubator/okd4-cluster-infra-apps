@@ -1,0 +1,73 @@
+apiVersion: org.eclipse.che/v1
+kind: CheCluster
+metadata:
+  annotations:
+    che.eclipse.org/cheClusterV2alpha1Spec: |
+      enabled: true
+      gateway:
+        enabled: true
+        image: registry.redhat.io/devspaces/traefik-rhel8@sha256:2b5f61d16bcc309390e1f403bca5ab9d49e9d3497d212b34b5f0bd9044dc6c83
+      k8s: {}
+      workspaces:
+        domainEndpoints: {}
+  name: devspaces
+spec:
+  auth:
+    externalIdentityProvider: false
+    identityProviderContainerResources:
+      limits: {}
+      request: {}
+    identityProviderIngress: {}
+    identityProviderRoute: {}
+    oAuthClientName: devspaces-openshift-identity-provider-gu1rsu
+    oAuthSecret: zJjYNwsEPWdu
+    updateAdminPassword: false
+  dashboard: {}
+  database:
+    chePostgresContainerResources:
+      limits: {}
+      request: {}
+    externalDb: false
+    postgresVersion: '13.7'
+  devWorkspace:
+    enable: true
+  imagePuller:
+    enable: true
+    spec:
+      configMapName: k8s-image-puller
+      deploymentName: kubernetes-image-puller
+      images: >-
+        devspaces-theia-endpoint-plugin-registry-image-gmxdacq=registry.redhat.io/devspaces/theia-endpoint-rhel8@sha256:ce74edd6ee3ce12b1ce30d7b3dae5efd6bd997b1184b4822230a913d3f9bf067;devspaces-theia-endpoint-devfile-registry-image-gmxdacq=registry.redhat.io/devspaces/theia-endpoint-rhel8@sha256:ce74edd6ee3ce12b1ce30d7b3dae5efd6bd997b1184b4822230a913d3f9bf067;devspaces-theia-plugin-registry-image-gmxdacq=registry.redhat.io/devspaces/theia-rhel8@sha256:72b712f20bbf8ac7c9084d347a1b600990badd3132034399a558851434f80b58;devspaces-theia-devfile-registry-image-gmxdacq=registry.redhat.io/devspaces/theia-rhel8@sha256:72b712f20bbf8ac7c9084d347a1b600990badd3132034399a558851434f80b58;devspaces-machineexec-plugin-registry-image-gmxdacq=registry.redhat.io/devspaces/machineexec-rhel8@sha256:dbcf3db66bf3976cd53d08e5887df54287184ca78c80b58b95528fc1c9f73dde;
+  metrics:
+    enable: true
+  server:
+    cheLogLevel: INFO
+    dashboardIngress: {}
+    customCheProperties:
+      CHE_LIMITS_USER_WORKSPACES_RUN_COUNT: '-1'
+      CHE_LIMITS_WORKSPACE_IDLE_TIMEOUT: '-1'
+      CHE_WORKSPACE_PLUGIN__BROKER_PULL__POLICY: IfNotPresent
+      CHE_WORKSPACE_SIDECAR_IMAGE__PULL__POLICY: IfNotPresent
+    externalDevfileRegistry: false
+    pluginRegistryIngress: {}
+    cheServerRoute: {}
+    devfileRegistryIngress: {}
+    cheHost: devspaces.baloise.dev
+    singleHostGatewayImage: >-
+      registry.redhat.io/devspaces/traefik-rhel8@sha256:2b5f61d16bcc309390e1f403bca5ab9d49e9d3497d212b34b5f0bd9044dc6c83
+    selfSignedCert: false
+    cheServerIngress: {}
+    cheDebug: 'false'
+    tlsSupport: true
+    dashboardRoute: {}
+    allowUserDefinedWorkspaceNamespaces: false
+    pluginRegistryRoute: {}
+    devfileRegistryRoute: {}
+    externalPluginRegistry: false
+    workspaceNamespaceDefault: <username>-devspaces
+    gitSelfSignedCert: false
+    useInternalClusterSVCNames: false
+  storage:
+    preCreateSubPaths: true
+    pvcClaimSize: 10Gi
+    pvcStrategy: per-workspace
