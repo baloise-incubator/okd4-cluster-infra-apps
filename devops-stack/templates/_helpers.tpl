@@ -7,6 +7,14 @@ Expand the name of the chart.
 {{- end -}}
 
 {{/*
+Expand the label of the chart.
+*/}}
+{{- define "jenkins.label" -}}
+{{- printf "%s-%s" (include "jenkins.name" .) .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+
+{{/*
 Allow the release namespace to be overridden for multi-namespace deployments in combined charts.
 */}}
 {{- define "jenkins.namespace" -}}
@@ -105,10 +113,15 @@ jenkins:
     {{- tpl .Values.controller.JCasC.securityRealm . | nindent 4 }}
   {{- end }}
   disableRememberMe: {{ .Values.controller.disableRememberMe }}
+  {{- if .Values.controller.legacyRemotingSecurityEnabled }}
   remotingSecurity:
     enabled: true
+  {{- end }}
   mode: {{ .Values.controller.executorMode }}
   numExecutors: {{ .Values.controller.numExecutors }}
+  {{- if not (kindIs "invalid" .Values.controller.customJenkinsLabels) }}
+  labelString: "{{ join " " .Values.controller.customJenkinsLabels }}"
+  {{- end }}
   projectNamingStrategy: "standard"
   markupFormatter:
     {{- if .Values.controller.enableRawHtmlMarkupFormatter }}
@@ -145,8 +158,14 @@ jenkins:
       podLabels:
       - key: "jenkins/{{ .Release.Name }}-{{ .Values.agent.componentName }}"
         value: "true"
+      {{- range $key, $val := .Values.agent.podLabels }}
+      - key: {{ $key | quote }}
+        value: {{ $val | quote }}
+      {{- end }}
       templates:
+    {{- if not .Values.agent.disableDefaultAgent }}
       {{- include "jenkins.casc.podTemplate" . | nindent 8 }}
+    {{- end }}
     {{- if .Values.additionalAgents }}
       {{- /* save .Values.agent */}}
       {{- $agent := .Values.agent }}
@@ -190,10 +209,21 @@ unclassified:
 {{- end -}}
 
 {{/*
+Returns a name template to be used for jcasc configmaps, using 
+suffix passed in at call as index 0
+*/}}
+{{- define "jenkins.casc.configName" -}}
+{{- $name := index . 0 -}}
+{{- $root := index . 1 -}}
+"{{- include "jenkins.fullname" $root -}}-jenkins-{{ $name }}"
+{{- end -}}
+
+{{/*
 Returns kubernetes pod template configuration as code
 */}}
 {{- define "jenkins.casc.podTemplate" -}}
 - name: "{{ .Values.agent.podName }}"
+  namespace: "{{ template "jenkins.agent.namespace" . }}"
 {{- if .Values.agent.annotations }}
   annotations:
   {{- range $key, $value := .Values.agent.annotations }}
@@ -249,14 +279,10 @@ Returns kubernetes pod template configuration as code
     {{- $_ := set $local "first" false }}
   {{- end }}
 {{- end }}
-  nodeUsageMode: "NORMAL"
+  nodeUsageMode: {{ quote .Values.agent.nodeUsageMode }}
   podRetention: {{ .Values.agent.podRetention }}
-  showRawYaml: true
-{{- if eq .Values.agent.podName "buildah" }}
-  serviceAccount: "buildah"
-{{- else }}
+  showRawYaml: {{ .Values.agent.showRawYaml }}
   serviceAccount: "{{ include "jenkins.serviceAccountAgentName" . }}"
-{{- end }}
   slaveConnectTimeoutStr: "{{ .Values.agent.connectTimeout }}"
 {{- if .Values.agent.volumes }}
   volumes:
@@ -334,5 +360,38 @@ Create the name of the service account for Jenkins agents to use
     {{ default (printf "%s-%s" (include "jenkins.fullname" .) "agent") .Values.serviceAccountAgent.name }}
 {{- else -}}
     {{ default "default" .Values.serviceAccountAgent.name }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create the name of the service account for Jenkins backup to use
+*/}}
+{{- define "backup.serviceAccountBackupName" -}}
+{{- if .Values.backup.serviceAccount.create -}}
+    {{ default (printf "%s-%s" (include "jenkins.fullname" .) "backup") .Values.backup.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.backup.serviceAccount.name }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create a full tag name for controller image
+*/}}
+{{- define "controller.tag" -}}
+{{- if .Values.controller.tagLabel -}}
+    {{- default (printf "%s-%s" .Chart.AppVersion .Values.controller.tagLabel) .Values.controller.tag -}}
+{{- else -}}
+    {{- default .Chart.AppVersion .Values.controller.tag -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create the HTTP port for interacting with the controller
+*/}}
+{{- define "controller.httpPort" -}}
+{{- if .Values.controller.httpsKeyStore.enable -}}
+    {{- .Values.controller.httpsKeyStore.httpPort -}}
+{{- else -}}
+    {{- .Values.controller.targetPort -}}
 {{- end -}}
 {{- end -}}
