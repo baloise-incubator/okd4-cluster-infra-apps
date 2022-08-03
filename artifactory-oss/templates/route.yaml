@@ -8,7 +8,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  host: artifactory.apps.baloise.dev
+  host: artifactory.baloise.dev
   path: /
   to:
     kind: Service
