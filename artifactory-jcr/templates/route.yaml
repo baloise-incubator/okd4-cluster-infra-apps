@@ -8,11 +8,11 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  host: artifactory-oss.baloise.dev
+  host: artifactory-jcr.baloise.dev
   path: /
   to:
     kind: Service
-    name: artifactory-oss
+    name: artifactory-jcr
     weight: 100
   port:
     targetPort: http-router
