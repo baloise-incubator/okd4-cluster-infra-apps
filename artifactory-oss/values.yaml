@@ -13,8 +13,9 @@ artifactory:
   ## Artifactory
   ## See full list of supported Artifactory options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
   artifactory:
-    uid: 1000670000
-    gid: 1000670000
+    setSecurityContext: false
+    # uid: 1000670000
+    # gid: 1000670000
     ## Default tag is from the artifactory sub-chart in the requirements.yaml
     image:
       registry: releases-docker.jfrog.io
