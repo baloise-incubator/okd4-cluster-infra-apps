@@ -13,6 +13,7 @@ artifactory:
   ## Artifactory
   ## See full list of supported Artifactory options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
   artifactory:
+    replicaCount: 0
     setSecurityContext: false
     # uid: 1000670000
     # gid: 1000670000
