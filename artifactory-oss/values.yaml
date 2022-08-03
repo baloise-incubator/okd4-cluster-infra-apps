@@ -64,7 +64,8 @@ artifactory:
   ## ref: https://github.com/bitnami/charts/blob/master/bitnami/postgresql/README.md
   postgresql:
     enabled: true
-
+    securityContext:
+      enabled: false
   ## This key is required for upgrades to protect old PostgreSQL chart's breaking changes.
   databaseUpgradeReady: "yes"
 
