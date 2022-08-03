@@ -76,6 +76,7 @@ artifactory:
     volumePermissions:
       enabled: false
     postgresqlPassword: "artifactory"
+    replicationPassword: "artifactory"
   ## This key is required for upgrades to protect old PostgreSQL chart's breaking changes.
   databaseUpgradeReady: "yes"
 
