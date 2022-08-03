@@ -388,6 +388,7 @@ spec:
           cp -fv /tmp/migrationHelmInfo.yaml $scriptsPath/migrationHelmInfo.yaml;
           cp -fv /tmp/migrationStatus.sh $scriptsPath/migrationStatus.sh;
           mkdir -p {{ .Values.artifactory.persistence.mountPath }}/log;
+          mkdir -p {{ .Values.artifactory.persistence.mountPath }}/etc/artifactory/;
           bash $scriptsPath/migrationStatus.sh {{ include "artifactory.app.version" . }} {{ .Values.artifactory.migration.timeoutSeconds }} > >(tee {{ .Values.artifactory.persistence.mountPath }}/log/helm-migration.log) 2>&1;
         env:
       {{- if and (not .Values.waitForDatabase) (not .Values.postgresql.enabled) }}
