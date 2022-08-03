@@ -54,8 +54,8 @@ artifactory:
     tlsSecretName: ""
     service:
       type: ClusterIP
-    uid: 1000670000
-    gid: 1000670000
+    uid: false
+    gid: false
 
   ## Ingress
   ## See full list of supported Ingress options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
