@@ -11,6 +11,9 @@ spec:
           args:
             - --source=crd
             - --provider=cloudflare
+            - --zone-id-filter=f4c572b9f198b76087f0ee74dbca43c2
+            - --exclude-domains=okd.baloise.dev
+            - --exclude-domains=apps.baloise.dev
             - --interval=20s
             - --events
             - --default-targets=49.12.17.221
