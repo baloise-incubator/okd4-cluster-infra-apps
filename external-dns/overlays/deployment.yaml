@@ -10,9 +10,9 @@ spec:
           name: external-dns
           args:
             - --source=crd
+            - --provider=cloudflare
             - --events
             - --default-targets=49.12.17.221
-            - --provider=cloudflare
           env:
             - name: CF_API_KEY
               valueFrom:
