@@ -11,6 +11,7 @@ spec:
           args:
             - --source=crd
             - --provider=cloudflare
+            - --interval=20s
             - --events
             - --default-targets=49.12.17.221
           env:
