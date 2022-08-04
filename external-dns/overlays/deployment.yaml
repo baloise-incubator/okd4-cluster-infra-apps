@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns
+spec:
+  template:
+    spec:
+      containers:
+        -
+          name: external-dns
+          args:
+            - --source=service
+            - --source=ingress
+            - --source=crd
+            - --events
+            - --default-targets=49.12.17.221
+            - --source=openshift-route
+            - --provider=cloudflare
+          env:
+            - name: CF_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: api-key
+                  name: cloudflare-api-key
+            - name: CF_API_EMAIL
+              value: "nikolas.philips@baloise.ch"
