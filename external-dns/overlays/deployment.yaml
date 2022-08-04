@@ -8,7 +8,7 @@ spec:
       containers:
         -
           name: external-dns
-          image: k8s.gcr.io/external-dns/external-dns:v0.12.2
+          image: k8s.gcr.io/external-dns/external-dns:v0.11.1
           args:
             - --source=crd
             - --provider=cloudflare
