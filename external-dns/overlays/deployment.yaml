@@ -9,12 +9,9 @@ spec:
         -
           name: external-dns
           args:
-            - --source=service
-            - --source=ingress
             - --source=crd
             - --events
             - --default-targets=49.12.17.221
-            - --source=openshift-route
             - --provider=cloudflare
           env:
             - name: CF_API_KEY
