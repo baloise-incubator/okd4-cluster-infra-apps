@@ -1,7 +1,7 @@
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: argocd-cm
-apiVersion: v1
 data:
   application.instanceLabelKey: argocd.argoproj.io/instance
   url: https://argocd.baloise.dev
@@ -37,3 +37,4 @@ data:
           clientID: system:serviceaccount:argocd:argocd-dex-server
           clientSecret: $dex.clientSecret
           redirectURI: https://argocd.baloise.dev/api/dex/callback
+  kustomize.buildOptions: --enable-helm
