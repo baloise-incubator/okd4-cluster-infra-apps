@@ -3,7 +3,7 @@ kind: Route
 metadata:
   name: workflows
 spec:
-  host: workflows.apps.baloise.dev
+  host: workflows.baloise.dev
   port:
     targetPort: web
   tls:

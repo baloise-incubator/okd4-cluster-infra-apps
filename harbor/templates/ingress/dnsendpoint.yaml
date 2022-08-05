@@ -1,0 +1,9 @@
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: devspaces
+spec:
+  endpoints:
+    - dnsName: {{ .Values.ingress.hosts.core }}
+      recordType: A
+      targets: [""]
