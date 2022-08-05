@@ -48,7 +48,7 @@ spec:
           - name: jenkins
             bound_service_account_names: ["default", "vault"]
             bound_service_account_namespaces: [""]
-            policies: ["allow_secrets"]
+            policies: ["secrets-read"]
             ttl: 1h
     secrets:
       - path: secrets
