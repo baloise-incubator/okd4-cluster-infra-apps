@@ -1,0 +1,66 @@
+apiVersion: vault.banzaicloud.com/v1alpha1
+kind: Vault
+metadata:
+  name: vault
+spec:
+  size: 1
+  image: vault:1.11.1
+  bankVaultsImage: banzaicloud/bank-vaults:master
+  serviceAccount: vault
+  volumes:
+    - name: vault-file
+      persistentVolumeClaim:
+        claimName: vault-file
+  volumeMounts:
+    - name: vault-file
+      mountPath: /vault/file
+  caNamespaces:
+    - "*"
+  unsealConfig:
+    options:
+      preFlightChecks: true
+    kubernetes: {}
+  config:
+    storage:
+      file:
+        path: /vault/file
+    listener:
+      tcp:
+        address: 0.0.0.0:8200
+        tls_disable: true
+    ui: true
+    disable_mlock: true
+  externalConfig:
+    policies:
+      - name: secrets-admin
+        rules: |
+          path "secrets/*" {
+            capabilities = ["create", "read", "update", "delete", "list"]
+          }
+      - name: secrets-read
+        rules: |
+          path "secrets/*" {
+            capabilities = ["read"]
+          }
+    auth:
+      - type: kubernetes
+        roles:
+          - name: jenkins
+            bound_service_account_names: ["default", "vault"]
+            bound_service_account_namespaces: [""]
+            policies: ["allow_secrets"]
+            ttl: 1h
+    secrets:
+      - path: secrets
+        type: kv
+        description: General secrets.
+        options:
+          version: 2
+  istioEnabled: false
+  securityContext:
+    runAsNonRoot: true
+  vaultEnvsConfig:
+   - name: SKIP_CHOWN
+     value: "true"
+   - name: SKIP_SETCAP
+     value: "true"
