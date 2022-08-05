@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - github.com/argoproj/argo-cd/manifests/ha/cluster-install?ref=v2.4.8
   - base/argocd-ui-route.yaml
+  - base/dnsendpoint.yaml
   - base/argocd-sealed-secret.yaml
   - base/default-appprojects.yaml
   - base/servicemonitors.yaml
