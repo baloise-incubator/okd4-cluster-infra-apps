@@ -30,7 +30,7 @@ spec:
     externalDb: false
     postgresVersion: '13.7'
   devWorkspace:
-    enable: true
+    enable: false
   imagePuller:
     enable: true
     spec:
