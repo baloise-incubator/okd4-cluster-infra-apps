@@ -1,0 +1,14 @@
+portal:
+  mariadb:
+    primary:
+      containerSecurityContext:
+        enabled: false
+      podSecurityContext:
+        enabled: false
+    secondary:
+      containerSecurityContext:
+        enabled: false
+      podSecurityContext:
+        enabled: false
+    volumePermissions:
+      enabled: false
