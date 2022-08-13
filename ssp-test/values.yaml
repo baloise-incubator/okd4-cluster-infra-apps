@@ -1,3 +1,7 @@
+global:
+  env:
+    # global.env.keycloakUrl -- (String) global value for env.keycloakUrl
+    keycloakUrl: https://usu-portal.apps.baloise.dev/auth
 portal:
   usuportal:
     hostname: usu-portal.apps.baloise.devc
