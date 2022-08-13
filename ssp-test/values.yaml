@@ -1,4 +1,29 @@
 portal:
+  usuportal:
+    hostname: usu-portal.apps.baloise.devc
+    um:
+      keycloakUrl: https://usu-portal.apps.baloise.dev/auth
+      profileUrl: https://usu-portal-profile.apps.baloise.dev/
+      adminUrl: https://usu-portal-admin.apps.baloise.dev/
+  um-profile-ui:
+    angular-base:
+      ingress:
+        enabled: false
+      serviceAccount:
+        create: false
+        name: anyuid
+      env:
+        apiUrl: https://usu-portal.apps.baloise.dev/user-management-service/
+  user-management-service:
+    env:
+      kcConnection:
+        externalUrl: https://usu-portal.apps.baloise.dev/auth
+        internalUrl: "http://um-keycloak/auth"
+    keycloak:
+      extraEnv:
+        # -- Explicitly specify Keycloak Frontend URL accessible by external client - needed for USM
+        - name: "KEYCLOAK_FRONTEND_URL"
+          value: https://usu-portal.apps.baloise.dev/auth
   mariadb:
     primary:
       containerSecurityContext:
@@ -15,11 +40,10 @@ portal:
   user-management:
     um-admin-ui:
       angular-base:
+        ingress:
+          enabled: false        
         serviceAccount:
           create: false
           name: anyuid
-    um-profile-ui:
-      angular-base:
-        serviceAccount:
-          create: false
-          name: anyuid
+        env:
+          apiUrl: https://usu-portal.apps.baloise.dev/user-management-service/
