@@ -27,7 +27,6 @@ spec:
       {{- if .Values.podSecurityContext.enabled }}
       securityContext: {{- omit .Values.podSecurityContext "enabled" | toYaml | nindent 10 }}
       {{- end }}
-      serviceAccountName: anyuid
       containers:
       - name: client
         image: {{ .Values.usuportal.client.image }}:{{ .Values.usuportal.client.tag }}
