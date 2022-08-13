@@ -16,8 +16,10 @@ portal:
     um-admin-ui:
       angular-base:
         serviceAccount:
+          create: false
           name: nonroot
     um-profile-ui:
       angular-base:
         serviceAccount:
+          create: false
           name: nonroot
