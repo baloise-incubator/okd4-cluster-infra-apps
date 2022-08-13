@@ -1,0 +1,17 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: um-admin-ui
+spec:
+  host: usu-portal-admin.apps.baloise.dev
+  path: /
+  to:
+    kind: Service
+    name: um-admin-ui
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
