@@ -17,9 +17,9 @@ portal:
       angular-base:
         serviceAccount:
           create: false
-          name: nonroot
+          name: anyuid
     um-profile-ui:
       angular-base:
         serviceAccount:
           create: false
-          name: nonroot
+          name: anyuid
