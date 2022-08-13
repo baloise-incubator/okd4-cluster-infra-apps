@@ -4,6 +4,9 @@ global:
     keycloakUrl: https://usu-portal.apps.baloise.dev/auth
 portal:
   usuportal:
+    client:
+      image: artifactory-jcr.baloise.dev/usu/client
+      tag: 2-4-1
     hostname: usu-portal.apps.baloise.devc
     um:
       keycloakUrl: https://usu-portal.apps.baloise.dev/auth
@@ -22,6 +25,10 @@ portal:
           value: https://usu-portal.apps.baloise.dev/auth
     um-admin-ui:
       angular-base:
+        image:
+          registry: artifactory-jcr.baloise.dev
+          repository: usu/admin-ui
+          tag: 3.0.0
         ingress:
           enabled: false        
 #        serviceAccount:
@@ -31,11 +38,15 @@ portal:
           apiUrl: https://usu-portal.apps.baloise.dev/user-management-service/
     um-profile-ui:
       angular-base:
+        image:
+          registry: artifactory-jcr.baloise.dev
+          repository: usu/profile-ui
+          tag: 3.0.0
         ingress:
           enabled: false
-        serviceAccount:
-          create: false
-          name: anyuid
+#        serviceAccount:
+#          create: false
+#          name: anyuid
         env:
           apiUrl: https://usu-portal.apps.baloise.dev/user-management-service/
   mariadb:
