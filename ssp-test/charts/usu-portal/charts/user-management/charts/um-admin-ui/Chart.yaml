@@ -1,0 +1,17 @@
+apiVersion: v2
+appVersion: 3.0.0
+dependencies:
+- name: angular-base
+  repository: https://helm.devops.usu.group/repository/helm-usu-shared/
+  version: ^1.0.4
+description: The um-admin-ui deployment
+maintainers:
+- email: samuel.schober@usu.com
+  name: usisschobe
+- email: nicholas.dietz@usu.com
+  name: usindietz
+name: um-admin-ui
+sources:
+- https://gitlab.devops.usu.group/usu-shared/usu-user-management/user-management-ui
+type: application
+version: 3.0.0

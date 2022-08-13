@@ -1,0 +1,5 @@
+usuportal:
+  backend:
+    injectJdbc:
+      oracle: https://download.oracle.com/otn-pub/otn_software/jdbc/216-OAuth2/ojdbc11.jar
+      mssql: busybox:latest

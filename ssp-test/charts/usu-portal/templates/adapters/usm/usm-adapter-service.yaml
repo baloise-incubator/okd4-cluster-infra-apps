@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "usu-portal.fullname" . }}-adapter-usm
+  labels:
+    {{- include "usu-portal.labels" . | nindent 4 }}
+    app: usu-portal.adapter-usm
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 80
+      targetPort: 8011
+      protocol: TCP
+      name: http
+  selector:
+    app: usu-portal.adapter-usm

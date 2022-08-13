@@ -1,0 +1,12 @@
+images:
+    client:
+        tag: develop
+    backend:
+        tag: develop
+    schemas:
+        tag: develop
+    adapter:
+        usm:
+            tag: develop
+        ua:
+            tag: develop

@@ -1,0 +1,36 @@
+global:
+  imageRegistry: docker.devops.usu.group
+  imagePullSecrets: []
+  ingress:
+    className: nginx
+    hostname: kubernetes.docker.internal
+    tls: true
+    selfSigned: true
+  env:
+    keycloakUrl: kubernetes.docker.internal/auth
+
+env:
+  baseUrl: kubernetes.docker.external
+  keycloakUrl: kubernetes.docker.external/auth
+  apiUrl: kubernetes.docker.external/api
+
+extraEnv:
+  TEST_ENV:
+    value: "test value"
+
+nameOverride: "example"
+
+image:
+  registry: docker.devops.usu.group
+  repository: example-repo
+  tag: latest
+  pullPolicy: Always
+
+ingress:
+  enabled: true
+  className: traefik
+  hostname: kubernetes.docker.external
+  path: /example
+  tls: true
+  selfSigned: false
+  certManager: true

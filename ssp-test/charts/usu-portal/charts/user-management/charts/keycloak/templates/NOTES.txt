@@ -1,0 +1,40 @@
+RELEASE: {{ .Release.Name }} NAMESPACE: {{ .Release.Namespace }}
+----------------------------------------------------------------
+CHART NAME: {{ .Chart.Name }}
+CHART VERSION: {{ .Chart.Version }}
+APP VERSION: {{ .Chart.AppVersion }}
+
+** Please be patient while the chart is being deployed **
+
+Keycloak can be accessed through the following DNS name from within your cluster:
+
+    {{ include "common.names.fullname" . }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }} (port {{ .Values.deployment.containerPort }})
+
+{{- if .Values.env.admin }}
+Access the Administration Console using the following credentials:
+
+    echo Username: {{ .Values.env.admin.user }}
+  {{- if or (not .Values.env.existingSecretPerPassword) (not .Values.env.existingSecretPerPassword.adminPassword) }}
+    echo Password: $(kubectl get secret --namespace {{ .Release.Namespace }} {{ include "common.secrets.name" (dict "existingSecret" .Values.env.existingSecret "context" $) }} -o jsonpath="{.data.admin-password}" | base64 --decode)
+  {{- else }}
+    echo Password: $(kubectl get secret --namespace {{ .Release.Namespace }} {{ include "common.secrets.name" (dict "existingSecret" .Values.env.existingSecretPerPassword.adminPassword "context" $) }} -o jsonpath="\{ {{ include "common.secrets.key" (dict "existingSecret" .Values.existingSecretPerPassword "key" "adminPassword") }} \}" | base64 --decode)
+  {{- end }}
+{{- end }}
+
+{{- if .Values.env.user }}
+
+---------- Keycloak Deployment ----------
+{{ include "usuCommon.notes.info" (dict "Values" .Values "Release" .Release) }}
+
+{{- if .Values.ingress.enabled }}
+  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ .Values.ingress.hostname }}{{ .Values.ingress.path }}/auth
+{{- else }}
+Execute following commands to access the application:
+  export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "common.names.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
+  export CONTAINER_PORT=$(kubectl get pod --namespace {{ .Release.Namespace }} $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+  echo "Visit http://127.0.0.1:8080 to use your application"
+  kubectl --namespace {{ .Release.Namespace }} port-forward $POD_NAME 8080:$CONTAINER_PORT
+{{- end }}
+{{- end }}
+
+-----------------------------------------

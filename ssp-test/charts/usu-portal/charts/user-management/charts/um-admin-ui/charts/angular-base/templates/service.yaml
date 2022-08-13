@@ -1,0 +1,35 @@
+{{- $fullName := include "common.names.fullname" . -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $fullName }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "usuCommon.labels.standard" . | nindent 4 }}
+    {{- include "usuCommon.labels.componentName" . | nindent 4}}
+    {{- if .Values.commonLabels }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.commonLabels "context" $ ) | nindent 4 }}
+    {{- end }}
+  {{- if .Values.commonAnnotations }}
+  annotations:
+    {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  {{- if (or (eq .Values.service.type "LoadBalancer") (eq .Values.service.type "NodePort")) }}
+  externalTrafficPolicy: {{ .Values.service.externalTrafficPolicy | quote }}
+  {{- end }}
+  {{- if eq .Values.service.type "LoadBalancer" }}
+  loadBalancerSourceRanges: {{ .Values.service.loadBalancerSourceRanges }}
+  {{- if (not (empty .Values.service.loadBalancerIP)) }}
+  loadBalancerIP: {{ .Values.service.loadBalancerIP }}
+  {{- end }}
+  {{- end }}
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      protocol: TCP
+      targetPort: http
+  selector:
+    {{- include "usuCommon.labels.matchLabels" . | nindent 4 }}
+    {{- include "usuCommon.labels.componentName" . | nindent 4}}

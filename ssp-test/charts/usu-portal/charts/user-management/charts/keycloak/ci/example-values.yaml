@@ -1,0 +1,7 @@
+ingress:
+  enabled: true
+  hostname: "{{ .Release.name }}.integration.usu.k8s.aspera.usu.grp"
+
+env:
+  db:
+    host: kctest-mariadb
