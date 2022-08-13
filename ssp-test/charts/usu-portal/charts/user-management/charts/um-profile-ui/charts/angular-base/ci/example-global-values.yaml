@@ -1,0 +1,29 @@
+global:
+  imageRegistry: docker.devops.usu.group
+  imagePullSecrets: []
+  ingress:
+    className: nginx
+    hostname: kubernetes.docker.internal
+    tls: true
+    selfSigned: true
+  env:
+    keycloakUrl: kubernetes.docker.internal/auth
+
+env:
+  baseUrl: kubernetes.docker.internal
+  apiUrl: kubernetes.docker.internal/api
+
+extraEnv:
+  TEST_ENV:
+    value: "test value"
+
+nameOverride: "example"
+
+image:
+  repository: example-repo
+  tag: latest
+  pullPolicy: Always
+
+ingress:
+  enabled: true
+  path: /example

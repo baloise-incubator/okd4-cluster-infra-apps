@@ -1,0 +1,10 @@
+angular-base:
+  nameOverride: usu-um-admin-ui
+
+  image:
+    registry: docker.devops.usu.group
+    repository: usu-shared/usu-user-management/user-management-ui/admin-ui
+    tag: 3.0.0
+  extraEnv:
+    # angular-base.extraEnv.PROFILE_UI_URL -- The URL to the profile UI
+    PROFILE_UI_URL:

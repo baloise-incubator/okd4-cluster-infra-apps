@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "usu-portal.fullname" . }}-schemas
+  labels:
+    {{- include "usu-portal.labels" . | nindent 4 }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "usu-portal.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "usu-portal.selectorLabels" . | nindent 8 }}
+        app: usu-portal.schemas
+    spec:
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.podSecurityContext.enabled }}
+      securityContext: {{- omit .Values.podSecurityContext "enabled" | toYaml | nindent 10 }}
+      {{- end }}
+      containers:
+      - name: schemas
+        image: {{ .Values.usuportal.schemas.image }}:{{ .Values.usuportal.schemas.tag }}
+        {{- if .Values.containerSecurityContext.enabled }}
+        securityContext: {{- omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+        {{- end }}
+        ports:
+        - containerPort: 4000
+        env:
+          - name: CLIENT_BASE_PATH
+            value: '/'
+          - name: KEY_CLOAK_URL
+            value: {{ .Values.usuportal.um.keycloakUrl | quote }}
+          - name: HELP_PAGE_URL
+            value: {{ .Values.usuportal.helpPageUrl | quote }}
+          - name: PROFILE_URL
+            value: {{ .Values.usuportal.um.profileUrl | quote }}
+          - name: USER_MANAGEMENT_URL
+            value: {{ .Values.usuportal.um.adminUrl | quote }}
+          - name: THEME_NAME
+            value: {{ .Values.usuportal.schemas.themeName | quote }}
+          - name: FALLBACK_LANGUAGE
+            value: {{ .Values.usuportal.fallbackLang | quote }}
+          - name: BACKEND_HOST
+            value: {{ include "usu-portal.fullname" . }}-backend
+          - name: BACKEND_PORT
+            value: '80'
+        command: ["/bin/sh","-c"]
+        args: ["./scripts/wait-for-it.sh $BACKEND_HOST:$BACKEND_PORT -t 0 && npm start"]
+

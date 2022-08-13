@@ -1,0 +1,24 @@
+dependencies:
+- name: user-management-service
+  repository: https://helm.devops.usu.group/repository/helm-usu-shared/
+  version: 3.1.2
+- name: um-profile-ui
+  repository: https://helm.devops.usu.group/repository/helm-usu-shared/
+  version: 3.0.0
+- name: um-admin-ui
+  repository: https://helm.devops.usu.group/repository/helm-usu-shared/
+  version: 3.0.0
+- name: keycloak
+  repository: https://helm.devops.usu.group/repository/helm-usu-shared/
+  version: 4.0.0
+- name: mariadb
+  repository: https://charts.bitnami.com/bitnami
+  version: 11.0.14
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 16.13.2
+- name: minio
+  repository: https://charts.bitnami.com/bitnami
+  version: 11.7.9
+digest: sha256:59ab3c107cdbae8657a9dbb8df9cba5d63f9cc505e3cf37eac495ec188bac395
+generated: "2022-07-12T13:21:36.373048769Z"

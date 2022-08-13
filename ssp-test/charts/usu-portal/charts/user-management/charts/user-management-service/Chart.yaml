@@ -1,0 +1,20 @@
+apiVersion: v2
+appVersion: 3.1.0
+dependencies:
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  version: ^1.0.0
+- name: usu-common
+  repository: https://helm.devops.usu.group/repository/helm-usu-shared/
+  version: ^1.0.0
+description: The user-management-service deployment.
+maintainers:
+- email: samuel.schober@usu.com
+  name: usisschobe
+- email: nicholas.dietz@usu.com
+  name: usindietz
+name: user-management-service
+sources:
+- https://gitlab.devops.usu.group/usu-shared/usu-user-management/user-management-service
+type: application
+version: 3.1.2

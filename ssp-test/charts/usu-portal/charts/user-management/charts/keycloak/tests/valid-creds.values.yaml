@@ -1,0 +1,13 @@
+ingress:
+  enabled: true
+  hostname: "{{ .Release.Name }}.integration.usu.k8s.aspera.usu.grp"
+
+env:
+  db:
+    host: keycloak-master-mariadb
+    database: keycloak
+    user: keycloak
+    password: keycloak
+    root:
+      user: not-existing-root-user
+      password: password

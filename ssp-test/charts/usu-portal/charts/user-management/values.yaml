@@ -1,0 +1,48 @@
+um-profile-ui:
+  # um-admin-ui.enabled -- whether the um profile ui is enabled
+  enabled: true
+
+um-admin-ui:
+  # um-admin-ui.enabled -- whether the um admin ui is enabled
+  enabled: true
+
+user-management-service:
+  # userManagementService.enabled -- whether the user-management-service is enabled
+  enabled: true
+  minio:
+    # -- true: minio enabled, false: minio disabled
+    enabled: true
+    # -- URL where Minio server is accessible including port
+    url: ""
+    # -- external URL where Minio server is accessible including port
+    externalUrl: ""
+    # -- username used to access Minio
+    accesskey: ""
+    # -- password used to access Minio
+    secretkey: ""
+    # -- bucketname used by file service client to access specific bucket
+    bucketname: "usu-user-management"
+
+keycloak:
+  # keycloak.enabled -- whether the Keycloak is enabled
+  enabled: true
+
+mariadb:
+  # mariadb.enabled -- whether the mariadb is enabled
+  enabled: true
+
+redis:
+  # redis.enabled -- whether the redis is enabled
+  enabled: true
+
+minio:
+  # -- whether the minio is enabled
+  enabled: true
+  auth:
+    # -- MinIO® root username
+    rootUser: "minioadmin"
+    # -- Password for MinIO® root user
+    rootPassword: "minioadmin"
+  volumePermissions:
+    # -- Enable MinIO® data persistence using PVC. If false, use emptyDir
+    enabled: true

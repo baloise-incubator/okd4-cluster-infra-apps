@@ -1,0 +1,120 @@
+apiVersion: {{ include "common.capabilities.deployment.apiVersion" . }}
+kind: Deployment
+metadata:
+  name: {{ template "common.names.fullname" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "usuCommon.labels.standard" . | nindent 4 }}
+    {{- include "usuCommon.labels.componentName" . | nindent 4}}
+    {{- if .Values.commonLabels }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.commonLabels "context" $ ) | nindent 4 }}
+    {{- end }}
+  {{- if .Values.commonAnnotations }}
+  annotations:
+    {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+  {{- end }}
+spec:
+  replicas: {{ .Values.deployment.replicaCount }}
+  {{- if .Values.deployment.updateStrategy }}
+  strategy:
+    {{- toYaml .Values.deployment.updateStrategy | nindent 4 }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "usuCommon.labels.matchLabels" . | nindent 6 }}
+      {{- include "usuCommon.labels.componentName" . | nindent 6 }}
+  template:
+    metadata:
+      {{- if .Values.deployment.podAnnotations }}
+      annotations:
+        {{- include "common.tplvalues.render" (dict "value" .Values.deployment.podAnnotations "context" .) | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "usuCommon.labels.standard" . | nindent 8 }}
+        {{- include "usuCommon.labels.componentName" . | nindent 8}}
+        {{- if .Values.deployment.podLabels }}
+        {{- include "common.tplvalues.render" (dict "value" .Values.deployment.podLabels "context" $) | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ include "usuCommon.names.serviceAccount" . | trunc 63 | trimSuffix "-" }}
+      {{- include "usuCommon.imagePullSecrets" . | nindent 6 }}
+      {{- if .Values.deployment.hostAliases }}
+      hostAliases:
+        {{- include "common.tplvalues.render" (dict "value" .Values.deployment.hostAliases "context" .) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment.affinity }}
+      affinity:
+        {{- include "common.tplvalues.render" ( dict "value" .Values.deployment.affinity "context" .) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment.nodeSelector }}
+      nodeSelector:
+        {{- include "common.tplvalues.render" ( dict "value" .Values.deployment.nodeSelector "context" .) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment.tolerations }}
+      tolerations:
+        {{- include "common.tplvalues.render" (dict "value" .Values.deployment.tolerations "context" .) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment.priorityClassName }}
+      priorityClassName: {{ .Values.deployment.priorityClassName | quote }}
+      {{- end }}
+      {{- if .Values.deployment.podSecurityContext.enabled }}
+      securityContext:
+        {{- omit .Values.deployment.podSecurityContext "enabled" | toYaml | nindent 8 }}
+      {{- end }}
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{- include "common.tplvalues.render" (dict "value" .Values.initContainers "context" $) | nindent 8 }}
+      {{- end }}    
+      containers:
+        - name: {{ include "common.names.name" . }}
+          image: {{ include "common.images.image" (dict "imageRoot" .Values.image) }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.deployment.containerSecurityContext.enabled }}
+          securityContext: {{- omit .Values.deployment.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 8090
+              protocol: TCP
+          env:
+            {{- include "userManagementService.env.generalEnvironment" . | nindent 12 }}
+            {{- with .Values.extraEnv }}
+            {{- range $key, $value := . }}
+            {{- if $value }}
+            - name: {{ $key }}
+              {{- toYaml $value | nindent 14}}
+            {{- else }}
+            {{- end}}
+          {{- end }}
+          {{- end }}
+          {{- if .Values.deployment.resources }}
+          resources: {{- toYaml .Values.deployment.resources | nindent 12 }}
+          {{- end }}
+          startupProbe:
+            httpGet:
+              # TODO: Create better solution based on test if DB initialization phase finished
+              path: {{ .Values.ingress.path }}/actuator/health/liveness
+              port: http
+            initialDelaySeconds: {{ .Values.deployment.startupProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.deployment.startupProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.deployment.startupProbe.timeoutSeconds}}
+            failureThreshold: {{ .Values.deployment.startupProbe.failureThreshold}}
+            successThreshold: {{ .Values.deployment.startupProbe.successThreshold}}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.ingress.path }}/actuator/health/readiness
+              port: http
+            initialDelaySeconds: {{ .Values.deployment.readinessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.deployment.readinessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.deployment.readinessProbe.timeoutSeconds}}
+            failureThreshold: {{ .Values.deployment.readinessProbe.failureThreshold}}
+            successThreshold: {{ .Values.deployment.readinessProbe.successThreshold}}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.ingress.path }}/actuator/health/liveness
+              port: http
+            initialDelaySeconds: {{ .Values.deployment.livenessProbe.initialDelaySeconds}}
+            periodSeconds: {{ .Values.deployment.livenessProbe.periodSeconds}}
+            timeoutSeconds: {{ .Values.deployment.livenessProbe.timeoutSeconds}}
+            failureThreshold: {{ .Values.deployment.livenessProbe.failureThreshold}}
+            successThreshold: {{ .Values.deployment.livenessProbe.successThreshold}}
