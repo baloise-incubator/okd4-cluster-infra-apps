@@ -24,9 +24,9 @@ portal:
       angular-base:
         ingress:
           enabled: false        
-        serviceAccount:
-          create: false
-          name: anyuid
+#        serviceAccount:
+#          create: false
+#          name: anyuid
         env:
           apiUrl: https://usu-portal.apps.baloise.dev/user-management-service/
     um-profile-ui:
