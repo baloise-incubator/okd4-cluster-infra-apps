@@ -11,11 +11,11 @@ portal:
         kcConnection:
           externalUrl: https://usu-portal.apps.baloise.dev/auth
           internalUrl: "http://um-keycloak/auth"
-      keycloak:
-        extraEnv:
-          # -- Explicitly specify Keycloak Frontend URL accessible by external client - needed for USM
-          - name: "KEYCLOAK_FRONTEND_URL"
-            value: https://usu-portal.apps.baloise.dev/auth
+    keycloak:
+      extraEnv:
+        # -- Explicitly specify Keycloak Frontend URL accessible by external client - needed for USM
+        - name: "KEYCLOAK_FRONTEND_URL"
+          value: https://usu-portal.apps.baloise.dev/auth
     um-admin-ui:
       angular-base:
         ingress:
