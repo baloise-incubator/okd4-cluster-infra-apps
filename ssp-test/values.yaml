@@ -12,3 +12,12 @@ portal:
         enabled: false
     volumePermissions:
       enabled: false
+  user-management:
+    um-admin-ui:
+      angular-base:
+        serviceAccount:
+          name: nonroot
+    um-profile-ui:
+      angular-base:
+        serviceAccount:
+          name: nonroot
