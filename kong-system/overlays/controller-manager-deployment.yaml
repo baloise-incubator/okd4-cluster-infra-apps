@@ -5,8 +5,7 @@ metadata:
 spec:
   template:
     spec:
-      securityContext:
-        runAsNonRoot: true
       containers:
-        - args:
+       - name: manager
+         args:
             $patch: delete
