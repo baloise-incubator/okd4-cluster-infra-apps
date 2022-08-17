@@ -1,16 +1,16 @@
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: cp
+  name: gateway-ingress
 spec:
-  host: am-wso2.apps.baloise.dev
+  host: gateway-am-wso2.apps.baloise.dev
   path: /
   to:
     kind: Service
-    name: wso2am-pattern-3-am-cp-service
+    name: wso2am-pattern-3-am-gateway-service
     weight: 100
   port:
-    targetPort: servlet-http
+    targetPort: pass-through-http
   tls:
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
