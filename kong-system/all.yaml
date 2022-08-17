@@ -5099,6 +5099,8 @@ data:
     leaderElection:
       leaderElect: true
       resourceName: a7feedc84.konghq.com
+    admin:
+      enabled: true
 kind: ConfigMap
 metadata:
   name: gateway-operator-manager-config
