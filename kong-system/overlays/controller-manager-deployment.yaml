@@ -8,5 +8,4 @@ spec:
     spec:
       containers:
         - name: manager
-          args:
-            $patch: delete
+          args: []
