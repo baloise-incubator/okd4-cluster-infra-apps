@@ -6,6 +6,7 @@ resources:
   - https://github.com/Kong/kubernetes-ingress-controller/config/crd
   - https://github.com/kubernetes-sigs/gateway-api/config/crd
   - https://github.com/kong/gateway-operator/config/default
+  - https://github.com/kong/gateway-operator/config/manager
   - base/gatewayclass.yaml
   - base/gateway.yaml
 
