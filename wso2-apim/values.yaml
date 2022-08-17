@@ -111,7 +111,7 @@ wso2:
           # Name of the IngressClass to use
           className: ""
           # Hostname for Gateway (WebSub) service
-          hostname: "websub.am.wso2.com"
+          hostname: "websub-am-wso2.apps.baloise.dev"
           # Annotations for the API Manager Gateway (WebSub) service Ingress
           annotations:
             kubernetes.io/ingress.class: "nginx"
@@ -124,7 +124,7 @@ wso2:
           # Name of the IngressClass to use
           className: ""
           # Hostname for Gateway profile
-          hostname: "gateway.am.wso2.com"
+          hostname: "gateway-am-wso2.apps.baloise.dev"
           # Annotations for the API Manager Gateway service Ingress
           annotations:
             kubernetes.io/ingress.class: "nginx"
@@ -174,7 +174,7 @@ wso2:
           # Name of the IngressClass to use
           className: ""
           # Hostname for Control Plane profile
-          hostname: "am.wso2.com"
+          hostname: "am-wso2.apps.baloise.dev"
           # Annotations for the API Manager Control Plane service Ingress
           annotations:
             kubernetes.io/ingress.class: "nginx"
@@ -268,7 +268,7 @@ wso2:
         # Configure management ingress
         management:
           # Hostname for the Micro Integrator management endpoint.
-          hostname: "management.mi.wso2.com"
+          hostname: "management-mi.apps.baloise.dev"
           # Annotations for the Micro Integrator management Ingress.
           annotations:
             kubernetes.io/ingress.class: "nginx"
