@@ -13,3 +13,4 @@ resources:
 patchesStrategicMerge:
   - overlays/namespace-removal.yaml
   - overlays/manager-ns-removal.yaml
+  - overlays/controller-manager-deployment.yaml
