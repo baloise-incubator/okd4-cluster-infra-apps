@@ -174,7 +174,7 @@ wso2:
           # Name of the IngressClass to use
           className: ""
           # Hostname for Control Plane profile
-          hostname: "   "
+          hostname: "am-wso2.apps.baloise.dev"
           # Annotations for the API Manager Control Plane service Ingress
           annotations:
             kubernetes.io/ingress.class: "nginx"
