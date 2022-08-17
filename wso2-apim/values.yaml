@@ -276,7 +276,7 @@ wso2:
 
 kubernetes:
   # Name of Kubernetes service account
-  serviceAccount: "wso2am-pattern-3-svc-account"
+  serviceAccount: "wso2"
 
 # Override sub chart parameters
 mysql-am:
