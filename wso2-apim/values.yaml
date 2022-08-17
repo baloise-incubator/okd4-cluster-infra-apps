@@ -88,7 +88,7 @@ wso2:
       # Startup probe executed prior to Liveness Probe taking over
       startupProbe:
         # Number of seconds after the container has started before startup probes are initiated
-        initialDelaySeconds: 1
+        initialDelaySeconds: 45
         # How often (in seconds) to perform the probe
         periodSeconds: 5
         # Number of attempts
@@ -100,7 +100,7 @@ wso2:
         # Indicates whether the container is ready to service requests
       readinessProbe:
         # Number of seconds after the container has started before readiness probes are initiated
-        initialDelaySeconds: 0
+        initialDelaySeconds: 50
         # How often (in seconds) to perform the probe
         periodSeconds: 10
 
@@ -153,7 +153,7 @@ wso2:
         # Startup probe executed prior to Liveness Probe taking over
         startupProbe:
           # Number of seconds after the container has started before startup probes are initiated
-          initialDelaySeconds: 1
+          initialDelaySeconds: 60
           # How often (in seconds) to perform the probe
           periodSeconds: 5
           # Number of attempts
@@ -165,7 +165,7 @@ wso2:
           # Indicates whether the container is ready to service requests
         readinessProbe:
           # Number of seconds after the container has started before readiness probes are initiated
-          initialDelaySeconds: 0
+          initialDelaySeconds: 80
           # How often (in seconds) to perform the probe
           periodSeconds: 10
 
@@ -227,7 +227,7 @@ wso2:
       # Startup probe executed prior to Liveness Probe taking over
       startupProbe:
         # Number of seconds after the container has started before startup probes are initiated
-        initialDelaySeconds: 1
+        initialDelaySeconds: 10
         # How often (in seconds) to perform the probe
         periodSeconds: 5
         # Number of attempts
@@ -239,7 +239,7 @@ wso2:
       # Indicates whether the container is ready to service requests.
       readinessProbe:
         # Number of seconds after the container has started before readiness probes are initiated.
-        initialDelaySeconds: 1
+        initialDelaySeconds: 35
         # How often (in seconds) to perform the probe.
         periodSeconds: 10
       # These are the minimum resource recommendations for running WSO2 Micro Integrator
