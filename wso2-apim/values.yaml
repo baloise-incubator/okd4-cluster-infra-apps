@@ -40,7 +40,7 @@ wso2:
       # Kubernetes Storage Class to be used to dynamically provision the relevant Persistent Volumes
       # Only persistent storage solutions supporting ReadWriteMany access mode are applicable (https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes)
       # Defaults to Kubernetes Storage Class generated using the NFS Server Provisioner (https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner)
-      storageClass: &storage_class "nfs"
+      storageClass: &storage_class "cephfs"
 
       # Persistent runtime artifacts for Apache Solr-based indexing
       apacheSolrIndexing:
