@@ -1,0 +1,60 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: cp
+  namespace: wso2-apim
+  uid: c0a39396-d898-47f8-83dc-69616e4f44e3
+  resourceVersion: '1708386302'
+  creationTimestamp: '2022-08-17T17:02:50Z'
+  annotations:
+    openshift.io/host.generated: 'true'
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: route.openshift.io/v1
+      time: '2022-08-17T17:02:50Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:openshift.io/host.generated': {}
+          'f:labels':
+            .: {}
+            'f:argocd.argoproj.io/instance': {}
+        'f:spec':
+          'f:host': {}
+          'f:path': {}
+          'f:port':
+            .: {}
+            'f:targetPort': {}
+          'f:tls':
+            .: {}
+            'f:insecureEdgeTerminationPolicy': {}
+            'f:termination': {}
+          'f:to':
+            'f:kind': {}
+            'f:name': {}
+            'f:weight': {}
+          'f:wildcardPolicy': {}
+    - manager: openshift-router
+      operation: Update
+      apiVersion: route.openshift.io/v1
+      time: '2022-08-17T17:02:50Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:ingress': {}
+      subresource: status
+spec:
+  host: am-wso2.apps.baloise.dev
+  path: /
+  to:
+    kind: Service
+    name: wso2am-pattern-3-am-cp-service
+    weight: 100
+  port:
+    targetPort: servlet-http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
