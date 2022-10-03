@@ -5,9 +5,10 @@ resources:
   - github.com/argoproj/argo-cd/manifests/ha/cluster-install?ref=v2.4.12
   - base/argocd-ui-route.yaml
   - base/dnsendpoint.yaml
-  - base/argocd-sealed-secret.yaml
+  - base/argocd-dex-external-secret.yaml
   - base/default-appprojects.yaml
   - base/servicemonitors.yaml
+  - base/bootstrap-application.yaml
 
 patchesStrategicMerge:
   - overlays/catalog-install.yaml
