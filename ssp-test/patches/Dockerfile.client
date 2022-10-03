@@ -1,4 +1,0 @@
-FROM docker.devops.usu.group/usu-portal/portal/client:2-4-1
-RUN chgrp -R root /usr/share/nginx/html/ /var/cache/nginx/ && \
-    chmod 775 /usr/share/nginx/html/ /var/cache/nginx/ /usr/share/nginx/html/ui/static/js/ && \
-    touch /run/nginx.pid && chgrp root /run/nginx.pid && chmod 664 /run/nginx.pid

@@ -1,3 +1,0 @@
-FROM docker.devops.usu.group/usu-shared/usu-user-management/user-management-ui/profile-ui:3.0.0
-RUN chgrp -R root /usr/share/nginx/html/ /var/cache/nginx/ && \
-    chmod 775 /usr/share/nginx/html/ /var/cache/nginx/

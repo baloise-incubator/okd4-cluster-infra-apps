@@ -1,7 +1,0 @@
-apiVersion: v2
-name: ssp-test
-version: 1.0.0
-dependencies:
-  - name: usu-portal
-    version: 0.4.0
-    alias: portal

@@ -1,7 +1,0 @@
-angular-base:
-  nameOverride: usu-um-profile-ui
-
-  image:
-    registry: docker.devops.usu.group
-    repository: usu-shared/usu-user-management/user-management-ui/profile-ui
-    tag: 3.0.0

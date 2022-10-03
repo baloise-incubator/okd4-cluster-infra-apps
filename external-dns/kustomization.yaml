@@ -5,7 +5,7 @@ namespace: external-dns
 resources:
   - https://github.com/kubernetes-sigs/external-dns/kustomize?ref=v0.12.2
   - https://raw.githubusercontent.com/kubernetes-sigs/external-dns/v0.12.2/docs/contributing/crd-source/crd-manifest.yaml
-  - base/cloudflare-api-key.yaml
+  - base/cf-api-key.yaml
 
 patchesStrategicMerge:
   - overlays/deployment.yaml

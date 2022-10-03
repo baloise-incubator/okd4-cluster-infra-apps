@@ -1,9 +1,0 @@
-dependencies:
-- name: mariadb
-  repository: https://charts.bitnami.com/bitnami
-  version: 11.1.7
-- name: user-management
-  repository: https://helm.devops.usu.group/repository/helm-usu-shared/
-  version: 6.1.2
-digest: sha256:9165edb9d46350688c146efd7fb4c01b1432f31c473bd355e58b8d72a3919477
-generated: "2022-08-10T13:05:51.810145039+02:00"
