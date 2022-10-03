@@ -15,4 +15,3 @@ spec:
             apiKeySecretRef:
               name: cloudflare-api-key
               key: api-key
-              namespace: cert-manager
