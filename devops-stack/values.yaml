@@ -445,18 +445,15 @@ controller:
           system:
             domainCredentials:
               - credentials:
-                  - vaultKubernetesCredential:
-                      description: "Jenkins Vault Token"
-                      id: "vaultToken"
-                      role: "jenkins"
-                      scope: GLOBAL
-                      secret: "${readFile:/run/secrets/additional/akeyless-api-token-token}"
-#      vault: |
-#        unclassified:
-#          hashicorpVault:
-#            configuration:
-#              vaultCredentialId: "vaultToken"
-#              vaultUrl: "hvp.akeyless.io"
+                - vaultTokenFileCredential:
+                    filepath: "/run/secrets/additional/akeyless-api-token-token"
+                    id: "vaultToken"
+                    scope: GLOBAL
+        unclassified:
+          hashicorpVault:
+            configuration:
+              vaultCredentialId: "vaultToken"
+              vaultUrl: "hvp.akeyless.io"
     #    jenkins:
     #      systemMessage: Welcome to our CI\CD server.  This Jenkins is configured and managed 'as code'.
     # Allows adding to the top-level security JCasC section. For legacy,  default the chart includes apiToken configurations
