@@ -459,6 +459,8 @@ controller:
           - "Overall/Administer:authenticated"
   #       - "Overall/Read:anonymous"
   # Optionally specify additional init-containers
+    disabledAdministrativeMonitors:
+      - "org.jenkinsci.plugins.matrixauth.AmbiguityMonitor"
   customInitContainers: []
   # - name: custom-init
   #   image: "alpine:3.7"
