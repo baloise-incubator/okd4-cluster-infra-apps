@@ -450,7 +450,7 @@ controller:
                       id: "vaultToken"
                       role: "jenkins"
                       scope: GLOBAL
-                      secret: "${akeyless-api-token-token}"
+                      secret: "${readFile:/run/secrets/additional/akeyless-api-token-token}"
 #      vault: |
 #        unclassified:
 #          hashicorpVault:
