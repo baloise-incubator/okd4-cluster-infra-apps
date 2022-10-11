@@ -329,7 +329,6 @@ controller:
     - commons-text-api:1.9-19.v8df45c678366
     - instance-identity:116.vf8f487400980
     - commons-lang3-api:3.12.0-36.vd97de6465d5b_
-    - kubernetes-credentials-provider:1.199.v4a_1d1f5d074f
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: true
@@ -373,8 +372,8 @@ controller:
   # 'name' and 'keyName' must be lowercase RFC 1123 label must consist of lower case alphanumeric characters or '-',
   # and must start and end with an alphanumeric character (e.g. 'my-name',  or '123-abc')
   additionalExistingSecrets: []
-  #  - name: secret-name-1
-  #    keyName: username
+    - name: akeyless-api-token
+      keyName: token
   #  - name: secret-name-1
   #    keyName: password
 
@@ -1030,7 +1029,7 @@ networkPolicy:
 ## Install Default RBAC roles and bindings
 rbac:
   create: true
-  readSecrets: true
+  readSecrets: false
 
 serviceAccount:
   create: true
