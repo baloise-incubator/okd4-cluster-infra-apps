@@ -452,6 +452,7 @@ controller:
         unclassified:
           hashicorpVault:
             configuration:
+              engineVersion: 1
               vaultCredentialId: "vaultToken"
               vaultUrl: "https://hvp.akeyless.io"
     #    jenkins:
