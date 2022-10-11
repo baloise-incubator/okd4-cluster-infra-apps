@@ -12,6 +12,68 @@ Use the following links to reference issues, PRs, and commits prior to v2.6.0.
 The change log until v1.5.7 was auto-generated based on git commits.
 Those entries include a reference to the git commit to be able to get more details.
 
+## 4.2.8
+Modify the condition to trigger copying jenkins_config files when configAutoReload option is disabled during Jenkins initialization
+
+## 4.2.7
+Support for remote url for configuration
+
+## 4.2.6
+Add option to set hostnetwork for agents
+
+## 4.2.5
+Add an extra optional argument to extraPorts in order to specify targetPort
+
+## 4.2.4
+Remove k8s capibility requirements when setting priority class for controller
+
+## 4.2.3 Update plugin versions
+
+| plugin                | old version           | new version           |
+| --------------------- | --------------------- | --------------------- |
+| kubernetes            | 3600.v144b_cd192ca_a_ | 3706.vdfb_d599579f3   |
+| workflow-aggregator   | 581.v0c46fa_697ffd    | 590.v6a_d052e5a_a_b_5 |
+| configuration-as-code | 1429.v09b_044a_c93de  | 1512.vb_79d418d5fc8   |
+| git                   | 4.11.3                | 4.11.5                |
+
+Resolve version conflict between default install of plugins.
+
+## 4.2.2
+
+Support Google Managed Prometheus
+
+## 4.2.1
+
+Remove option to provide command and args of agent as YAML. This feature was never supported by the Jenkins Kubernetes
+plugin.
+
+## 4.2.0
+
+Add option to provide additional containers to agents
+
+## 4.1.18
+
+Update Jenkins image and appVersion to jenkins lts release version 2.361.1
+
+
+## 4.1.17
+
+Update Jenkins casc default settings to allow `security` configs to be provided
+
+
+## 4.1.16
+
+Update Jenkins image and appVersion to jenkins lts release version 2.346.3
+
+
+## 4.1.15
+
+`projectNamingStrategy` is configurable in default config.
+
+## 4.1.14
+
+If `installPlugins` is disabled, don't create unused plugins volume.
+
 ## 4.1.13
 
 Update Jenkins image and appVersion to jenkins lts release version 2.346.2

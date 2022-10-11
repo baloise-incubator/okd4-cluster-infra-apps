@@ -67,7 +67,7 @@ spec:
       {{- if quote .Values.controller.terminationGracePeriodSeconds }}
       terminationGracePeriodSeconds: {{ .Values.controller.terminationGracePeriodSeconds }}
       {{- end }}
-      {{- if and (.Capabilities.APIVersions.Has "scheduling.k8s.io/v1beta1") (.Values.controller.priorityClassName) }}
+      {{- if .Values.controller.priorityClassName }}
       priorityClassName: {{ .Values.controller.priorityClassName }}
       {{- end }}
 {{- if .Values.controller.usePodSecurityContext }}
@@ -219,7 +219,7 @@ spec:
 {{ (tpl ( toYaml .Values.controller.containerEnv) .) | indent 12 }}
             {{- end }}
             - name: CASC_JENKINS_CONFIG
-              value: {{ .Values.controller.sidecars.configAutoReload.folder | default (printf "%s/casc_configs" (.Values.controller.jenkinsRef)) }}
+              value: {{ .Values.controller.sidecars.configAutoReload.folder | default (printf "%s/casc_configs" (.Values.controller.jenkinsRef)) }}{{- if .Values.controller.JCasC.configUrls }},{{ join "," .Values.controller.JCasC.configUrls }}{{- end }}
           ports:
             {{- if .Values.controller.httpsKeyStore.enable }}
             - containerPort: {{.Values.controller.httpsKeyStore.httpPort}}
@@ -345,8 +345,12 @@ spec:
 {{- if .Values.persistence.volumes }}
 {{ tpl (toYaml .Values.persistence.volumes | indent 6) . }}
 {{- end }}
+      {{- if .Values.controller.installPlugins }}
+      {{- if .Values.controller.overwritePluginsFromImage }}
       - name: plugins
         emptyDir: {}
+      {{- end }}
+      {{- end }}
       {{- if and .Values.controller.initScripts .Values.controller.initConfigMap }}
       - name: init-scripts
         projected:

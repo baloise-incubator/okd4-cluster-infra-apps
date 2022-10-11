@@ -19,7 +19,7 @@ controller:
   # Used for label app.kubernetes.io/component
   componentName: "jenkins-controller"
   image: "jenkins/jenkins"
-  # tag: "2.346.2-jdk11"
+  # tag: "2.361.1-jdk11"
   tagLabel: jdk11
   imagePullPolicy: "Always"
   imagePullSecretName:
@@ -230,6 +230,7 @@ controller:
   extraPorts: []
   # - name: BuildInfoProxy
   #   port: 9000
+  #   targetPort: 9010 (Optional: Use to explicitly set targetPort if different from port)
 
   # List of plugins to be install during Jenkins controller start
   installPlugins:
@@ -346,6 +347,9 @@ controller:
   # Configures if plugins bundled with `controller.image` should be overwritten with the values of 'controller.installPlugins' on upgrade or redeployment.
   overwritePluginsFromImage: true
 
+  # Configures the restrictions for naming projects. Set this key to null or empty to skip it in the default config.
+  projectNamingStrategy: standard
+
   # Enable HTML parsing using OWASP Markup Formatter Plugin (antisamy-markup-formatter), useful with ghprb plugin.
   # The plugin is not installed by default, please update controller.installPlugins.
   enableRawHtmlMarkupFormatter: false
@@ -397,6 +401,9 @@ controller:
   # etc.  Best reference is https://<jenkins_url>/configuration-as-code/reference.  The example below creates a welcome message:
   JCasC:
     defaultConfig: true
+    configUrls: []
+    # - https://acme.org/jenkins.yaml
+    # Remote URL:s for configuration files.
     configScripts:
       quiet-period: |
         jenkins:
@@ -430,6 +437,15 @@ controller:
                         remote: "https://github.com/baloise-incubator/jenkins-library.git"
                         traits:
                           - "gitBranchDiscovery"
+    #    jenkins:
+    #      systemMessage: Welcome to our CI\CD server.  This Jenkins is configured and managed 'as code'.
+    # Allows adding to the top-level security JCasC section. For legacy,  default the chart includes apiToken configurations
+    security:
+      apiToken:
+        creationOfLegacyTokenEnabled: false
+        tokenGenerationOnCreationEnabled: false
+        usageStatisticsEnabled: true
+    # Ignored if securityRealm is defined in controller.JCasC.configScripts
     securityRealm: |-
       openShiftOAuth2: {}
     authorizationStrategy: |-
@@ -629,6 +645,15 @@ controller:
     # Set a custom namespace where to deploy PrometheusRule resource
     prometheusRuleNamespace: ""
 
+  googlePodMonitor:
+    # If enabled, It creates Google Managed Prometheus scraping config
+    enabled: false
+    # Set a custom namespace where to deploy PodMonitoring resource
+    # serviceMonitorNamespace: ""
+    scrapeInterval: 60s
+    # This is the default endpoint used by the prometheus plugin
+    scrapeEndpoint: /prometheus
+
   # Can be used to disable rendering controller test resources when using helm template
   testEnabled: true
 
@@ -705,6 +730,7 @@ agent:
   privileged: false
   runAsUser:
   runAsGroup:
+  hostNetworking: false
   resources:
     requests:
       cpu: "512m"
@@ -814,6 +840,23 @@ agent:
   connectTimeout: 100
   # Annotations to apply to the pod.
   annotations: {}
+
+  # Add additional containers to the agents.
+  # Containers specified here are added to all agents. Set key empty to remove container from additional agents.
+  additionalContainers: []
+  #  - sideContainerName: dind
+  #    image: docker
+  #    tag: dind
+  #    command: dockerd-entrypoint.sh
+  #    args: ""
+  #    privileged: true
+  #    resources:
+  #      requests:
+  #        cpu: 500m
+  #        memory: 1Gi
+  #      limits:
+  #        cpu: 1
+  #        memory: 2Gi
 
   # Disable the default Jenkins Agent configuration.
   # Useful when configuring agents only with the podTemplates value, since the default podTemplate populated by values mentioned above will be excluded in the rendered template.
