@@ -440,6 +440,17 @@ controller:
                         remote: "https://github.com/baloise-incubator/jenkins-library.git"
                         traits:
                           - "gitBranchDiscovery"
+      vault: |
+        credentials:
+          system:
+            domainCredentials:
+              - credentials:
+                  - vaultKubernetesCredential:
+                      description: "Jenkins Vault Token"
+                      id: "vaultToken"
+                      role: "jenkins"
+                      scope: GLOBAL
+                      secret: "${akeyless-api-token-token}"
 #      vault: |
 #        unclassified:
 #          hashicorpVault:
