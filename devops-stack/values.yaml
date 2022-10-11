@@ -329,8 +329,7 @@ controller:
     - commons-text-api:1.9-19.v8df45c678366
     - instance-identity:116.vf8f487400980
     - commons-lang3-api:3.12.0-36.vd97de6465d5b_
-
-
+    - kubernetes-credentials-provider:1.199.v4a_1d1f5d074f
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: true
@@ -442,6 +441,12 @@ controller:
                         remote: "https://github.com/baloise-incubator/jenkins-library.git"
                         traits:
                           - "gitBranchDiscovery"
+#      vault: |
+#        unclassified:
+#          hashicorpVault:
+#            configuration:
+#              vaultCredentialId: "vaultToken"
+#              vaultUrl: "hvp.akeyless.io"
     #    jenkins:
     #      systemMessage: Welcome to our CI\CD server.  This Jenkins is configured and managed 'as code'.
     # Allows adding to the top-level security JCasC section. For legacy,  default the chart includes apiToken configurations
@@ -989,7 +994,7 @@ networkPolicy:
 ## Install Default RBAC roles and bindings
 rbac:
   create: true
-  readSecrets: false
+  readSecrets: true
 
 serviceAccount:
   create: true
