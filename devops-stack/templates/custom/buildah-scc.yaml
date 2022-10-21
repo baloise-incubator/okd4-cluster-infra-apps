@@ -27,6 +27,7 @@ supplementalGroups:
   type: RunAsAny
 users:
   - system:serviceaccount:devops-stack:buildah
+  - system:serviceaccount:devops-stack:devops-stack-jenkins
 volumes:
   - configMap
   - downwardAPI
