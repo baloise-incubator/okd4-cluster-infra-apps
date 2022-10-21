@@ -1038,7 +1038,7 @@ networkPolicy:
 ## Install Default RBAC roles and bindings
 rbac:
   create: true
-  readSecrets: false
+  readSecrets: true
 
 serviceAccount:
   create: true
