@@ -96,7 +96,7 @@ controller:
   # If you set this prefix and use ingress controller then you might want to set the ingress path below
   # jenkinsUriPrefix: "/jenkins"
   # Enable pod security context (must be `true` if podSecurityContextOverride, runAsUser or fsGroup are set)
-  usePodSecurityContext: false
+  usePodSecurityContext: true
   # Note that `runAsUser`, `fsGroup`, and `securityContextCapabilities` are
   # being deprecated and replaced by `podSecurityContextOverride`.
   # Set runAsUser to 1000 to let Jenkins run as non-root user 'jenkins' which exists in 'jenkins/jenkins' docker image.
