@@ -981,8 +981,7 @@ additionalAgents:
         - name: buildah
           securityContext:
             runAsUser: 1000
-        - resources:
-          name: gitopscli
+        - name: gitopscli
           command:
             - /bin/sh
             - '-c'
