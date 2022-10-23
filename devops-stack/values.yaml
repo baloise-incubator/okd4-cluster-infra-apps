@@ -982,6 +982,7 @@ additionalAgents:
           securityContext:
             runAsUser: 1000
         - name: gitopscli
+          tty: true
           command:
             - /bin/sh
             - '-c'
