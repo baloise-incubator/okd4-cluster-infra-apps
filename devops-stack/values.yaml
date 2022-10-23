@@ -981,6 +981,20 @@ additionalAgents:
         - name: buildah
           securityContext:
             runAsUser: 1000
+        - resources:
+          name: gitopscli
+          command:
+            - /bin/sh
+            - '-c'
+          args:
+            - cat
+          securityContext:
+            runAsUser: 1000
+          volumeMounts:
+            - name: workspace-volume
+              mountPath: /home/jenkins/agent
+          image: 'registry.baloise.dev/library/gitopscli:5.4.1'
+          workingDir: /home/jenkins/agent
   gitopscli:
     podName: gitopscli
     customJenkinsLabels: gitopscli
