@@ -28,5 +28,4 @@ patches:
         path: /spec/template/spec/securityContext
 bases:
   - github.com/argoproj/argo-events/manifests/cluster-install?ref=v1.7.3
-  - https://raw.githubusercontent.com/argoproj/argo-events/master/examples/eventbus/native.yaml?ref=v1.7.3
 resources: []
