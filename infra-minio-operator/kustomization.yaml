@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: infra-minio-operator
 
 resources:
-  - ../cluster-resources/namespace/
   - https://github.com/minio/operator.git?ref=v4.5.0
 
 patches:
