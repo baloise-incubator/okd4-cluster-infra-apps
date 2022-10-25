@@ -20,6 +20,13 @@ patches:
     patch: |-
       - op: remove
         path: /spec/template/spec/securityContext
+  - target:
+      kind: Deployment
+      name: controller-manager
+    patch: |-
+      - op: remove
+        path: /spec/template/spec/securityContext
+bases:
 bases:
   - github.com/argoproj/argo-events/manifests/cluster-install?ref=v1.7.3
 resources: []
