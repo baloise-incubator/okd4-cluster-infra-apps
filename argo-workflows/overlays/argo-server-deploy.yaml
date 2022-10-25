@@ -16,8 +16,6 @@ spec:
             - server
             - --secure=false
             - --auth-mode
-            - server
-            - --auth-mode
             - client
           name: argo-server
           readinessProbe:
