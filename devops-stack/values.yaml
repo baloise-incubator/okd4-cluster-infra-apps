@@ -993,14 +993,14 @@ additionalAgents:
           volumeMounts:
             - name: workspace-volume
               mountPath: /home/jenkins/agent
-          image: 'registry.baloise.dev/library/gitopscli:5.4.2-rc3'
+          image: 'registry.baloise.dev/library/gitopscli:5.5.1-rc1'
           workingDir: /home/jenkins/agent
   gitopscli:
     podName: gitopscli
     customJenkinsLabels: gitopscli
     sideContainerName: gitopscli
     image: registry.baloise.dev/library/gitopscli
-    tag: "5.4.2-rc3"
+    tag: "5.5.1-rc1"
     workingDir: "/home/jenkins/agent"
     command: "/bin/sh -c"
     args: "cat"
