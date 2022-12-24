@@ -2875,17 +2875,17 @@ postgresql:
     enabled: false
   persistence:
     enabled: true
+  volumePermissions:
+    enabled: false
+  securityContext:
+    enabled: false
+  containerSecurityContext:
+    enabled: false
+
   shmVolume:
     enabled: false
-    volumePermissions:
-      enabled: false
-  primary:
-    podSecurityContext:
-      enabled: false
-    securityContext:
-      enabled: false
-    containerSecurityContext:
-      enabled: false
+
+  ## @param postgresql.initdbScripts [object] Initdb scripts to create Harbor databases
   ##
   initdbScripts:
     initial-notaryserver.sql: |
