@@ -2877,6 +2877,8 @@ postgresql:
     enabled: true
   volumePermissions:
     enabled: false
+  podSecurityContext:
+    enabled: false
   securityContext:
     enabled: false
   containerSecurityContext:
