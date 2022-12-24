@@ -1015,6 +1015,26 @@ additionalAgents:
         - name: gitopscli
           securityContext:
             runAsUser: 1000
+  bdop-cli:
+    podName: bdop-cli
+    customJenkinsLabels: bdop-cli
+    sideContainerName: bdop-cli
+    image: registry.baloise.dev/library/bdop-cli
+    tag: "0.1.0-rc1"
+    workingDir: "/home/jenkins/agent"
+    command: "/bin/sh -c"
+    args: "cat"
+    TTYEnabled: true
+    yamlTemplate: |
+      kind: Pod
+      spec:
+        containers:
+        - name: jnlp
+          securityContext:
+            runAsUser: 1000
+        - name: bdop-cli
+          securityContext:
+            runAsUser: 1000
 
 persistence:
   enabled: true
