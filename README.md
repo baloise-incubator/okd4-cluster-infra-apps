@@ -25,5 +25,3 @@ Secrets like passwords or API tokens can be managed using the
 Kubernetes [secrets](https://kubernetes.io/docs/concepts/configuration/secret/) resource type. However, it is not a good
 idea to store those secrets in the repository since they are only base64 encoded. We are
 using [Bitnami Sealed Secrets](sealed-secrets) to encrypt those secrets.
-
-
