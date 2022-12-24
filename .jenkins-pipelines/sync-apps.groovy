@@ -2,7 +2,7 @@
 
 pipeline {
     agent {
-        label 'gitopscli'
+        label 'bdop-cli'
     }
 
     triggers {
