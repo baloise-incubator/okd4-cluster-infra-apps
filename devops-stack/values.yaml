@@ -1020,7 +1020,7 @@ additionalAgents:
     customJenkinsLabels: bdop-cli
     sideContainerName: bdop-cli
     image: registry.baloise.dev/library/bdop-cli
-    tag: "0.1.0-rc1"
+    tag: "v0.1.0-rc1"
     workingDir: "/home/jenkins/agent"
     command: "/bin/sh -c"
     args: "cat"
