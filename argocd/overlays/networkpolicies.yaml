@@ -1,0 +1,47 @@
+$patch: delete
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: argocd-application-controller-network-policy
+---
+$patch: delete
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: argocd-applicationset-controller-network-policy
+---
+$patch: delete
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: argocd-dex-server-network-policy
+---
+$patch: delete
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: argocd-notifications-controller-network-policy
+---
+$patch: delete
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: argocd-redis-ha-proxy-network-policy
+---
+$patch: delete
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: argocd-redis-ha-server-network-policy
+---
+$patch: delete
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: argocd-repo-server-network-policy
+---
+$patch: delete
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: argocd-server-network-policy
