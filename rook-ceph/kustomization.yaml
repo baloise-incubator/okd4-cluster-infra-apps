@@ -17,3 +17,4 @@ patchesStrategicMerge:
   - overlays/delete-ns-rook-ceph.yaml
   - overlays/delete-psp-rook.yaml
   - overlays/fix-rook-scc.yaml
+  - overlays/operator.yaml
