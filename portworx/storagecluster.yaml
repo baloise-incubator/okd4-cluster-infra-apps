@@ -4,7 +4,7 @@ metadata:
   name: px-cluster
   namespace: portworx
   annotations:
-    portworx.io/install-source: "https://install.portworx.com/?operator=true&mc=false&kbver=1.24.0&ns=portworx&oem=esse&user=33be41e6-79f3-11ea-97e6-f6e09c7a4e5e&b=true&f=true&j=auto&c=px-cluster-a406a6be-283b-42c7-8a67-31edd9936d04&osft=true&stork=true&csi=true&mon=true&tel=true&st=k8s&promop=true"
+    portworx.io/install-source: "https://install.portworx.com/?operator=true&mc=false&kbver=1.24.0&ns=portworx&oem=esse&user=33be41e6-79f3-11ea-97e6-f6e09c7a4e5e&b=true&s=%2Fdev%2Fnvme1n1&j=auto&c=px-cluster-931f56e1-a2ec-45dc-ba0f-b50a1c0bc38a&stork=true&csi=true&mon=true&tel=true&st=k8s&promop=true"
     portworx.io/is-openshift: "true"
     portworx.io/misc-args: "--oem esse"
 spec:
@@ -14,9 +14,7 @@ spec:
     internal: true
   storage:
     devices:
-      - /dev/nvme1n1
-    useAllWithPartitions: true
-    forceUseDisks: true
+    - /dev/nvme1n1
     journalDevice: auto
   secretsProvider: k8s
   stork:
@@ -29,9 +27,9 @@ spec:
     enabled: true
   monitoring:
     telemetry:
-      enabled: true
+      enabled: false
     prometheus:
-      enabled: true
+      enabled: false
       exportMetrics: true
 ---
 apiVersion: v1
