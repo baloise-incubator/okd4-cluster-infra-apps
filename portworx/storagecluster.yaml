@@ -13,6 +13,8 @@ spec:
   kvdb:
     internal: true
   storage:
+    devices:
+      - /dev/nvme1n1
     useAllWithPartitions: true
     forceUseDisks: true
     journalDevice: auto
