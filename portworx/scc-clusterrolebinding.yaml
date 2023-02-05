@@ -10,3 +10,9 @@ subjects:
   - kind: ServiceAccount
     name: portworx-operator
     namespace: portworx
+  - kind: ServiceAccount
+    name: stork
+    namespace: portworx
+  - kind: ServiceAccount
+    name: autopilot
+    namespace: portworx
