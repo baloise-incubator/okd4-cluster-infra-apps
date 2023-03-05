@@ -1,9 +1,0 @@
-apiVersion: ceph.rook.io/v1
-kind: CephBlockPool
-metadata:
-  name: replicapool
-  namespace: openshift-storage
-spec:
-  failureDomain: host
-  replicated:
-    size: 3
