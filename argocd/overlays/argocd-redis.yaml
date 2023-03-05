@@ -7,6 +7,6 @@ spec:
     spec:
       affinity: null
       securityContext:
-        fsGroup: 1000750000
+        fsGroup: 1000800000
         runAsNonRoot: true
-        runAsUser: 1000750000
+        runAsUser: 1000800000
