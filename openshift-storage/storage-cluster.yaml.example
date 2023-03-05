@@ -1,0 +1,224 @@
+apiVersion: ocs.openshift.io/v1
+kind: StorageCluster
+metadata:
+  annotations:
+    cluster.ocs.openshift.io/local-devices: 'true'
+    uninstall.ocs.openshift.io/cleanup-policy: delete
+    uninstall.ocs.openshift.io/mode: graceful
+  resourceVersion: '141726'
+  name: ocs-storagecluster
+  uid: b15fbc65-6abc-458b-986b-e695692d7b87
+  creationTimestamp: '2023-03-05T21:56:51Z'
+  generation: 2
+  managedFields:
+    - apiVersion: ocs.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:cluster.ocs.openshift.io/local-devices': {}
+        'f:spec':
+          .: {}
+          'f:arbiter': {}
+          'f:encryption':
+            .: {}
+            'f:kms': {}
+          'f:flexibleScaling': {}
+          'f:monDataDirHostPath': {}
+          'f:nodeTopologies': {}
+      manager: Mozilla
+      operation: Update
+      time: '2023-03-05T21:56:51Z'
+    - apiVersion: ocs.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:ownerReferences':
+            .: {}
+            'k:{"uid":"e90a870f-2978-4004-a9e8-3c2332199ea0"}': {}
+      manager: manager
+      operation: Update
+      time: '2023-03-05T21:56:51Z'
+    - apiVersion: ocs.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            'f:uninstall.ocs.openshift.io/cleanup-policy': {}
+            'f:uninstall.ocs.openshift.io/mode': {}
+          'f:finalizers':
+            .: {}
+            'v:"storagecluster.ocs.openshift.io"': {}
+        'f:spec':
+          'f:externalStorage': {}
+          'f:managedResources':
+            'f:cephToolbox': {}
+            'f:cephDashboard': {}
+            'f:cephCluster': {}
+            .: {}
+            'f:cephConfig': {}
+            'f:cephNonResilientPools': {}
+            'f:cephObjectStoreUsers': {}
+            'f:cephBlockPools': {}
+            'f:cephFilesystems': {}
+            'f:cephObjectStores': {}
+          'f:mirroring': {}
+          'f:storageDeviceSets': {}
+      manager: ocs-operator
+      operation: Update
+      time: '2023-03-05T21:56:51Z'
+    - apiVersion: ocs.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:nodeTopologies':
+            .: {}
+            'f:labels':
+              .: {}
+              'f:kubernetes.io/hostname': {}
+          'f:version': {}
+          'f:failureDomainKey': {}
+          'f:phase': {}
+          'f:images':
+            .: {}
+            'f:ceph':
+              .: {}
+              'f:actualImage': {}
+              'f:desiredImage': {}
+            'f:noobaaCore':
+              .: {}
+              'f:desiredImage': {}
+            'f:noobaaDB':
+              .: {}
+              'f:desiredImage': {}
+          'f:conditions': {}
+          .: {}
+          'f:failureDomain': {}
+          'f:failureDomainValues': {}
+          'f:externalStorage':
+            .: {}
+            'f:grantedCapacity': {}
+          'f:relatedObjects': {}
+          'f:kmsServerConnection': {}
+      manager: ocs-operator
+      operation: Update
+      subresource: status
+      time: '2023-03-05T21:57:20Z'
+  namespace: openshift-storage
+  ownerReferences:
+    - apiVersion: odf.openshift.io/v1alpha1
+      kind: StorageSystem
+      name: ocs-storagecluster-storagesystem
+      uid: e90a870f-2978-4004-a9e8-3c2332199ea0
+  finalizers:
+    - storagecluster.ocs.openshift.io
+spec:
+  storageDeviceSets:
+    - config: {}
+      count: 3
+      dataPVCTemplate:
+        metadata: {}
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: '1'
+          storageClassName: local-storage
+          volumeMode: Block
+        status: {}
+      name: ocs-deviceset-local-storage
+      placement: {}
+      preparePlacement: {}
+      replica: 1
+      resources: {}
+  encryption:
+    kms: {}
+  mirroring: {}
+  monDataDirHostPath: /var/lib/rook
+  managedResources:
+    cephObjectStoreUsers: {}
+    cephCluster: {}
+    cephBlockPools: {}
+    cephNonResilientPools: {}
+    cephObjectStores: {}
+    cephFilesystems: {}
+    cephToolbox: {}
+    cephDashboard: {}
+    cephConfig: {}
+  arbiter: {}
+  nodeTopologies: {}
+  externalStorage: {}
+  flexibleScaling: true
+status:
+  relatedObjects:
+    - apiVersion: ceph.rook.io/v1
+      kind: CephCluster
+      name: ocs-storagecluster-cephcluster
+      namespace: openshift-storage
+      resourceVersion: '141719'
+      uid: e77001f6-a9eb-47f6-98cc-ea6b857e25a9
+  failureDomain: host
+  nodeTopologies:
+    labels:
+      kubernetes.io/hostname:
+        - shx-okdmasterp001.baloise.dev
+        - shx-okdmasterp002.baloise.dev
+        - shx-okdmasterp003.baloise.dev
+  externalStorage:
+    grantedCapacity: '0'
+  failureDomainValues:
+    - shx-okdmasterp001.baloise.dev
+    - shx-okdmasterp002.baloise.dev
+    - shx-okdmasterp003.baloise.dev
+  failureDomainKey: kubernetes.io/hostname
+  kmsServerConnection: {}
+  version: 4.12.0
+  images:
+    ceph:
+      actualImage: >-
+        registry.redhat.io/rhceph/rhceph-5-rhel8@sha256:957294824e1cbf89ca24a1a2aa2a8e8acd567cfb5a25535e2624989ad1046a60
+      desiredImage: >-
+        registry.redhat.io/rhceph/rhceph-5-rhel8@sha256:957294824e1cbf89ca24a1a2aa2a8e8acd567cfb5a25535e2624989ad1046a60
+    noobaaCore:
+      desiredImage: >-
+        registry.redhat.io/odf4/mcg-core-rhel8@sha256:d4c5835811499197cc171ac81b0f2ed3d7d732773c8bdeba49598513d75a93b6
+    noobaaDB:
+      desiredImage: >-
+        registry.redhat.io/rhel8/postgresql-12@sha256:3d805540d777b09b4da6df99e7cddf9598d5ece4af9f6851721a9961df40f5a1
+  conditions:
+    - lastHeartbeatTime: '2023-03-05T21:57:20Z'
+      lastTransitionTime: '2023-03-05T21:56:52Z'
+      message: >-
+        Error while reconciling: some StorageClasses were skipped while waiting
+        for pre-requisites to be met:
+        [ocs-storagecluster-cephfs,ocs-storagecluster-ceph-rbd]
+      reason: ReconcileFailed
+      status: 'False'
+      type: ReconcileComplete
+    - lastHeartbeatTime: '2023-03-05T21:56:52Z'
+      lastTransitionTime: '2023-03-05T21:56:52Z'
+      message: Initializing StorageCluster
+      reason: Init
+      status: 'False'
+      type: Available
+    - lastHeartbeatTime: '2023-03-05T21:56:52Z'
+      lastTransitionTime: '2023-03-05T21:56:52Z'
+      message: Initializing StorageCluster
+      reason: Init
+      status: 'True'
+      type: Progressing
+    - lastHeartbeatTime: '2023-03-05T21:56:52Z'
+      lastTransitionTime: '2023-03-05T21:56:52Z'
+      message: Initializing StorageCluster
+      reason: Init
+      status: 'False'
+      type: Degraded
+    - lastHeartbeatTime: '2023-03-05T21:56:52Z'
+      lastTransitionTime: '2023-03-05T21:56:52Z'
+      message: Initializing StorageCluster
+      reason: Init
+      status: Unknown
+      type: Upgradeable
+  phase: Progressing
