@@ -21,7 +21,7 @@ controller:
   image: "jenkins/jenkins"
   tag: "2.361.2-jdk11"
   tagLabel: jdk11
-  imagePullPolicy: "Always"
+  imagePullPolicy: "IfNotPresent"
   imagePullSecretName:
   # Optionally configure lifetime for controller-container
   lifecycle:
@@ -999,8 +999,8 @@ additionalAgents:
     podName: gitopscli
     customJenkinsLabels: gitopscli
     sideContainerName: gitopscli
-    image: registry.baloise.dev/library/gitopscli
-    tag: "5.5.1-rc1"
+    image: docker.io/niiku/gitopscli
+    tag: "5.6.0"
     workingDir: "/home/jenkins/agent"
     command: "/bin/sh -c"
     args: "cat"
@@ -1019,8 +1019,8 @@ additionalAgents:
     podName: bdop-cli
     customJenkinsLabels: bdop-cli
     sideContainerName: bdop-cli
-    image: registry.baloise.dev/library/bdop-cli
-    tag: "v0.1.0-rc1"
+    image: docker.io/niiku/bdop-cli
+    tag: "0.1.0"
     workingDir: "/home/jenkins/agent"
     command: "/bin/sh -c"
     args: "cat"
