@@ -1,3 +1,4 @@
+host: artifactory-oss.baloise.dev
 # Default values for artifactory-oss.
 # This is a YAML-formatted file.
 
@@ -12,6 +13,13 @@ artifactory:
   ## Artifactory
   ## See full list of supported Artifactory options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
   artifactory:
+    setSecurityContext: false
+    customVolumes: |
+      - name: artifactory-bootstrap
+        emptyDir: {}
+    customVolumeMounts: |
+      - name: artifactory-bootstrap
+        mountPath: /artifactory_bootstrap/
     ## Default tag is from the artifactory sub-chart in the requirements.yaml
     image:
       registry: releases-docker.jfrog.io
@@ -39,10 +47,13 @@ artifactory:
   ## Nginx
   ## See full list of supported Nginx options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
   nginx:
-    enabled: true
+    enabled: false
     tlsSecretName: ""
     service:
-      type: LoadBalancer
+      type: ClusterIP
+    uid:
+    gid:
+
   ## Ingress
   ## See full list of supported Ingress options and documentation in artifactory chart: https://github.com/jfrog/charts/tree/master/stable/artifactory
   ingress:
@@ -54,6 +65,15 @@ artifactory:
   ## ref: https://github.com/bitnami/charts/blob/master/bitnami/postgresql/README.md
   postgresql:
     enabled: true
+    containerSecurityContext:
+      enabled: false
+    securityContext:
+      enabled: false
+    volumePermissions:
+      enabled: false
+    postgresqlPassword: "artifactory"
+    replicationPassword: "artifactory"
+    postgresqlPostgresPassword: "artifactory"
   ## This key is required for upgrades to protect old PostgreSQL chart's breaking changes.
   databaseUpgradeReady: "yes"
   ## If NOT using the PostgreSQL in this chart (artifactory.postgresql.enabled=false),
