@@ -1,8 +1,7 @@
 apiVersion: v2
 appVersion: 7.63.5
 dependencies:
-- condition: postgresql.enabled
-  name: postgresql
+- name: postgresql
   repository: https://charts.jfrog.io/
   version: 10.3.18
 description: Universal Repository Manager supporting all major packaging formats,
