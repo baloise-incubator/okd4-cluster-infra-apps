@@ -2,5 +2,5 @@ dependencies:
 - name: postgresql
   repository: https://charts.jfrog.io/
   version: 10.3.18
-digest: sha256:404ce007353baaf92a6c5f24b249d5b336c232e5fd2c29f8a0e4d0095a09fd53
-generated: "2022-03-08T08:53:16.293311+05:30"
+digest: sha256:d699e619151dcdfd437e9e2c05232c3e3d546fc35e42a60cf71e35b518281ef4
+generated: "2023-07-19T19:20:44.0477097+02:00"
