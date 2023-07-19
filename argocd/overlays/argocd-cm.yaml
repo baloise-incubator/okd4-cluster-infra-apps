@@ -27,6 +27,9 @@ data:
     - type: helm
       url: https://charts.bitnami.com/bitnami
       name: bitnami
+    - type: helm
+      url: https://charts.jfrog.io
+      name: jfrog
   dex.config: |
     connectors:
       - type: openshift
