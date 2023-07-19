@@ -66,9 +66,9 @@ artifactory:
   postgresql:
     enabled: true
     containerSecurityContext:
-      enabled: false
+      enabled: true
     securityContext:
-      enabled: false
+      enabled: true
     volumePermissions:
       enabled: false
     postgresqlPassword: "artifactory"
