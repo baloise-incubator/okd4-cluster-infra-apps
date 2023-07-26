@@ -8,3 +8,11 @@ data:
   service.teams: |
     recipientUrls:
       channelName: $channel-teams-url
+  service.webhook.requestcollector: |
+    url: https://request-collector.apps.okd.baloise.dev/api/requests
+    headers:
+    - name: Content-Type
+      value: text/plain
+    # basicAuth:
+    #   username: <username>
+    #   password: <api-key>
