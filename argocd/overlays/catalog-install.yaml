@@ -1,18 +1,36 @@
 apiVersion: v1
 data:
   template.app-created: |
+    webhook:
+      requestcollector:
+        method: POST
+        path: /api/requests
+        body: |
+          Application created
     email:
       subject: Application {{.app.metadata.name}} has been created.
     message: Application {{.app.metadata.name}} has been created.
     teams:
       title: Application {{.app.metadata.name}} has been created.
   template.app-deleted: |
+    webhook:
+      requestcollector:
+        method: POST
+        path: /api/requests
+        body: |
+          Application deleted
     email:
       subject: Application {{.app.metadata.name}} has been deleted.
     message: Application {{.app.metadata.name}} has been deleted.
     teams:
       title: Application {{.app.metadata.name}} has been deleted.
   template.app-deployed: |
+    webhook:
+      requestcollector:
+        method: POST
+        path: /api/requests
+        body: |
+          Application deployed
     email:
       subject: New version of an application {{.app.metadata.name}} is up and running.
     message: |
@@ -93,6 +111,12 @@ data:
       themeColor: '#000080'
       title: New version of an application {{.app.metadata.name}} is up and running.
   template.app-health-degraded: |
+    webhook:
+      requestcollector:
+        method: POST
+        path: /api/requests
+        body: |
+          Application health degraded
     email:
       subject: Application {{.app.metadata.name}} has degraded.
     message: |
@@ -165,6 +189,12 @@ data:
       themeColor: '#FF0000'
       title: Application {{.app.metadata.name}} has degraded.
   template.app-sync-failed: |
+    webhook:
+      requestcollector:
+        method: POST
+        path: /api/requests
+        body: |
+          Application sync failed
     email:
       subject: Failed to sync application {{.app.metadata.name}}.
     message: |
@@ -241,6 +271,12 @@ data:
       themeColor: '#FF0000'
       title: Failed to sync application {{.app.metadata.name}}.
   template.app-sync-running: |
+    webhook:
+      requestcollector:
+        method: POST
+        path: /api/requests
+        body: |
+          Application sync running
     email:
       subject: Start syncing application {{.app.metadata.name}}.
     message: |
@@ -316,6 +352,12 @@ data:
         }]
       title: Start syncing application {{.app.metadata.name}}.
   template.app-sync-status-unknown: |
+    webhook:
+      requestcollector:
+        method: POST
+        path: /api/requests
+        body: |
+          Application sync status unknown
     email:
       subject: Application {{.app.metadata.name}} sync status is 'Unknown'
     message: |
@@ -392,6 +434,12 @@ data:
         }]
       title: Application {{.app.metadata.name}} sync status is 'Unknown'
   template.app-sync-succeeded: |
+    webhook:
+      requestcollector:
+        method: POST
+        path: /api/requests
+        body: |
+          Application sync succeeded
     email:
       subject: Application {{.app.metadata.name}} has been successfully synced.
     message: |
