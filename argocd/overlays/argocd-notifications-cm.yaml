@@ -9,7 +9,7 @@ data:
     recipientUrls:
       channelName: $channel-teams-url
   service.webhook.requestcollector: |
-    url: https://request-collector.apps.okd.baloise.dev/api/requests
+    url: https://request-collector.apps.okd.baloise.dev
     headers:
     - name: Content-Type
       value: text/plain
