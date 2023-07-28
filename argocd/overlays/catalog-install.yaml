@@ -439,7 +439,7 @@ data:
         method: POST
         path: /api/requests
         body: |
-          Application {{.app.metadata.name}} sucessfully synced
+          Application {{.app.metadata.name}} sucessfully synced ({{.app.status.sync.revision}})
     email:
       subject: Application {{.app.metadata.name}} has been successfully synced.
     message: |
