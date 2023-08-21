@@ -1025,6 +1025,13 @@ additionalAgents:
     command: "/bin/sh -c"
     args: "cat"
     TTYEnabled: true
+    resources:
+      requests:
+        cpu: "50m"
+        memory: "256Mi"
+      limits:
+        cpu: "200m"
+        memory: "512Mi"
     yamlTemplate: |
       kind: Pod
       spec:
