@@ -30,6 +30,7 @@ users:
   - system:serviceaccount:devops-stack:devops-stack-jenkins
   - system:serviceaccount:k8s-quark-devops:buildah
   - system:serviceaccount:k8s-quark-devops:k8s-quark-devops-jenkins
+  - system:serviceaccount:k8s-quark-devops:agent
 volumes:
   - configMap
   - downwardAPI
