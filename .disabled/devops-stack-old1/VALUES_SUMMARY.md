@@ -25,7 +25,6 @@ The following tables list the configurable parameters of the Jenkins chart and t
 | --------------------------------- | ------------------------------------ | ----------------------------------------- |
 | `controller.JCasC.defaultConfig`      | Enables default Jenkins configuration via configuration as code plugin | `true`  |
 | `controller.JCasC.configScripts`      | List of Jenkins Config as Code scripts | `{}`                                    |
-| `controller.JCasC.security`      | Jenkins Config as Code for Security section | `legacy`                             |
 | `controller.JCasC.securityRealm`      | Jenkins Config as Code for Security Realm | `legacy`                             |
 | `controller.JCasC.authorizationStrategy` | Jenkins Config as Code for Authorization Strategy | `loggedInUsersCanDoAnything` |
 | `controller.sidecars.configAutoReload` | Jenkins Config as Code auto-reload settings |                                   |
@@ -316,7 +315,6 @@ The following tables list the configurable parameters of the Jenkins chart and t
 | `agent.envVars`            | Environment variables for the agent Pod         | `[]`                   |
 | `agent.idleMinutes`        | Allows the Pod to remain active for reuse       | 0                      |
 | `agent.imagePullSecretName` | Agent image pull secret                        | Not set                |
-| `agent.hostNetworking`     | Enabled agent to use hostnetwork                | false                  |
 | `agent.nodeSelector`       | Node labels for pod assignment                  | `{}`                   |
 | `agent.connectTimeout`     | Timeout in seconds for an agent to be online    | 100                    |
 | `agent.volumes`            | Additional volumes                              | `[]`                   |
@@ -324,7 +322,6 @@ The following tables list the configurable parameters of the Jenkins chart and t
 | `agent.yamlTemplate`       | The raw yaml of a Pod API Object to merge into the agent spec | Not set  |
 | `agent.yamlMergeStrategy`   | Defines how the raw yaml field gets merged with yaml definitions from inherited pod templates | `override` |
 | `agent.annotations`       | Annotations to apply to the pod                  | `{}`                   |
-| `agent.additionalContainers` | Add additional containers to the agents.      | `[]`                   |
 
 #### Side Container Configuration
 
