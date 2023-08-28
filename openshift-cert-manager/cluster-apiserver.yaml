@@ -9,5 +9,6 @@ spec:
     namedCertificates:
       - names:
           - api.okd.baloise.dev
+          - console.baloise.dev
         servingCertificate:
           name: master-apiserver-tls
