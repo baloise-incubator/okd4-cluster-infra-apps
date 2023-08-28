@@ -1,0 +1,56 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: infra-minio-operator
+
+resources:
+  - https://github.com/minio/operator.git?ref=v4.5.0
+
+patches:
+  - target:
+      kind: Namespace
+      name: ns
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: infra-minio-operator
+  - target:
+      kind: Namespace
+      name: ns
+    patch: |-
+      - op: add
+        path: /metadata/labels/name
+        value: infra-minio-operator
+  - target:
+      kind: Deployment
+      name: minio-operator
+    patch: |-
+      - op: remove
+        path: /spec/template/spec/containers/0/securityContext
+  - target:
+      kind: Deployment
+      name: minio-operator
+    patch: |-
+      - op: add
+        path: "/spec/template/spec/containers"
+        value:
+         - env:
+           - name: MINIO_OPERATOR_TLS_ENABLE
+             value: "on"
+           image: minio/operator:v4.5.0
+           imagePullPolicy: IfNotPresent
+           name: minio-operator
+           resources:
+            requests:
+              cpu: 100m
+              ephemeral-storage: 500Mi
+              memory: 256Mi
+  - target:
+      kind: Deployment
+      name: console
+    patch: |-
+      - op: remove
+        path: /spec/template/spec/containers/0/securityContext
+
+patchesStrategicMerge:
+  - delete-minio-ns.yaml
