@@ -8,6 +8,6 @@ spec:
   servingCerts:
     namedCertificates:
       - names:
-          - api.okd.baloise.dev
+          - api.incubator.baloise.dev
         servingCertificate:
           name: master-apiserver-tls
