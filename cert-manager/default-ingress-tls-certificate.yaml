@@ -9,14 +9,9 @@ spec:
     - "baloise.dev"
     - "*.baloise.dev"
     - "*.apps.baloise.dev"
-    - "*.okd.baloise.dev"
-    - "*.apps.okd.baloise.dev"
+    - "*.incubator.baloise.dev"
+    - "*.apps.incubator.baloise.dev"
     - "*.cloud.baloise.dev"
-    - "*.apps.cloud.baloise.dev"
-    - "*.origin.baloise.dev"
-    - "*.apps.origin.baloise.dev"
-    - "*.lab.baloise.dev"
-    - "*.apps.lab.baloise.dev"
   issuerRef:
     name: cloudflare-lets-encrypt-prod
     kind: ClusterIssuer
