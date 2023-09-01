@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: master-apiserver-tls
+  namespace: openshift-config
+spec:
+  secretName: master-apiserver-tls
+  dnsNames:
+    - api.okd.baloise.dev
+    - console.baloise.dev
+  issuerRef:
+    name: cloudflare-lets-encrypt-prod
+    kind: ClusterIssuer
+    group: cert-manager.io
