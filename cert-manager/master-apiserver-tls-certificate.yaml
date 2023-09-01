@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: master-apiserver-tls
   dnsNames:
-    - api.okd.baloise.dev
+    - api.incubator.baloise.dev
     - console.baloise.dev
   issuerRef:
     name: cloudflare-lets-encrypt-prod
