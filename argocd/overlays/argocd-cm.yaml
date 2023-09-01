@@ -36,7 +36,7 @@ data:
         id: openshift
         name: OpenShift
         config:
-          issuer: https://api.okd.baloise.dev:6443
+          issuer: https://api.incubator.baloise.dev:6443
           clientID: system:serviceaccount:argocd:argocd-dex-server
           clientSecret: $dex.clientSecret
           redirectURI: https://argocd.baloise.dev/api/dex/callback
