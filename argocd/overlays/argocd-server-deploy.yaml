@@ -10,7 +10,6 @@ spec:
         - name: argocd-server
           imagePullPolicy: IfNotPresent
           command:
-            - argocd-server
             - --insecure
             - --staticassets
             - /shared/app
