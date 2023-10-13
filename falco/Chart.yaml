@@ -1,0 +1,7 @@
+apiVersion: v2
+name: falco
+version: 1.0.0
+dependencies:
+  - name: generic-chart
+    version: 3.7.1
+    repository: https://falcosecurity.github.io/charts
