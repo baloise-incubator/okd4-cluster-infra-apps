@@ -1,0 +1,6 @@
+kargo:
+  api:
+    adminAccount:
+      enable: true
+      password: Welcome01
+      tokenSigningKey: iwishtowashmyirishwristwatch
