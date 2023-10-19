@@ -1,0 +1,55 @@
+{{- if .Values.api.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kargo-api
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "kargo.labels" . | nindent 4 }}
+    {{- include "kargo.api.labels" . | nindent 4 }}
+data:
+  LOG_LEVEL: {{ .Values.api.logLevel }}
+  {{- if .Values.kubeconfigSecrets.kargo }}
+  KUBECONFIG: /etc/kargo/kubeconfig.yaml
+  {{- end }}
+  {{- if .Values.api.tls.enabled }}
+  TLS_ENABLED: "true"
+  TLS_CERT_PATH: /etc/kargo/tls.crt
+  TLS_KEY_PATH: /etc/kargo/tls.key
+  {{- end }}
+  {{- if .Values.api.adminAccount.enabled }}
+  ADMIN_ACCOUNT_ENABLED: "true"
+  {{- if or .Values.api.tls.enabled (and .Values.api.ingress.enabled .Values.api.ingress.tls.enabled) }}
+  ADMIN_ACCOUNT_TOKEN_ISSUER: https://{{ .Values.api.host }}
+  {{- else }}
+  ADMIN_ACCOUNT_TOKEN_ISSUER: http://{{ .Values.api.host }}
+  {{- end }}
+  ADMIN_ACCOUNT_TOKEN_AUDIENCE: {{ .Values.api.host }}
+  ADMIN_ACCOUNT_TOKEN_TTL: {{ .Values.api.adminAccount.tokenTTL }}
+  {{- end }}
+  {{- if .Values.api.oidc.enabled }}
+  OIDC_ENABLED: "true"
+  {{- if .Values.api.oidc.dex.enabled }}
+  {{- if or .Values.api.tls.enabled (and .Values.api.ingress.enabled .Values.api.ingress.tls.enabled) }}
+  OIDC_ISSUER_URL: https://{{ .Values.api.host }}/dex
+  {{- else }}
+  OIDC_ISSUER_URL: http://{{ .Values.api.host }}/dex
+  {{- end }}
+  OIDC_CLIENT_ID: {{ .Values.api.host }}
+  OIDC_CLI_CLIENT_ID: {{ .Values.api.host }}-cli
+  DEX_ENABLED: "true"
+  DEX_SERVER_ADDRESS: https://kargo-dex-server.{{ .Release.Namespace }}.svc
+  DEX_CA_CERT_PATH: /etc/kargo/idp-ca.crt
+  {{- else }}
+  OIDC_ISSUER_URL: {{ .Values.api.oidc.issuerURL }}
+  OIDC_CLIENT_ID: {{ .Values.api.oidc.clientID }}
+  {{- if .Values.api.oidc.cliClientID }}
+  OIDC_CLI_CLIENT_ID: {{ .Values.api.oidc.cliClientID }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  {{- if .Values.api.argocd.urls }}
+  ARGOCD_NAMESPACE: {{ .Values.controller.argocd.namespace }}
+  ARGOCD_URLS: {{ range $key, $val := .Values.api.argocd.urls }}{{ $key }}={{ $val }},{{- end }}
+  {{- end }}
+{{- end }}

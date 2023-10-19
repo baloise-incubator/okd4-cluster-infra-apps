@@ -1,0 +1,73 @@
+{{- if .Values.controller.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kargo-controller
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "kargo.labels" . | nindent 4 }}
+    {{- include "kargo.controller.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "kargo.selectorLabels" . | nindent 6 }}
+      {{- include "kargo.controller.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "kargo.selectorLabels" . | nindent 8 }}
+        {{- include "kargo.controller.labels" . | nindent 8 }}
+      annotations:
+        configmap/checksum: {{ include (print $.Template.BasePath "/controller/configmap.yaml") . | sha256sum }}
+    spec:
+      serviceAccount: kargo-controller
+      containers:
+      - name: controller
+        image: {{ include "kargo.image" . }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ["/usr/local/bin/kargo", "controller"]
+        envFrom:
+        - configMapRef:
+            name: kargo-controller
+        {{- if or .Values.kubeconfigSecrets.kargo .Values.kubeconfigSecrets.argocd }}
+        volumeMounts:
+        - mountPath: /etc/kargo/kubeconfigs
+          name: kubeconfigs
+          readOnly: true
+        {{- end }}
+        resources:
+          {{- toYaml .Values.controller.resources | nindent 10 }}
+      {{- if or .Values.kubeconfigSecrets.kargo .Values.kubeconfigSecrets.argocd }}
+      volumes:
+      - name: kubeconfigs
+        projected:
+          sources:
+          {{- if or .Values.kubeconfigSecrets.kargo }}
+          - secret:
+              name: {{ .Values.kubeconfigSecrets.kargo }}
+              items:
+              - key: kubeconfig.yaml
+                path: kubeconfig.yaml
+                mode: 0644
+          {{- end }}
+          {{- if or .Values.kubeconfigSecrets.argocd }}
+          - secret:
+              name: {{ .Values.kubeconfigSecrets.argocd }}
+              items:
+              - key: kubeconfig.yaml
+                path: argocd-kubeconfig.yaml
+                mode: 0644
+          {{- end }}
+      {{- end }}
+      {{- with .Values.controller.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.controller.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

@@ -1,7 +1,13 @@
-version: 1.0.0
-name: kargo
 apiVersion: v2
-dependencies:
-  - name: kargo
-    version: v0.1.0
-    repository: ghcr.io/akuity/kargo-charts/kargo
+name: kargo
+description: Kargo
+type: application
+version: 0.1.0
+appVersion: v0.1.0
+sources:
+- https://github.com/akuity/kargo
+maintainers:
+- name: Kent Rancourt
+  email: kent@akuity.io
+- name: Sunghoon Kang
+  email: hoon@akuity.io

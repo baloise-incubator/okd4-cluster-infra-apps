@@ -1,0 +1,69 @@
+{{- if .Values.webhooksServer.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kargo-webhooks-server
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "kargo.labels" . | nindent 4 }}
+    {{- include "kargo.webhooksServer.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.webhooksServer.replicas | default 1 }}
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      {{- include "kargo.selectorLabels" . | nindent 6 }}
+      {{- include "kargo.webhooksServer.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "kargo.selectorLabels" . | nindent 8 }}
+        {{- include "kargo.webhooksServer.labels" . | nindent 8 }}
+      annotations:
+        configmap/checksum: {{ include (print $.Template.BasePath "/webhooks-server/configmap.yaml") . | sha256sum }}
+    spec:
+      serviceAccount: kargo-webhooks-server
+      containers:
+      - name: webhooks-server
+        image: {{ include "kargo.image" . }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ["/usr/local/bin/kargo", "webhooks-server"]
+        envFrom:
+        - configMapRef:
+            name: kargo-webhooks-server
+        ports:
+        - containerPort: 9443
+          name: webhooks-server
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /tmp/k8s-webhook-server/serving-certs
+          name: cert
+          readOnly: true
+        {{- if .Values.kubeconfigSecrets.kargo }}
+        - mountPath: /etc/kargo/kubeconfigs
+          name: kubeconfigs
+          readOnly: true
+        {{- end }}
+        resources:
+          {{- toYaml .Values.webhooksServer.resources | nindent 10 }}
+      volumes:
+      - name: cert
+        secret:
+          defaultMode: 0644
+          secretName: kargo-webhooks-server-cert
+      {{- if .Values.kubeconfigSecrets.kargo }}
+      - name: kubeconfigs
+        secret:
+          defaultMode: 0644
+          secretName: {{ .Values.kubeconfigSecrets.kargo }}
+      {{- end }}
+      {{- with .Values.webhooksServer.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.webhooksServer.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
