@@ -1,0 +1,739 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.13.0
+  name: stages.kargo.akuity.io
+spec:
+  group: kargo.akuity.io
+  names:
+    kind: Stage
+    listKind: StageList
+    plural: stages
+    singular: stage
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.currentFreight.id
+      name: Current Freight
+      type: string
+    - jsonPath: .status.health.status
+      name: Health
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Stage is the Kargo API's main type.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec describes sources of Freight used by the Stage and how
+              to incorporate Freight into the Stage.
+            properties:
+              promotionMechanisms:
+                description: PromotionMechanisms describes how to incorporate Freight
+                  into the Stage. This is an optional field as it is sometimes useful
+                  to aggregates available Freight from multiple upstream Stages without
+                  performing any actions. The utility of this is to allow multiple
+                  downstream Stages to subscribe to a single upstream Stage where
+                  they may otherwise have subscribed to multiple upstream Stages.
+                properties:
+                  argoCDAppUpdates:
+                    description: ArgoCDAppUpdates describes updates that should be
+                      applied to Argo CD Application resources to incorporate Freight
+                      into the Stage. This field is optional, as such actions are
+                      not required in all cases. Note that all updates specified by
+                      the GitRepoUpdates field, if any, are applied BEFORE these.
+                    items:
+                      description: ArgoCDAppUpdate describes updates that should be
+                        applied to an Argo CD Application resources to incorporate
+                        Freight into a Stage.
+                      properties:
+                        appName:
+                          description: AppName specifies the name of an Argo CD Application
+                            resource to be updated.
+                          minLength: 1
+                          pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+                          type: string
+                        appNamespace:
+                          description: AppNamespace specifies the namespace of an
+                            Argo CD Application resource to be updated. If left unspecified,
+                            the namespace of this Application resource will use the
+                            value of ARGOCD_NAMESPACE or "argocd"
+                          pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+                          type: string
+                        sourceUpdates:
+                          description: SourceUpdates describes updates to be applied
+                            to various sources of the specified Argo CD Application
+                            resource.
+                          items:
+                            description: ArgoCDSourceUpdate describes updates that
+                              should be applied to one of an Argo CD Application resource's
+                              sources.
+                            properties:
+                              chart:
+                                description: Chart specifies a chart within a Helm
+                                  chart registry if RepoURL points to a Helm chart
+                                  registry. Application sources that point directly
+                                  at a chart do so through a combination of their
+                                  own RepoURL (registry) and Chart fields, so BOTH
+                                  of those are used as criteria in selecting an Application
+                                  source to update. This field MUST always be used
+                                  when RepoURL points at a Helm chart registry. This
+                                  field MUST never be used when RepoURL points at
+                                  a Git repository.
+                                type: string
+                              helm:
+                                description: Helm describes updates to the source's
+                                  Helm-specific attributes.
+                                properties:
+                                  images:
+                                    description: Images describes how specific image
+                                      versions can be incorporated into an Argo CD
+                                      Application's Helm parameters.
+                                    items:
+                                      description: ArgoCDHelmImageUpdate describes
+                                        how a specific image version can be incorporated
+                                        into an Argo CD Application's Helm parameters.
+                                      properties:
+                                        image:
+                                          description: Image specifies a container
+                                            image (without tag). This is a required
+                                            field.
+                                          minLength: 1
+                                          type: string
+                                        key:
+                                          description: Key specifies a key within
+                                            an Argo CD Application's Helm parameters
+                                            that is to be updated. This is a required
+                                            field.
+                                          minLength: 1
+                                          type: string
+                                        value:
+                                          description: Value specifies the new value
+                                            for the specified key in the Argo CD Application's
+                                            Helm parameters. Valid values are "Image",
+                                            which replaces the value of the specified
+                                            key with the entire <image name>:<tag>,
+                                            or "Tag" which replaces the value of the
+                                            specified with just the new tag. This
+                                            is a required field.
+                                          enum:
+                                          - Image
+                                          - Tag
+                                          type: string
+                                      required:
+                                      - image
+                                      - key
+                                      - value
+                                      type: object
+                                    minItems: 1
+                                    type: array
+                                required:
+                                - images
+                                type: object
+                              kustomize:
+                                description: Kustomize describes updates to the source's
+                                  Kustomize-specific attributes.
+                                properties:
+                                  images:
+                                    description: Images describes how specific image
+                                      versions can be incorporated into an Argo CD
+                                      Application's Kustomize parameters.
+                                    items:
+                                      type: string
+                                    minItems: 1
+                                    type: array
+                                required:
+                                - images
+                                type: object
+                              repoURL:
+                                description: 'RepoURL identifies which of the Argo
+                                  CD Application''s sources this update is intended
+                                  for. Note: As of Argo CD 2.6, Application''s can
+                                  use multiple sources.'
+                                minLength: 1
+                                type: string
+                              updateTargetRevision:
+                                description: UpdateTargetRevision is a bool indicating
+                                  whether the source should be updated such that its
+                                  TargetRevision field points at the most recently
+                                  git commit (if RepoURL references a git repository)
+                                  or chart version (if RepoURL references a chart
+                                  repository).
+                                type: boolean
+                            required:
+                            - repoURL
+                            type: object
+                          type: array
+                      required:
+                      - appName
+                      type: object
+                    type: array
+                  gitRepoUpdates:
+                    description: GitRepoUpdates describes updates that should be applied
+                      to Git repositories to incorporate Freight into the Stage. This
+                      field is optional, as such actions are not required in all cases.
+                    items:
+                      description: GitRepoUpdate describes updates that should be
+                        applied to a Git repository (using various configuration management
+                        tools) to incorporate Freight into a Stage.
+                      properties:
+                        helm:
+                          description: Helm describes how to use Helm to incorporate
+                            Freight into the Stage. This is mutually exclusive with
+                            the Render and Kustomize fields.
+                          properties:
+                            charts:
+                              description: Charts describes how specific chart versions
+                                can be incorporated into an umbrella chart.
+                              items:
+                                description: HelmChartDependencyUpdate describes how
+                                  a specific Helm chart that is used as a subchart
+                                  of an umbrella chart can be updated.
+                                properties:
+                                  chartPath:
+                                    description: ChartPath is the path to an umbrella
+                                      chart.
+                                    minLength: 1
+                                    pattern: ^[\w-\.]+(/[\w-\.]+)*$
+                                    type: string
+                                  name:
+                                    description: Name along with RegistryURL identify
+                                      a subchart of the umbrella chart at ChartPath
+                                      whose version should be updated.
+                                    minLength: 1
+                                    type: string
+                                  registryURL:
+                                    description: RegistryURL along with Name identify
+                                      a subchart of the umbrella chart at ChartPath
+                                      whose version should be updated.
+                                    minLength: 1
+                                    pattern: ^(((https?)|(oci))://)([\w\d\.]+)(:[\d]+)?(/.*)*$
+                                    type: string
+                                required:
+                                - chartPath
+                                - name
+                                - registryURL
+                                type: object
+                              type: array
+                            images:
+                              description: Images describes how specific image versions
+                                can be incorporated into Helm values files.
+                              items:
+                                description: HelmImageUpdate describes how a specific
+                                  image version can be incorporated into a specific
+                                  Helm values file.
+                                properties:
+                                  image:
+                                    description: Image specifies a container image
+                                      (without tag). This is a required field.
+                                    minLength: 1
+                                    pattern: ^(\w+([\.-]\w+)*(:[\d]+)?/)?(\w+([\.-]\w+)*)(/\w+([\.-]\w+)*)*$
+                                    type: string
+                                  key:
+                                    description: Key specifies a key within the Helm
+                                      values file that is to be updated. This is a
+                                      required field.
+                                    minLength: 1
+                                    type: string
+                                  value:
+                                    description: Value specifies the new value for
+                                      the specified key in the specified Helm values
+                                      file. Valid values are "Image", which replaces
+                                      the value of the specified key with the entire
+                                      <image name>:<tag>, or "Tag" which replaces
+                                      the value of the specified with just the new
+                                      tag. This is a required field.
+                                    enum:
+                                    - Image
+                                    - Tag
+                                    type: string
+                                  valuesFilePath:
+                                    description: ValuesFilePath specifies a path to
+                                      the Helm values file that is to be updated.
+                                      This is a required field.
+                                    minLength: 1
+                                    pattern: ^[\w-\.]+(/[\w-\.]+)*$
+                                    type: string
+                                required:
+                                - image
+                                - key
+                                - value
+                                - valuesFilePath
+                                type: object
+                              type: array
+                          type: object
+                        kustomize:
+                          description: Kustomize describes how to use Kustomize to
+                            incorporate Freight into the Stage. This is mutually exclusive
+                            with the Render and Helm fields.
+                          properties:
+                            images:
+                              description: Images describes images for which `kustomize
+                                edit set image` should be executed and the paths in
+                                which those commands should be executed.
+                              items:
+                                description: KustomizeImageUpdate describes how to
+                                  run `kustomize edit set image` for a given image.
+                                properties:
+                                  image:
+                                    description: Image specifies a container image
+                                      (without tag). This is a required field.
+                                    minLength: 1
+                                    type: string
+                                  path:
+                                    description: Path specifies a path in which the
+                                      `kustomize edit set image` command should be
+                                      executed. This is a required field.
+                                    minLength: 1
+                                    pattern: ^[\w-\.]+(/[\w-\.]+)*$
+                                    type: string
+                                required:
+                                - image
+                                - path
+                                type: object
+                              minItems: 1
+                              type: array
+                          required:
+                          - images
+                          type: object
+                        readBranch:
+                          description: ReadBranch specifies a particular branch of
+                            the repository from which to locate contents that will
+                            be written to the branch specified by the WriteBranch
+                            field. This field is optional. When not specified, the
+                            ReadBranch is implicitly the repository's default branch
+                            AND in cases where a Freight includes a GitCommit, that
+                            commit's ID will supersede the value of this field. Therefore,
+                            in practice, this field is only used to clarify what branch
+                            of a repository can be treated as a source of manifests
+                            or other configuration when a Stage has no subscription
+                            to that repository.
+                          pattern: ^(\w+([-/]\w+)*)?$
+                          type: string
+                        render:
+                          description: Render describes how to use Kargo Render to
+                            incorporate Freight into the Stage. This is mutually exclusive
+                            with the Kustomize and Helm fields.
+                          type: object
+                        repoURL:
+                          description: RepoURL is the URL of the repository to update.
+                            This is a required field.
+                          minLength: 1
+                          pattern: ^https://(\w+([\.-]\w+)*@)?\w+([\.-]\w+)*(:[\d]+)?(/.*)?$
+                          type: string
+                        writeBranch:
+                          description: WriteBranch specifies the particular branch
+                            of the repository to be updated. This is a required field.
+                          minLength: 1
+                          pattern: ^\w+([-/]\w+)*$
+                          type: string
+                      required:
+                      - repoURL
+                      - writeBranch
+                      type: object
+                    type: array
+                type: object
+              subscriptions:
+                description: Subscriptions describes the Stage's sources of Freight.
+                  This is a required field.
+                properties:
+                  upstreamStages:
+                    description: UpstreamStages identifies other Stages as potential
+                      sources of Freight for this Stage. This field is mutually exclusive
+                      with the Repos field.
+                    items:
+                      description: StageSubscription defines a subscription to Freight
+                        from another Stage.
+                      properties:
+                        name:
+                          description: Name specifies the name of a Stage.
+                          minLength: 1
+                          pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+                          type: string
+                      required:
+                      - name
+                      type: object
+                    type: array
+                  warehouse:
+                    description: Warehouse is a subscription to a Warehouse. This
+                      field is mutually exclusive with the UpstreamStages field.
+                    type: string
+                type: object
+            required:
+            - subscriptions
+            type: object
+          status:
+            description: Status describes the Stage's current and recent Freight,
+              health, and more.
+            properties:
+              currentFreight:
+                description: CurrentFreight is a simplified representation of the
+                  Stage's current Freight describing what is currently deployed to
+                  the Stage.
+                properties:
+                  charts:
+                    description: Charts describes specific versions of specific Helm
+                      charts.
+                    items:
+                      description: Chart describes a specific version of a Helm chart.
+                      properties:
+                        name:
+                          description: Name specifies the name of the chart.
+                          type: string
+                        registryURL:
+                          description: RepoURL specifies the remote registry in which
+                            this chart is located.
+                          type: string
+                        version:
+                          description: Version specifies a particular version of the
+                            chart.
+                          type: string
+                      type: object
+                    type: array
+                  commits:
+                    description: Commits describes specific Git repository commits.
+                    items:
+                      description: GitCommit describes a specific commit from a specific
+                        Git repository.
+                      properties:
+                        author:
+                          description: Author is the git commit author
+                          type: string
+                        branch:
+                          description: Branch denotes the branch of the repository
+                            where this commit was found.
+                          type: string
+                        healthCheckCommit:
+                          description: HealthCheckCommit is the ID of a specific commit.
+                            When specified, assessments of Stage health will used
+                            this value (instead of ID) when determining if applicable
+                            sources of Argo CD Application resources associated with
+                            the Stage are or are not synced to this commit. Note that
+                            there are cases (as in that of Kargo Render being utilized
+                            as a promotion mechanism) wherein the value of this field
+                            may differ from the commit ID found in the ID field.
+                          type: string
+                        id:
+                          description: ID is the ID of a specific commit in the Git
+                            repository specified by RepoURL.
+                          type: string
+                        message:
+                          description: Message is the git commit message
+                          type: string
+                        repoURL:
+                          description: RepoURL is the URL of a Git repository.
+                          type: string
+                      type: object
+                    type: array
+                  id:
+                    description: ID is system-assigned value that is derived deterministically
+                      from the contents of the Freight. i.e. Two pieces of Freight
+                      can be compared for equality by comparing their IDs.
+                    type: string
+                  images:
+                    description: Images describes specific versions of specific container
+                      images.
+                    items:
+                      description: Image describes a specific version of a container
+                        image.
+                      properties:
+                        gitRepoURL:
+                          description: GitRepoURL specifies the URL of a Git repository
+                            that contains the source code for the image repository
+                            referenced by the RepoURL field if Kargo was able to infer
+                            it.
+                          type: string
+                        repoURL:
+                          description: RepoURL describes the repository in which the
+                            image can be found.
+                          type: string
+                        tag:
+                          description: Tag identifies a specific version of the image
+                            in the repository specified by RepoURL.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              currentPromotion:
+                description: CurrentPromotion is a reference to the currently Running
+                  promotion.
+                properties:
+                  freight:
+                    description: Freight is the freight being promoted
+                    properties:
+                      charts:
+                        description: Charts describes specific versions of specific
+                          Helm charts.
+                        items:
+                          description: Chart describes a specific version of a Helm
+                            chart.
+                          properties:
+                            name:
+                              description: Name specifies the name of the chart.
+                              type: string
+                            registryURL:
+                              description: RepoURL specifies the remote registry in
+                                which this chart is located.
+                              type: string
+                            version:
+                              description: Version specifies a particular version
+                                of the chart.
+                              type: string
+                          type: object
+                        type: array
+                      commits:
+                        description: Commits describes specific Git repository commits.
+                        items:
+                          description: GitCommit describes a specific commit from
+                            a specific Git repository.
+                          properties:
+                            author:
+                              description: Author is the git commit author
+                              type: string
+                            branch:
+                              description: Branch denotes the branch of the repository
+                                where this commit was found.
+                              type: string
+                            healthCheckCommit:
+                              description: HealthCheckCommit is the ID of a specific
+                                commit. When specified, assessments of Stage health
+                                will used this value (instead of ID) when determining
+                                if applicable sources of Argo CD Application resources
+                                associated with the Stage are or are not synced to
+                                this commit. Note that there are cases (as in that
+                                of Kargo Render being utilized as a promotion mechanism)
+                                wherein the value of this field may differ from the
+                                commit ID found in the ID field.
+                              type: string
+                            id:
+                              description: ID is the ID of a specific commit in the
+                                Git repository specified by RepoURL.
+                              type: string
+                            message:
+                              description: Message is the git commit message
+                              type: string
+                            repoURL:
+                              description: RepoURL is the URL of a Git repository.
+                              type: string
+                          type: object
+                        type: array
+                      id:
+                        description: ID is system-assigned value that is derived deterministically
+                          from the contents of the Freight. i.e. Two pieces of Freight
+                          can be compared for equality by comparing their IDs.
+                        type: string
+                      images:
+                        description: Images describes specific versions of specific
+                          container images.
+                        items:
+                          description: Image describes a specific version of a container
+                            image.
+                          properties:
+                            gitRepoURL:
+                              description: GitRepoURL specifies the URL of a Git repository
+                                that contains the source code for the image repository
+                                referenced by the RepoURL field if Kargo was able
+                                to infer it.
+                              type: string
+                            repoURL:
+                              description: RepoURL describes the repository in which
+                                the image can be found.
+                              type: string
+                            tag:
+                              description: Tag identifies a specific version of the
+                                image in the repository specified by RepoURL.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  name:
+                    description: Name is the name of the Promotion
+                    type: string
+                required:
+                - freight
+                - name
+                type: object
+              error:
+                description: Error describes any errors that are preventing the Stage
+                  controller from assessing Stage health or from finding new Freight.
+                type: string
+              health:
+                description: Health is the Stage's last observed health.
+                properties:
+                  argoCDApps:
+                    description: ArgoCDApps describes the current state of any related
+                      ArgoCD Applications.
+                    items:
+                      description: ArgoCDAppStatus describes the current state of
+                        a single ArgoCD Application.
+                      properties:
+                        healthStatus:
+                          description: HealthStatus is the health of the ArgoCD Application.
+                          properties:
+                            message:
+                              type: string
+                            status:
+                              type: string
+                          required:
+                          - status
+                          type: object
+                        name:
+                          description: Name is the name of the ArgoCD Application.
+                          type: string
+                        namespace:
+                          description: Namespace is the namespace of the ArgoCD Application.
+                          type: string
+                        syncStatus:
+                          description: SyncStatus is the sync status of the ArgoCD
+                            Application.
+                          properties:
+                            revision:
+                              type: string
+                            revisions:
+                              items:
+                                type: string
+                              type: array
+                            status:
+                              type: string
+                          required:
+                          - status
+                          type: object
+                      required:
+                      - name
+                      - namespace
+                      type: object
+                    type: array
+                  issues:
+                    description: Issues clarifies why a Stage in any state other than
+                      Healthy is in that state. This field will always be the empty
+                      when a Stage is Healthy.
+                    items:
+                      type: string
+                    type: array
+                  status:
+                    description: Status describes the health of the Stage.
+                    type: string
+                type: object
+              history:
+                description: History is a stack of recent Freight. By default, the
+                  last ten Freight are stored.
+                items:
+                  description: SimpleFreight is a simplified representation of a piece
+                    of Freight -- not a root resource type.
+                  properties:
+                    charts:
+                      description: Charts describes specific versions of specific
+                        Helm charts.
+                      items:
+                        description: Chart describes a specific version of a Helm
+                          chart.
+                        properties:
+                          name:
+                            description: Name specifies the name of the chart.
+                            type: string
+                          registryURL:
+                            description: RepoURL specifies the remote registry in
+                              which this chart is located.
+                            type: string
+                          version:
+                            description: Version specifies a particular version of
+                              the chart.
+                            type: string
+                        type: object
+                      type: array
+                    commits:
+                      description: Commits describes specific Git repository commits.
+                      items:
+                        description: GitCommit describes a specific commit from a
+                          specific Git repository.
+                        properties:
+                          author:
+                            description: Author is the git commit author
+                            type: string
+                          branch:
+                            description: Branch denotes the branch of the repository
+                              where this commit was found.
+                            type: string
+                          healthCheckCommit:
+                            description: HealthCheckCommit is the ID of a specific
+                              commit. When specified, assessments of Stage health
+                              will used this value (instead of ID) when determining
+                              if applicable sources of Argo CD Application resources
+                              associated with the Stage are or are not synced to this
+                              commit. Note that there are cases (as in that of Kargo
+                              Render being utilized as a promotion mechanism) wherein
+                              the value of this field may differ from the commit ID
+                              found in the ID field.
+                            type: string
+                          id:
+                            description: ID is the ID of a specific commit in the
+                              Git repository specified by RepoURL.
+                            type: string
+                          message:
+                            description: Message is the git commit message
+                            type: string
+                          repoURL:
+                            description: RepoURL is the URL of a Git repository.
+                            type: string
+                        type: object
+                      type: array
+                    id:
+                      description: ID is system-assigned value that is derived deterministically
+                        from the contents of the Freight. i.e. Two pieces of Freight
+                        can be compared for equality by comparing their IDs.
+                      type: string
+                    images:
+                      description: Images describes specific versions of specific
+                        container images.
+                      items:
+                        description: Image describes a specific version of a container
+                          image.
+                        properties:
+                          gitRepoURL:
+                            description: GitRepoURL specifies the URL of a Git repository
+                              that contains the source code for the image repository
+                              referenced by the RepoURL field if Kargo was able to
+                              infer it.
+                            type: string
+                          repoURL:
+                            description: RepoURL describes the repository in which
+                              the image can be found.
+                            type: string
+                          tag:
+                            description: Tag identifies a specific version of the
+                              image in the repository specified by RepoURL.
+                            type: string
+                        type: object
+                      type: array
+                  type: object
+                type: array
+              observedGeneration:
+                description: ObservedGeneration represents the .metadata.generation
+                  that this Stage status was reconciled against.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

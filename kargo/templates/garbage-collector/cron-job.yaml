@@ -1,0 +1,43 @@
+{{- if .Values.garbageCollector.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: kargo-garbage-collector
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "kargo.labels" . | nindent 4 }}
+    {{- include "kargo.garbageCollector.labels" . | nindent 4 }}
+spec:
+  schedule: {{ quote .Values.garbageCollector.schedule }}
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    metadata:
+      labels:
+        {{- include "kargo.selectorLabels" . | nindent 8 }}
+        {{- include "kargo.garbageCollector.labels" . | nindent 8 }}
+      annotations:
+        configmap/checksum: {{ include (print $.Template.BasePath "/garbage-collector/configmap.yaml") . | sha256sum }}
+    spec:
+      template:
+        spec:
+          serviceAccountName: kargo-garbage-collector
+          containers:
+          - name: garbage-collector
+            image: {{ include "kargo.image" . }}
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            command: ["/usr/local/bin/kargo", "garbage-collector"]
+            envFrom:
+            - configMapRef:
+                name: kargo-garbage-collector
+            resources:
+              {{- toYaml .Values.garbageCollector.resources | nindent 14 }}
+          restartPolicy: Never
+          {{- with .Values.garbageCollector.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.garbageCollector.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+{{- end }}
