@@ -24,6 +24,7 @@ rules:
     resources:
       - promotionpolicies
       - stages
+      - stages/finalizers
     verbs:
       - "*"
   - apiGroups:
