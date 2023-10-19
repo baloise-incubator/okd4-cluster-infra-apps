@@ -209,12 +209,12 @@ controller:
 ## @section Webhooks
 webhooks:
   ## @param webhooks.register Whether to create `ValidatingWebhookConfiguration` and `MutatingWebhookConfiguration` resources.
-  register: false
+  register: true
 
 ## @section Webhooks Server
 webhooksServer:
   ## @param webhooksServer.enabled Whether the webhooks server is enabled.
-  enabled: false
+  enabled: true
   ## @param webhooksServer.replicas The number of webhooks server pods.
   replicas: 1
   ## @param webhooksServer.logLevel The log level for the webhooks server.
