@@ -45,7 +45,7 @@ api:
   ## @param api.host The domain name where Kargo's API server will be accessible. This is used for (when applicable) generation of an Ingress resource, certificates, and the OpenID Connect issuer and callback URLs. Note: The protocol (http vs https) should not be specified and is automatically inferred from other configuration options.
   host: localhost
   ## @param api.logLevel The log level for the API server.
-  logLevel: INFO
+  logLevel: DEBUG
   ## @param api.resources Resources limits and requests for the api containers.
   resources: {}
     # limits:
@@ -191,7 +191,7 @@ controller:
     enableCredentialBorrowing: true
 
   ## @param controller.logLevel The log level for the controller.
-  logLevel: INFO
+  logLevel: DEBUG
 
   ## @param controller.resources Resources limits and requests for the controller containers.
   resources: {}
@@ -218,7 +218,7 @@ webhooksServer:
   ## @param webhooksServer.replicas The number of webhooks server pods.
   replicas: 1
   ## @param webhooksServer.logLevel The log level for the webhooks server.
-  logLevel: INFO
+  logLevel: DEBUG
 
   tls:
     ## @param webhooksServer.tls.selfSignedCert  Whether to generate a self-signed certificate for the controller's built-in webhook server. If `true`, `cert-manager` CRDs **must** be present in the cluster. Kargo will create and use its own namespaced issuer. If `false`, a cert secret named `kargo-webhooks-server-cert` **must** be provided in the same namespace as Kargo. There is no provision for webhooks without TLS.
@@ -249,7 +249,7 @@ garbageCollector:
   ## @param garbageCollector.maxRetainedPromotions The maximum number of Promotions in terminal phases PER PROJECT that may be spared by the garbage collector.
   maxRetainedPromotions: 20
   ## @param garbageCollector.logLevel The log level for the garbage collector.
-  logLevel: INFO
+  logLevel: DEBUG
   ## @param garbageCollector.resources Resources limits and requests for the garbage collector containers.
   resources: {}
     # limits:
