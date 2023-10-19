@@ -57,6 +57,7 @@ rules:
   - promotions/status
   - stages/status
   - warehouses/status
+  - warehouses/finalizers # Required for OpenShift
   verbs:
   - update
   - patch
