@@ -22,16 +22,9 @@ rules:
   - apiGroups:
       - kargo.akuity.io
     resources:
-      - freights
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - kargo.akuity.io
-    resources:
       - promotionpolicies
       - stages
+      - stages/finalizers
     verbs:
       - "*"
   - apiGroups:
@@ -43,12 +36,4 @@ rules:
       - get
       - list
       - watch
-  - apiGroups:
-      - kargo.akuity.io
-    resources:
-      # Needed for OpenShift
-      - stages/finalizers
-    verbs:
-      - patch
-      - update
 {{- end }}
