@@ -13,13 +13,16 @@
 # ref: https://github.com/kubernetes/dns/blob/master/docs/specification.md
 clusterZone: "cluster.local"
 
+# The URL of the Kubernetes API server
+kubernetesURL: "https://kubernetes.default"
+
 renderHelmLabels: true
 
 controller:
   # Used for label app.kubernetes.io/component
   componentName: "jenkins-controller"
   image: "jenkins/jenkins"
-  tag: "2.361.2-jdk11"
+  # tag: "2.414.3-jdk11"
   tagLabel: jdk11
   imagePullPolicy: "IfNotPresent"
   imagePullSecretName:
@@ -69,6 +72,8 @@ controller:
     limits:
       cpu: "2000m"
       memory: "6Gi"
+  # Share process namespace to allow sidecar containers to interact with processes in other containers in the same pod
+  shareProcessNamespace: false
   # Overrides the init container default values
   # initContainerResources:
   #   requests:
@@ -117,6 +122,13 @@ controller:
   #   runAsNonRoot: true
   #   supplementalGroups: [1000]
   #   # capabilities: {}
+  # Container securityContext
+#  containerSecurityContext:
+#
+#    runAsUser: 1000
+#    runAsGroup: 1000
+#    readOnlyRootFilesystem: true
+#    allowPrivilegeEscalation: false
   servicePort: 8080
   targetPort: 8080
   # For minikube, set this to NodePort, elsewhere use LoadBalancer
@@ -136,7 +148,7 @@ controller:
   #   service.beta.kubernetes.io/aws-load-balancer-backend-protocol: https
   # Put labels on Jenkins controller pod
   podLabels: {}
-  # Used to create Ingress record (should used with ServiceType: ClusterIP)
+  # Used to create Ingress record (should be used with ServiceType: ClusterIP)
   # nodePort: <to set explicitly, choose port between 30000-32767
   # Enable Kubernetes Startup, Liveness and Readiness Probes
   # if Startup Probe is supported, enable it too
@@ -522,7 +534,7 @@ controller:
       # jcasc changes will cause a reboot and will only be applied at the subsequent start-up.  Auto-reload uses the
       # http://<jenkins_url>/reload-configuration-as-code endpoint to reapply config when changes to the configScripts are detected.
       enabled: true
-      image: kiwigrid/k8s-sidecar:1.15.0
+      image: kiwigrid/k8s-sidecar:1.24.4
       imagePullPolicy: IfNotPresent
       resources: {}
         #   limits:
@@ -701,6 +713,14 @@ controller:
     # Set a custom namespace where to deploy PrometheusRule resource
     prometheusRuleNamespace: ""
 
+    # RelabelConfigs to apply to samples before scraping. Prometheus Operator automatically adds
+    # relabelings for a few standard Kubernetes fields. The original scrape job’s name
+    # is available via the __tmp_prometheus_job_name label.
+    # More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config
+    relabelings: []
+    # MetricRelabelConfigs to apply to samples before ingestion.
+    metricRelabelings: []
+
   googlePodMonitor:
     # If enabled, It creates Google Managed Prometheus scraping config
     enabled: false
@@ -711,11 +731,15 @@ controller:
     scrapeEndpoint: /prometheus
 
   # Can be used to disable rendering controller test resources when using helm template
-  testEnabled: true
+  testEnabled: false
 
   httpsKeyStore:
     jenkinsHttpsJksSecretName: ''
+    jenkinsHttpsJksSecretKey: "jenkins-jks-file"
+    jenkinsHttpsJksPasswordSecretName: ""
+    jenkinsHttpsJksPasswordSecretKey: "https-jks-password"
     enable: false
+    disableSecretMount: false
     httpPort: 8081
     path: "/var/jenkins_keystore"
     fileName: "keystore.jks"
@@ -774,8 +798,10 @@ agent:
   kubernetesReadTimeout: 15
   maxRequestsPerHostStr: "32"
   namespace:
+  # private registry for agent image
+  jnlpregistry:
   image: "jenkins/inbound-agent"
-  tag: "4.11.2-4"
+  tag: "3107.v665000b_51092-15"
   workingDir: "/home/jenkins/agent"
   nodeUsageMode: "NORMAL"
   customJenkinsLabels: []
@@ -783,6 +809,7 @@ agent:
   imagePullSecretName:
   componentName: "jenkins-agent"
   websocket: false
+  directConnection: false
   privileged: false
   runAsUser:
   runAsGroup:
@@ -791,9 +818,18 @@ agent:
     requests:
       cpu: "512m"
       memory: "512Mi"
+      # ephemeralStorage:
     limits:
       cpu: "512m"
       memory: "512Mi"
+      # ephemeralStorage:
+  livenessProbe: {}
+#    execArgs: "cat /tmp/healthy"
+#    failureThreshold: 3
+#    initialDelaySeconds: 0
+#    periodSeconds: 10
+#    successThreshold: 1
+#    timeoutSeconds: 1
   # You may want to change this to true while testing a new image
   alwaysPullImage: false
   # Controls how agent pods are retained after the Jenkins build completes
@@ -860,6 +896,12 @@ agent:
   envVars: []
   # - name: PATH
   #   value: /usr/local/bin
+  # Mount a secret as environment variable
+  secretEnvVars: []
+  # - key: PATH
+  #   optional: false # default: false
+  #   secretKey: MY-K8S-PATH
+  #   secretName: my-k8s-secret
   nodeSelector: {}
   # Key Value selectors. Ex:
   # jenkins-agent: v1
@@ -1108,6 +1150,7 @@ serviceAccountAgent:
   # If not set and create is true, a name is generated using the fullname template
   name:
   annotations: {}
+  extraLabels: {}
   imagePullSecretName:
 
 ## Backup cronjob configuration
@@ -1177,6 +1220,9 @@ backup:
   securityContextCapabilities: {}
   #  drop:
   #    - NET_RAW
+cronJob:
+  apiVersion: batch/v1
+
 checkDeprecation: true
 
 awsSecurityGroupPolicies:
@@ -1185,3 +1231,11 @@ awsSecurityGroupPolicies:
     - name: ""
       securityGroupIds: []
       podSelector: {}
+
+# Here you can configure unit tests values when executing the helm unittest in the CONTRIBUTING.md
+helmtest:
+  # A testing framework for bash
+  bats:
+    # Bash Automated Testing System (BATS)
+    image: "bats/bats"
+    tag: "1.9.0"
