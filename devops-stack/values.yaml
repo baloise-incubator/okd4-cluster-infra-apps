@@ -1035,7 +1035,7 @@ additionalAgents:
           volumeMounts:
             - name: workspace-volume
               mountPath: /home/jenkins/agent
-          image: 'registry.baloise.dev/library/gitopscli:5.5.1-rc1'
+          image: 'docker.io/baloise/gitopscli:5.8.1'
           workingDir: /home/jenkins/agent
   gitopscli:
     podName: gitopscli
