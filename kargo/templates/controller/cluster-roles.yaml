@@ -55,8 +55,10 @@ rules:
   - kargo.akuity.io
   resources:
   - freights/status
+  - freights/finalizers
   - promotions/status
   - stages/status
+  - stages/finalizers
   - warehouses/status
   - warehouses/finalizers # Required for OpenShift
   verbs:
