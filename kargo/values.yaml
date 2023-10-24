@@ -43,7 +43,7 @@ api:
   ## @param api.replicas The number of API server pods.
   replicas: 1
   ## @param api.host The domain name where Kargo's API server will be accessible. This is used for (when applicable) generation of an Ingress resource, certificates, and the OpenID Connect issuer and callback URLs. Note: The protocol (http vs https) should not be specified and is automatically inferred from other configuration options.
-  host: localhost
+  host: kargo.apps.baloise.dev
   ## @param api.logLevel The log level for the API server.
   logLevel: DEBUG
   ## @param api.resources Resources limits and requests for the api containers.
@@ -167,7 +167,7 @@ api:
   argocd:
     ## @param api.argocd.urls Mapping of Argo CD shards names to URLs to support deep links to Argo CD URLs. If sharding is not used, map the empty string to the single Argo CD URL.
     urls:
-      # "": https://argocd.example.com
+      "": https://argocd.baloise.dev
       # "shard2": https://argocd2.example.com
 
 ## @section Controller
@@ -245,7 +245,7 @@ garbageCollector:
   ## @param garbageCollector.schedule When to run the garbage collector.
   schedule: "0 * * * *"
   ## @param garbageCollector.workers The number of concurrent workers to run. Tuning this too low will result in slow garbage collection. Tuning this too high will result in too many API calls and may result in throttling.
-  workers: 3
+  workers: 1
   ## @param garbageCollector.maxRetainedPromotions The maximum number of Promotions in terminal phases PER PROJECT that may be spared by the garbage collector.
   maxRetainedPromotions: 20
   ## @param garbageCollector.logLevel The log level for the garbage collector.
