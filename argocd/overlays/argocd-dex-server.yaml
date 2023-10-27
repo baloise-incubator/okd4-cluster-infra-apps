@@ -8,6 +8,11 @@ spec:
       containers:
         - imagePullPolicy: IfNotPresent
           name: dex
+          command:
+            - /shared/argocd-dex
+            - rundex
+            - --certificate-authority
+            - /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
           env:
             - name: CLIENT_SECRET
               valueFrom:
