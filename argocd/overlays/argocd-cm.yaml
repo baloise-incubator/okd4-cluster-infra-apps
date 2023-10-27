@@ -36,7 +36,7 @@ data:
         id: openshift
         name: OpenShift
         config:
-          issuer: https://api.incubator.baloise.dev:6443
+          issuer: https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT_HTTPS
           clientID: system:serviceaccount:argocd:argocd-dex-server
           clientSecret: $CLIENT_SECRET
           redirectURI: https://argocd.baloise.dev/api/dex/callback
