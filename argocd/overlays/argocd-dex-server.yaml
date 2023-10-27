@@ -11,8 +11,7 @@ spec:
           command:
             - /shared/argocd-dex
             - rundex
-            - --certificate-authority
-            - /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            - --certificate-authority=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
           env:
             - name: CLIENT_SECRET
               valueFrom:
