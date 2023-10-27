@@ -9,17 +9,18 @@ resources:
   - base/default-appprojects.yaml
   - base/servicemonitors.yaml
   - base/bootstrap-application.yaml
+  - base/dex-sa-token-secret.yaml
 
-patchesStrategicMerge:
-  - overlays/catalog-install.yaml
-  - overlays/argocd-application-controller.yaml
-  - overlays/argocd-cm.yaml
-  - overlays/argocd-dex-server.yaml
-  - overlays/argocd-dex-server-sa.yaml
-  - overlays/argocd-rbac-cm.yaml
-  - overlays/argocd-redis.yaml
-  - overlays/argocd-redis-ha-haproxy.yaml
-  - overlays/argocd-server-deploy.yaml
-  - overlays/argocd-repo-server-deploy.yaml
-  - overlays/argocd-notifications-cm.yaml
-  - overlays/networkpolicies.yaml
+patches:
+  - path: overlays/catalog-install.yaml
+  - path: overlays/argocd-application-controller.yaml
+  - path: overlays/argocd-cm.yaml
+  - path: overlays/argocd-dex-server.yaml
+  - path: overlays/argocd-dex-server-sa.yaml
+  - path: overlays/argocd-rbac-cm.yaml
+  - path: overlays/argocd-redis.yaml
+  - path: overlays/argocd-redis-ha-haproxy.yaml
+  - path: overlays/argocd-server-deploy.yaml
+  - path: overlays/argocd-repo-server-deploy.yaml
+  - path: overlays/argocd-notifications-cm.yaml
+  - path: overlays/networkpolicies.yaml
