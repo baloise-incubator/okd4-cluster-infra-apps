@@ -8,6 +8,12 @@ spec:
       containers:
         - imagePullPolicy: IfNotPresent
           name: dex
+          env:
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: argocd-dex-server-sa
+                  key: token
       initContainers:
         - imagePullPolicy: IfNotPresent
           name: copyutil

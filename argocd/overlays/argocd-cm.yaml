@@ -38,6 +38,6 @@ data:
         config:
           issuer: https://api.incubator.baloise.dev:6443
           clientID: system:serviceaccount:argocd:argocd-dex-server
-          clientSecret: $dex.clientSecret
+          clientSecret: $CLIENT_SECRET
           redirectURI: https://argocd.baloise.dev/api/dex/callback
   kustomize.buildOptions: --enable-helm
