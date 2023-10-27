@@ -139,7 +139,7 @@ api:
             issuer: https://api.incubator.baloise.dev:6443
             clientID: system:serviceaccount:kargo:kargo-dex-server
             clientSecret: $dex.clientSecret
-            redirectURI: https://argocd.baloise.dev/api/dex/callback
+            redirectURI: https://kargo.apps.baloise.dev/dex/callback
 
       # - id: mock
       #   name: Example
