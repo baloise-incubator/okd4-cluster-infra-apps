@@ -52,6 +52,12 @@ spec:
           timeoutSeconds: 1
           successThreshold: 1
           failureThreshold: 300
+        env:
+          - name: CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: kargo-sa-token
+                key: token
       volumes:
       - name: config
         projected:

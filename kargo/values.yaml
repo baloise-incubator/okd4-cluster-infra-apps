@@ -138,7 +138,7 @@ api:
           config:
             issuer: https://api.incubator.baloise.dev:6443
             clientID: system:serviceaccount:kargo:kargo-dex-server
-            clientSecret: $dex.clientSecret
+            clientSecret: $CLIENT_SECRET
             redirectURI: https://kargo.apps.baloise.dev/dex/callback
 
       # - id: mock
