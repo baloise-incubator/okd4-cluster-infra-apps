@@ -33,7 +33,7 @@ data:
   {{- if or .Values.api.tls.enabled (and .Values.api.ingress.enabled .Values.api.ingress.tls.enabled) }}
   OIDC_ISSUER_URL: https://{{ .Values.api.host }}/dex
   {{- else }}
-  OIDC_ISSUER_URL: http://{{ .Values.api.host }}/dex
+  OIDC_ISSUER_URL: https://{{ .Values.api.host }}/dex
   {{- end }}
   OIDC_CLIENT_ID: {{ .Values.api.host }}
   OIDC_CLI_CLIENT_ID: {{ .Values.api.host }}-cli
