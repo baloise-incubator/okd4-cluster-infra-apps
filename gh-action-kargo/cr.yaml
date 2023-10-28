@@ -8,5 +8,6 @@ rules:
   resources:
   - warehouses
   verbs:
+  - get
   - update
   - patch
