@@ -8,7 +8,7 @@ image:
   ## @param image.repository Image repository of Kargo
   repository: ghcr.io/akuity/kargo-unstable
   ## @param image.tag Overrides the image tag. The default tag is the value of `.Chart.AppVersion`
-  tag: "sha256-5fafd9a4115825e6211a1fee70413e0099d32f9ea9baded348c4c6f10483abc4.att"
+  tag: "sha256-5fafd9a4115825e6211a1fee70413e0099d32f9ea9baded348c4c6f10483abc4"
   ## @param image.pullPolicy Image pull policy
   pullPolicy: IfNotPresent
 
