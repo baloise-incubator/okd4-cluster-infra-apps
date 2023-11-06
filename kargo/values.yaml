@@ -6,9 +6,9 @@
 ## @section Image Parameters
 image:
   ## @param image.repository Image repository of Kargo
-  repository: ghcr.io/akuity/kargo-unstable # niiku/kargo #ghcr.io/akuity/kargo-unstable
+  repository: niiku/kargo #ghcr.io/akuity/kargo-unstable
   ## @param image.tag Overrides the image tag. The default tag is the value of `.Chart.AppVersion`
-  tag: v0.1.2-unstable-20231106 # dev-d863714 #"v0.1.2-unstable-20231103"
+  tag: dev-57f6934 # dev-d863714 #"v0.1.2-unstable-20231103"
   ## @param image.pullPolicy Image pull policy
   pullPolicy: IfNotPresent
 
