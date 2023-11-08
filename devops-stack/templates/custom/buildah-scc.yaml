@@ -14,7 +14,7 @@ groups: []
 kind: SecurityContextConstraints
 metadata:
   name: buildah-devops-stack
-priority: 10
+priority: 9
 readOnlyRootFilesystem: false
 requiredDropCapabilities:
   - KILL
