@@ -35,7 +35,7 @@ jobs:
               patch="${BASH_REMATCH[3]}"
               prerelease="${BASH_REMATCH[4]}"
               if [[ "$prerelease" != "rc"* ]]; then
-                if [[ -z $highest_stable_version ]] || (( major > ${highest_stable_version%%.*} || ( major == ${highest_stable_version%%.*} && minor > ${highest_stable_version#*.} ) || ( major == ${highest_stable_version%%.*} && minor == ${highest_stable_version#*.} && patch > ${highest_stable_version##*.} ) )); then
+                if [[ -z $highest_stable_version ]] || [[ "$major.$minor.$patch" > "$highest_stable_version" ]]; then
                   highest_stable_version="$major.$minor.$patch"
                 fi
               fi
@@ -45,9 +45,9 @@ jobs:
             fi
           done
           if [[ "$is_rc" == "true" && "$next_rc_version" != "" ]]; then
-            echo "$next_rc_version"
+            echo "::set-output name=version::$next_rc_version"
           else
-            echo "$highest_stable_version"
+            echo "::set-output name=version::$highest_stable_version"
           fi
 
       - name: Compare versions and update kustomization.yaml if needed
