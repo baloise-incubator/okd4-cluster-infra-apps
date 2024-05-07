@@ -22,7 +22,7 @@ jobs:
           echo "Retrieved releases from GitHub API"
           
           is_rc="false"
-          if [[ "$current_version" =~ -rc[0-9]+$ ]]; then
+          if [[ "$current_version" == *"-rc"* ]]; then
             is_rc="true"
             echo "Current version is a release candidate: $current_version"
           else
