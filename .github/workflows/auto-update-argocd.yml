@@ -16,23 +16,42 @@ jobs:
         run: |
           current_version=$(grep -oP '(?<=ref=)v\d+\.\d+\.\d+' argocd/kustomization.yaml)
           echo "::set-output name=version::$current_version"
-      - name: Find the highest version available
-        id: find_highest_version
+      - name: Determine version to update to
+        id: determine_version_to_update
         run: |
           releases=$(curl -s https://api.github.com/repos/argoproj/argo-cd/releases)
-          highest_version=""
+          current_version="${{ steps.get_current_version.outputs.version }}"
+          is_rc="false"
+          if [[ "$current_version" =~ rc[0-9]+$ ]]; then
+            is_rc="true"
+          fi
+          highest_stable_version=""
+          next_stable_version=""
+          next_rc_version=""
           for release in $(echo "$releases" | jq -r '.[].tag_name'); do
-            if [[ $release =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)(-.+)?$ ]]; then
+            if [[ "$release" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)(-.+)?$ ]]; then
               major="${BASH_REMATCH[1]}"
               minor="${BASH_REMATCH[2]}"
               patch="${BASH_REMATCH[3]}"
               prerelease="${BASH_REMATCH[4]}"
-              if [[ -z $highest_version ]] || (( major > ${highest_version%%.*} || ( major == ${highest_version%%.*} && minor > ${highest_version#*.} ) || ( major == ${highest_version%%.*} && minor == ${highest_version#*.} && patch > ${highest_version##*.} ) || ( major == ${highest_version%%.*} && minor == ${highest_version#*.} && patch == ${highest_version##*.} && "$prerelease" > "${highest_version##*-}" ) )); then
-                highest_version="$release"
+              if [[ "$prerelease" != "rc"* ]]; then
+                if [[ -z $highest_stable_version ]] || (( major > ${highest_stable_version%%.*} || ( major == ${highest_stable_version%%.*} && minor > ${highest_stable_version#*.} ) || ( major == ${highest_stable_version%%.*} && minor == ${highest_stable_version#*.} && patch > ${highest_stable_version##*.} ) )); then
+                  highest_stable_version="$release"
+                fi
+              fi
+              if [[ "$is_rc" == "true" && "$release" == "${current_version%.*}-"* ]]; then
+                next_rc_version="$release"
+              fi
+              if [[ "$is_rc" == "false" && "$release" =~ ^${current_version%.*}-rc([0-9]+)$ ]]; then
+                next_rc_version="$release"
               fi
             fi
           done
-          echo "::set-output name=highest_version::$highest_version"
+          if [[ "$is_rc" == "true" && "$next_rc_version" != "" ]]; then
+            echo "$next_rc_version"
+          else
+            echo "$highest_stable_version"
+          fi
       - name: Compare versions and update kustomization.yaml if needed
         if: steps.find_highest_version.outputs.highest_version != steps.get_current_version.outputs.version && steps.find_highest_version.outputs.highest_version != null && steps.get_current_version.outputs.version != null
         run: |
