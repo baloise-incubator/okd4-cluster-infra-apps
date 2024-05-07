@@ -11,6 +11,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Debug - List files in working directory
+        run: ls -l
+
+      - name: Debug - Print content of kustomization.yaml
+        run: cat argocd/kustomization.yaml
+
 
       - name: Determine version to update to
         id: determine_version_to_update
