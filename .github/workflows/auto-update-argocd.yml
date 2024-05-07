@@ -1,9 +1,9 @@
 name: Check and Update Argo CD Version
 
 on:
-  workflow_dispatch: {}
   schedule:
     - cron: '0 * * * *' # Runs every hour
+  workflow_dispatch: # Manual trigger
 
 jobs:
   check_and_update:
@@ -11,39 +11,44 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Get current Argo CD version from kustomization.yaml
-        id: get_current_version
-        run: |
-          current_version=$(grep -oP '(?<=ref=)v\d+\.\d+\.\d+' argocd/kustomization.yaml)
-          echo "::set-output name=version::$current_version"
 
       - name: Determine version to update to
         id: determine_version_to_update
         run: |
+          current_version=$(grep -oP '(?<=ref=)v\d+\.\d+\.\d+' argocd/kustomization.yaml)
+          echo "::set-output name=current_version::$current_version"
+          
           releases=$(curl -s https://api.github.com/repos/argoproj/argo-cd/releases)
-          current_version="${{ steps.get_current_version.outputs.version }}"
+          
           is_rc="false"
           if [[ "$current_version" =~ rc[0-9]+$ ]]; then
             is_rc="true"
           fi
+          
           highest_stable_version=""
           next_rc_version=""
+          
           for release in $(echo "$releases" | jq -r '.[].tag_name'); do
             if [[ "$release" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)(-.+)?$ ]]; then
               major="${BASH_REMATCH[1]}"
               minor="${BASH_REMATCH[2]}"
               patch="${BASH_REMATCH[3]}"
               prerelease="${BASH_REMATCH[4]}"
+              
               if [[ "$prerelease" != "rc"* ]]; then
-                if [[ -z $highest_stable_version ]] || [[ "$major.$minor.$patch" > "$highest_stable_version" ]]; then
+                if [[ -z $highest_stable_version ]] || (( major > $(echo $highest_stable_version | cut -d '.' -f 1) || ( major == $(echo $highest_stable_version | cut -d '.' -f 1) && minor > $(echo $highest_stable_version | cut -d '.' -f 2) ) || ( major == $(echo $highest_stable_version | cut -d '.' -f 1) && minor == $(echo $highest_stable_version | cut -d '.' -f 2) && patch > $(echo $highest_stable_version | cut -d '.' -f 3) ) )); then
                   highest_stable_version="$major.$minor.$patch"
                 fi
               fi
+              
               if [[ "$is_rc" == "true" && "$release" == "${current_version%.*}-"* ]]; then
-                next_rc_version="$major.$minor.$patch-$prerelease"
+                if [[ -z $next_rc_version ]] || [[ "$release" > "$next_rc_version" ]]; then
+                  next_rc_version="$release"
+                fi
               fi
             fi
           done
+          
           if [[ "$is_rc" == "true" && "$next_rc_version" != "" ]]; then
             echo "::set-output name=version::$next_rc_version"
           else
@@ -51,14 +56,14 @@ jobs:
           fi
 
       - name: Compare versions and update kustomization.yaml if needed
-        if: steps.determine_version_to_update.outputs.version != steps.get_current_version.outputs.version && steps.determine_version_to_update.outputs.version != null && steps.get_current_version.outputs.version != null
+        if: steps.determine_version_to_update.outputs.version != steps.determine_version_to_update.outputs.current_version && steps.determine_version_to_update.outputs.version != null && steps.determine_version_to_update.outputs.current_version != null
         run: |
-          sed -i "s/ref=${{ steps.get_current_version.outputs.version }}/ref=${{ steps.determine_version_to_update.outputs.version }}/" argocd/kustomization.yaml
-          echo "Updated Argo CD version in kustomization.yaml from ${{ steps.get_current_version.outputs.version }} to ${{ steps.determine_version_to_update.outputs.version }}"
+          sed -i "s/ref=${{ steps.determine_version_to_update.outputs.current_version }}/ref=${{ steps.determine_version_to_update.outputs.version }}/" argocd/kustomization.yaml
+          echo "Updated Argo CD version in kustomization.yaml from ${{ steps.determine_version_to_update.outputs.current_version }} to ${{ steps.determine_version_to_update.outputs.version }}"
         working-directory: ${{ github.workspace }}
 
       - name: Commit and push if kustomization.yaml was updated
-        if: steps.determine_version_to_update.outputs.version != steps.get_current_version.outputs.version && steps.determine_version_to_update.outputs.version != null && steps.get_current_version.outputs.version != null
+        if: steps.determine_version_to_update.outputs.version != steps.determine_version_to_update.outputs.current_version && steps.determine_version_to_update.outputs.version != null && steps.determine_version_to_update.outputs.current_version != null
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
