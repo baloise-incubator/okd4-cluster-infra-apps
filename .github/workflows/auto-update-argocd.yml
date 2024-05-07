@@ -15,13 +15,15 @@ jobs:
       - name: Determine version to update to
         id: determine_version_to_update
         run: |
+          echo Start
           current_version=$(grep -oP '(?<=ref=)v\d+\.\d+\.\d+' argocd/kustomization.yaml)
           echo "::set-output name=current_version::$current_version"
-          
+          echo Releases
           releases=$(curl -s https://api.github.com/repos/argoproj/argo-cd/releases)
           
           is_rc="false"
           if [[ "$current_version" =~ rc[0-9]+$ ]]; then
+          echo is_rc 
             is_rc="true"
           fi
           
@@ -29,6 +31,7 @@ jobs:
           next_rc_version=""
           
           for release in $(echo "$releases" | jq -r '.[].tag_name'); do
+          echo release $release
             if [[ "$release" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)(-.+)?$ ]]; then
               major="${BASH_REMATCH[1]}"
               minor="${BASH_REMATCH[2]}"
@@ -36,19 +39,21 @@ jobs:
               prerelease="${BASH_REMATCH[4]}"
               
               if [[ "$prerelease" != "rc"* ]]; then
+              echo no-prerelease
                 if [[ -z $highest_stable_version ]] || (( major > $(echo $highest_stable_version | cut -d '.' -f 1) || ( major == $(echo $highest_stable_version | cut -d '.' -f 1) && minor > $(echo $highest_stable_version | cut -d '.' -f 2) ) || ( major == $(echo $highest_stable_version | cut -d '.' -f 1) && minor == $(echo $highest_stable_version | cut -d '.' -f 2) && patch > $(echo $highest_stable_version | cut -d '.' -f 3) ) )); then
                   highest_stable_version="$major.$minor.$patch"
                 fi
               fi
               
               if [[ "$is_rc" == "true" && "$release" == "${current_version%.*}-"* ]]; then
+              echo yes-prelease
                 if [[ -z $next_rc_version ]] || [[ "$release" > "$next_rc_version" ]]; then
                   next_rc_version="$release"
-                fi
+                fi 
               fi
             fi
           done
-          
+          echo output
           if [[ "$is_rc" == "true" && "$next_rc_version" != "" ]]; then
             echo "::set-output name=version::$next_rc_version"
           else
