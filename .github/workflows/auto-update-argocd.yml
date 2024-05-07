@@ -16,13 +16,17 @@ jobs:
         id: determine_version_to_update
         run: |
           current_version=$(awk -F 'ref=v|"' '/ref=v/{print $2}' argocd/kustomization.yaml)
-          echo "::set-output name=current_version::$current_version"
+          echo "Current version in kustomization.yaml: $current_version"
           
           releases=$(curl -s https://api.github.com/repos/argoproj/argo-cd/releases)
+          echo "Retrieved releases from GitHub API"
           
           is_rc="false"
           if [[ "$current_version" =~ rc[0-9]+$ ]]; then
             is_rc="true"
+            echo "Current version is a release candidate: $current_version"
+          else
+            echo "Current version is not a release candidate: $current_version"
           fi
           
           highest_version=""
@@ -34,14 +38,18 @@ jobs:
               patch="${BASH_REMATCH[3]}"
               prerelease="${BASH_REMATCH[4]}"
               
+              echo "Processing release: $release"
+              
               if [[ -z $highest_version ]] || (( major > $(echo $highest_version | cut -d '.' -f 1) || ( major == $(echo $highest_version | cut -d '.' -f 1) && minor > $(echo $highest_version | cut -d '.' -f 2) ) || ( major == $(echo $highest_version | cut -d '.' -f 1) && minor == $(echo $highest_version | cut -d '.' -f 2) && patch > $(echo $highest_version | cut -d '.' -f 3) ) )); then
                 if [[ "$prerelease" != "rc"* ]] || [[ "$is_rc" == "true" && "$release" == "${current_version%.*}-"* ]]; then
                   highest_version="$major.$minor.$patch$prerelease"
+                  echo "New highest version found: $highest_version"
                 fi
               fi
             fi
           done
           
+          echo "Highest version determined: $highest_version"
           echo "::set-output name=version::$highest_version"
 
       - name: Compare versions and update kustomization.yaml if needed
