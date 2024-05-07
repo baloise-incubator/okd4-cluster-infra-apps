@@ -11,12 +11,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Debug - List files in working directory
-        run: ls -l
-
-      - name: Debug - Print content of kustomization.yaml
-        run: cat argocd/kustomization.yaml
-
 
       - name: Determine version to update to
         id: determine_version_to_update
@@ -28,7 +22,7 @@ jobs:
           echo "Retrieved releases from GitHub API"
           
           is_rc="false"
-          if [[ "$current_version" =~ rc[0-9]+$ ]]; then
+          if [[ "$current_version" =~ -rc[0-9]+$ ]]; then
             is_rc="true"
             echo "Current version is a release candidate: $current_version"
           else
