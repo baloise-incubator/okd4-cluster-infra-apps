@@ -1,6 +1,7 @@
 name: Check and Update Argo CD Version
 
 on:
+  workflow_dispatch: {}
   schedule:
     - cron: '0 * * * *' # Runs every hour
 
