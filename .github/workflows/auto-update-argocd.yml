@@ -1,0 +1,40 @@
+name: Check and Update Argo CD Version
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Runs every hour
+
+jobs:
+  check_and_update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get latest Argo CD release version
+        id: get_latest_version
+        run: |
+          latest_version=$(curl -s https://api.github.com/repos/argoproj/argo-cd/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
+          echo "::set-output name=version::$latest_version"
+
+      - name: Get current Argo CD version from kustomization.yaml
+        id: get_current_version
+        run: |
+          current_version=$(grep -oP '(?<=ref=)v\d+\.\d+\.\d+' argocd/kustomization.yaml)
+          echo "::set-output name=version::$current_version"
+
+      - name: Compare versions and update kustomization.yaml if needed
+        if: steps.get_latest_version.outputs.version != steps.get_current_version.outputs.version && steps.get_latest_version.outputs.version != null && steps.get_current_version.outputs.version != null
+        run: |
+          sed -i "s/ref=${{ steps.get_current_version.outputs.version }}/ref=${{ steps.get_latest_version.outputs.version }}/" argocd/kustomization.yaml
+          echo "Updated Argo CD version in kustomization.yaml from ${{ steps.get_current_version.outputs.version }} to ${{ steps.get_latest_version.outputs.version }}"
+        working-directory: ${{ github.workspace }}
+
+      - name: Commit and push if kustomization.yaml was updated
+        if: steps.get_latest_version.outputs.version != steps.get_current_version.outputs.version && steps.get_latest_version.outputs.version != null && steps.get_current_version.outputs.version != null
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add argocd/kustomization.yaml
+          git commit -m "Update Argo CD version to ${{ steps.get_latest_version.outputs.version }}"
+          git push
