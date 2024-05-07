@@ -11,24 +11,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Get Argo CD releases
-        id: get_releases
-        run: |
-          releases=$(curl -s https://api.github.com/repos/argoproj/argo-cd/releases)
-          echo "::set-output name=releases::$releases"
-
       - name: Get current Argo CD version from kustomization.yaml
         id: get_current_version
         run: |
           current_version=$(grep -oP '(?<=ref=)v\d+\.\d+\.\d+' argocd/kustomization.yaml)
           echo "::set-output name=version::$current_version"
-
       - name: Find the highest version available
         id: find_highest_version
         run: |
+          releases=$(curl -s https://api.github.com/repos/argoproj/argo-cd/releases)
           highest_version=""
-          for release in $(echo "${{ steps.get_releases.outputs.releases }}" | jq -r '.[].tag_name'); do
+          for release in $(echo "$releases" | jq -r '.[].tag_name'); do
             if [[ $release =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)(-.+)?$ ]]; then
               major="${BASH_REMATCH[1]}"
               minor="${BASH_REMATCH[2]}"
@@ -40,14 +33,12 @@ jobs:
             fi
           done
           echo "::set-output name=highest_version::$highest_version"
-
       - name: Compare versions and update kustomization.yaml if needed
         if: steps.find_highest_version.outputs.highest_version != steps.get_current_version.outputs.version && steps.find_highest_version.outputs.highest_version != null && steps.get_current_version.outputs.version != null
         run: |
           sed -i "s/ref=${{ steps.get_current_version.outputs.version }}/ref=${{ steps.find_highest_version.outputs.highest_version }}/" argocd/kustomization.yaml
           echo "Updated Argo CD version in kustomization.yaml from ${{ steps.get_current_version.outputs.version }} to ${{ steps.find_highest_version.outputs.highest_version }}"
         working-directory: ${{ github.workspace }}
-
       - name: Commit and push if kustomization.yaml was updated
         if: steps.find_highest_version.outputs.highest_version != steps.get_current_version.outputs.version && steps.find_highest_version.outputs.highest_version != null && steps.get_current_version.outputs.version != null
         run: |
