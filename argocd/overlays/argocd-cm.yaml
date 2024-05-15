@@ -5,7 +5,7 @@ metadata:
 data:
   application.instanceLabelKey: argocd.argoproj.io/instance
   url: https://argocd.baloise.dev
-  users.anonymous.enabled: 'true'
+  users.anonymous.enabled: 'false'
   statusbadge.enabled: 'true'
   admin.enabled: 'false'
   resource.exclusions: |
