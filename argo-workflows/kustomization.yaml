@@ -6,7 +6,7 @@ resources:
   - base/argo-server-route.yaml
   - base/argo-server-dnsendpoint.yaml
   - base/argo-default-crb.yaml
-  - https://github.com/argoproj/argo-workflows/releases/download/v3.5.2/install.yaml
+  - https://github.com/argoproj/argo-workflows/releases/download/v3.5.11/install.yaml
 
 patchesStrategicMerge:
   - overlays/argo-server-deploy.yaml

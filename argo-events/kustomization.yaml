@@ -27,5 +27,5 @@ patches:
       - op: remove
         path: /spec/template/spec/securityContext
 bases:
-  - github.com/argoproj/argo-events/manifests/cluster-install?ref=v1.7.3
+  - github.com/argoproj/argo-events/manifests/cluster-install?ref=v1.9.2
 resources: []
