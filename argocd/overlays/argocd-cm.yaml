@@ -17,6 +17,12 @@ data:
       - ProviderConfigUsage
   # https://docs.crossplane.io/knowledge-base/integrations/argo-cd-crossplane/#set-resource-exclusion
   resource.customizations: |
+    route.openshift.io/Route:
+      ignoreDifferences: |
+        jsonPointers:
+        - /spec/to/weight
+        - /spec/alternateBackends
+
     "*.upbound.io/*":
       health.lua: |
         health_status = {
