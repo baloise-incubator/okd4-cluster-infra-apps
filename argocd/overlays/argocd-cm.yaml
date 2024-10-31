@@ -19,9 +19,8 @@ data:
   resource.customizations: |
     route.openshift.io/Route:
       ignoreDifferences: |
-        jsonPointers:
-        - /spec/to/weight
-        - /spec/alternateBackends
+        jqPathExpressions:
+        - '.spec.alternateBackends[]?.weight'
 
     "*.upbound.io/*":
       health.lua: |
