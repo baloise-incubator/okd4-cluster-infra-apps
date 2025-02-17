@@ -681,7 +681,7 @@ controller:
 
   # Openshift route
   route:
-    enabled: true
+    enabled: false
     path: ci.baloise.dev
 
   # controller.hostAliases allows for adding entries to Pod /etc/hosts:
