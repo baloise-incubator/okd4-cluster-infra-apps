@@ -3,6 +3,9 @@ kind: NFSProvisioner
 metadata:
   name: nfsprovisioner
   namespace: nfs-provisioner
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   scForNFS: nfs
   scForNFSPvc: lvms-vg1
