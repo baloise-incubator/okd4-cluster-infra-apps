@@ -13,6 +13,9 @@ spec:
         default: true
         fstype: xfs
         deviceSelector:
+          optionalPaths:
+            - /dev/nvme0n1
+            - /dev/nvme1n1
           forceWipeDevicesAndDestroyAllData: true
         thinPoolConfig:
           name: thin-pool-1
