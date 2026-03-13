@@ -25,3 +25,24 @@ subjects:
     name: github-sync-apps-sensor
   - kind: ServiceAccount
     name: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: gitopscli-workflow
+rules:
+  - apiGroups: ["argoproj.io"]
+    resources: ["workflowtaskresults"]
+    verbs: ["create", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gitopscli-workflow
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: gitopscli-workflow
+subjects:
+  - kind: ServiceAccount
+    name: gitopscli
