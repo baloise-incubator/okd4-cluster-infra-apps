@@ -10,6 +10,8 @@ spec:
         targetPort: 12000
   github:
     default:
+      organizations:
+        - baloise-incubator
       active: false
       contentType: json
       webhook:
