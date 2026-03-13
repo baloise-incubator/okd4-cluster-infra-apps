@@ -5,4 +5,4 @@ metadata:
 spec:
   nats:
     native:
-      replicas: 3
+      replicas: 1
