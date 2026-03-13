@@ -19,6 +19,7 @@ spec:
             - --interval=20s
             - --events
             - --default-targets=142.132.241.113
+            - --force-default-targets
             - --log-level=info
           env:
             - name: CF_API_KEY
