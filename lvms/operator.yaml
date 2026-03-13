@@ -9,7 +9,8 @@ metadata:
   name: lvms-operator
   namespace: openshift-storage
 spec:
-  targetNamespaces: []
+  targetNamespaces:
+    - openshift-storage
 ---
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
