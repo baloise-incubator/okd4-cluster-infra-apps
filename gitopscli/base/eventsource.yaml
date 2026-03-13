@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: github-webhook
+spec:
+  eventBusName: default
+  service:
+    ports:
+      - port: 12000
+        targetPort: 12000
+  webhook:
+    github:
+      active: true
+      endpoint: /github
+      method: POST
+      port: "12000"
+      authSecret:
+        name: github-token
+        key: webhook-secret

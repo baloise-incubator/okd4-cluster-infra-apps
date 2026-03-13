@@ -1,0 +1,15 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: gitopscli-webhook
+spec:
+  host: gitopscli-webhook.baloise.dev
+  port:
+    targetPort: 12000
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: github-webhook-eventsource-svc
+    weight: 100

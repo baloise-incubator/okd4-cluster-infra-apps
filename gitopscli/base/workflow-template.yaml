@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: gitopscli-sync-apps
+spec:
+  entrypoint: sync-apps
+  serviceAccountName: gitopscli
+  arguments:
+    parameters:
+      - name: organisation
+      - name: repository-name
+  templates:
+    - name: sync-apps
+      inputs:
+        parameters:
+          - name: organisation
+          - name: repository-name
+      container:
+        image: baloise/gitopscli:5.10.3
+        command: [gitopscli]
+        args:
+          - sync-apps
+          - --git-provider
+          - github
+          - --git-user
+          - GitOps CLI
+          - --git-email
+          - gitopscli@baloise.dev
+          - --organisation
+          - "{{inputs.parameters.organisation}}"
+          - --repository-name
+          - "{{inputs.parameters.repository-name}}"
+          - --root-organisation
+          - baloise-incubator
+          - --root-repository-name
+          - okd4-apps-root-config
+          - --verbose
+        env:
+          - name: GITOPSCLI_USERNAME
+            value: git
+          - name: GITOPSCLI_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: github-token
+                key: token

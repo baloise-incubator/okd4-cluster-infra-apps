@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gitopscli
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: gitopscli-sensor
+rules:
+  - apiGroups: ["argoproj.io"]
+    resources: ["workflows", "workflowtemplates"]
+    verbs: ["create", "get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gitopscli-sensor
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: gitopscli-sensor
+subjects:
+  - kind: ServiceAccount
+    name: github-sync-apps-sensor
