@@ -7,7 +7,7 @@ spec:
   dependencies:
     - name: github-push
       eventSourceName: github-webhook
-      eventName: github
+      eventName: default
   triggers:
     - template:
         name: sync-apps

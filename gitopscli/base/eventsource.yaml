@@ -8,12 +8,18 @@ spec:
     ports:
       - port: 12000
         targetPort: 12000
-  webhook:
-    github:
-      active: true
-      endpoint: /github
-      method: POST
-      port: "12000"
-      authSecret:
+  github:
+    default:
+      active: false
+      contentType: json
+      webhook:
+        endpoint: /github
+        method: POST
+        port: "12000"
+        url: https://gitopscli-webhook.baloise.dev
+      webhookSecret:
         name: github-token
         key: webhook-secret
+      events:
+        - push
+      insecure: false
