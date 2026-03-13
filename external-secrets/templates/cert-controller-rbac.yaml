@@ -1,4 +1,4 @@
-{{- if and .Values.certController.create .Values.certController.rbac.create -}}
+{{- if and .Values.certController.create .Values.certController.rbac.create (not .Values.webhook.certManager.enabled) -}}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -21,15 +21,31 @@ rules:
     resources:
     - "validatingwebhookconfigurations"
     verbs:
-    - "get"
     - "list"
     - "watch"
+    - "get"
+  - apiGroups:
+    - "admissionregistration.k8s.io"
+    resources:
+    - "validatingwebhookconfigurations"
+    resourceNames:
+    - "secretstore-validate"
+    - "externalsecret-validate"
+    verbs:
     - "update"
     - "patch"
   - apiGroups:
     - ""
     resources:
     - "endpoints"
+    verbs:
+    - "list"
+    - "get"
+    - "watch"
+  - apiGroups:
+    - "discovery.k8s.io"
+    resources:
+    - "endpointslices"
     verbs:
     - "list"
     - "get"
@@ -51,6 +67,15 @@ rules:
     - "watch"
     - "update"
     - "patch"
+  - apiGroups:
+    - "coordination.k8s.io"
+    resources:
+    - "leases"
+    verbs:
+    - "get"
+    - "create"
+    - "update"
+    - "patch"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -64,6 +89,6 @@ roleRef:
   name: {{ include "external-secrets.fullname" . }}-cert-controller
 subjects:
   - name: {{ include "external-secrets-cert-controller.serviceAccountName" . }}
-    namespace: {{ .Release.Namespace | quote }}
+    namespace: {{ template "external-secrets.namespace" . }}
     kind: ServiceAccount
 {{- end }}

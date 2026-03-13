@@ -1,41 +1,38 @@
-{{- if .Values.webhook.create }}
+{{- if and .Values.webhook.create .Values.webhook.service.enabled }}
+{{- $shouldRenderStr := include "external-secrets.shouldRenderServiceMonitor" . | trim }}
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "external-secrets.fullname" . }}-webhook
-  namespace: {{ .Release.Namespace | quote }}
+  namespace: {{ template "external-secrets.namespace" . }}
   labels:
     {{- include "external-secrets-webhook.labels" . | nindent 4 }}
     external-secrets.io/component: webhook
-  {{- if .Values.webhook.prometheus.enabled}}
-  annotations:
-    prometheus.io/path: "/metrics"
-    prometheus.io/scrape: "true"
-    prometheus.io/port: {{ .Values.prometheus.service.port | quote }}
-  {{- else }}
-  {{- with .Values.webhook.metrics.service.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-  {{- end }}
+  {{- include "external-secrets-webhook.annotations" . | nindent 2 }}
 spec:
-  type: ClusterIP
+  type: {{ .Values.webhook.service.type }}
+  {{- if .Values.service.ipFamilyPolicy }}
+  ipFamilyPolicy: {{ .Values.service.ipFamilyPolicy }}
+  {{- end }}
+  {{- if .Values.service.ipFamilies }}
+  ipFamilies: {{ .Values.service.ipFamilies | toYaml | nindent 2 }}
+  {{- end }}
+  {{- with .Values.webhook.service.loadBalancerIP }}
+  loadBalancerIP: {{ . }}
+  {{- end }}
   ports:
   - port: 443
-    targetPort: {{ .Values.webhook.port }}
+    targetPort: webhook
     protocol: TCP
     name: webhook
-  {{- if or .Values.webhook.prometheus.enabled .Values.webhook.metrics.service.enabled }}
-  {{- if .Values.webhook.prometheus.enabled }}
-  - port: {{ .Values.webhook.prometheus.service.port }}
-    targetPort: {{ .Values.webhook.prometheus.service.port }}
-  {{- else }}
+{{- if or .Values.webhook.metrics.service.enabled 
+         (and .Values.serviceMonitor.enabled 
+              (eq $shouldRenderStr "true")) }}
   - port: {{ .Values.webhook.metrics.service.port }}
-    targetPort: {{ .Values.webhook.metrics.service.port }}
-  {{- end }}
     protocol: TCP
+    targetPort: metrics
     name: metrics
-  {{- end }}
+{{- end }}
   selector:
     {{- include "external-secrets-webhook.selectorLabels" . | nindent 4 }}
 {{- end }}
