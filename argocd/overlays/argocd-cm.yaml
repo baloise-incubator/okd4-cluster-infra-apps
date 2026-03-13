@@ -175,4 +175,10 @@ data:
           clientID: system:serviceaccount:argocd:argocd-dex-server
           clientSecret: $CLIENT_SECRET
           redirectURI: https://argocd.baloise.dev/api/dex/callback
+    staticClients:
+      - id: argo-workflows-sso
+        name: Argo Workflows
+        redirectURIs:
+          - https://workflows.baloise.dev/oauth2/callback
+        secretEnv: ARGO_WORKFLOWS_SSO_CLIENT_SECRET
   kustomize.buildOptions: --enable-helm

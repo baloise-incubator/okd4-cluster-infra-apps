@@ -14,6 +14,11 @@ spec:
                 secretKeyRef:
                   name: argocd-dex-server-sa
                   key: token
+            - name: ARGO_WORKFLOWS_SSO_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: argo-workflows-sso
+                  key: client-secret
       initContainers:
         - imagePullPolicy: IfNotPresent
           name: copyutil

@@ -12,3 +12,4 @@ patchesStrategicMerge:
   - overlays/argo-server-deploy.yaml
   - overlays/argo-binding-crb.yaml
   - overlays/argo-server-binding-crb.yaml
+  - overlays/workflow-controller-configmap.yaml
