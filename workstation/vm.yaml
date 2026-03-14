@@ -19,6 +19,9 @@ spec:
             name: fedora-b37907f3bbf8
             namespace: openshift-virtualization-os-images
         storage:
+          accessModes:
+            - ReadWriteOnce
+          volumeMode: Filesystem
           resources:
             requests:
               storage: 100Gi
