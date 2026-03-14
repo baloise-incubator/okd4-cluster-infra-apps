@@ -22,7 +22,7 @@ spec:
           resources:
             requests:
               storage: 100Gi
-          storageClassName: lvms-vg1
+          storageClassName: nfs
   template:
     metadata:
       labels:
