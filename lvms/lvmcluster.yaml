@@ -7,7 +7,7 @@ spec:
   storage:
     deviceClasses:
       - name: vg1
-        default: true
+        default: false
         fstype: xfs
         thinPoolConfig:
           name: thin-pool-1

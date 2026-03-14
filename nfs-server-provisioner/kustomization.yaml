@@ -15,7 +15,7 @@ helmCharts:
         size: 1Ti
       storageClass:
         name: nfs
-        defaultClass: false
+        defaultClass: true
         reclaimPolicy: Delete
         allowVolumeExpansion: true
         mountOptions:
