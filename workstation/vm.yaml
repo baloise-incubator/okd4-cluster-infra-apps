@@ -1,0 +1,57 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: workstation
+spec:
+  running: true
+  instancetype:
+    kind: VirtualMachineClusterInstancetype
+    name: d1.xlarge
+  preference:
+    kind: VirtualMachineClusterPreference
+    name: fedora
+  dataVolumeTemplates:
+    - metadata:
+        name: workstation-rootdisk
+      spec:
+        sourceRef:
+          kind: DataSource
+          name: fedora
+          namespace: openshift-virtualization-os-images
+        storage:
+          resources:
+            requests:
+              storage: 100Gi
+          storageClassName: lvms-vg1
+  template:
+    metadata:
+      labels:
+        app: workstation
+    spec:
+      domain:
+        devices:
+          disks:
+            - name: rootdisk
+              disk:
+                bus: virtio
+            - name: cloudinit
+              disk:
+                bus: virtio
+      volumes:
+        - name: rootdisk
+          dataVolume:
+            name: workstation-rootdisk
+        - name: cloudinit
+          cloudInitNoCloud:
+            userData: |
+              #cloud-config
+              runcmd:
+                - curl -fsSL https://code-server.dev/install.sh | sh
+                - mkdir -p /root/.config/code-server
+                - |
+                  cat > /root/.config/code-server/config.yaml <<EOF
+                  bind-addr: 0.0.0.0:8080
+                  auth: none
+                  cert: false
+                  EOF
+                - systemctl enable --now code-server@root

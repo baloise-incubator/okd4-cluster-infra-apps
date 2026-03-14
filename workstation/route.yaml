@@ -1,0 +1,15 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: workstation
+spec:
+  host: workstation.baloise.dev
+  port:
+    targetPort: 8443
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: reencrypt
+  to:
+    kind: Service
+    name: workstation-oauth-proxy
+    weight: 100
