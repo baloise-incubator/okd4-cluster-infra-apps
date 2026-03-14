@@ -21,6 +21,8 @@ helmCharts:
         mountOptions:
           - vers=4.1
           - noatime
+      nodeSelector:
+        kubernetes.io/hostname: masterp002.baloise.dev
       resources:
         requests:
           cpu: 100m
