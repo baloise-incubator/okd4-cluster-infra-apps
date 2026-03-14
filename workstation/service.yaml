@@ -4,7 +4,7 @@ metadata:
   name: workstation-code-server
 spec:
   selector:
-    kubevirt.io/domain: workstation
+    vm.kubevirt.io/name: workstation
   ports:
     - protocol: TCP
       port: 8080
