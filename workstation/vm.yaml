@@ -48,16 +48,19 @@ spec:
           cloudInitNoCloud:
             userData: |
               #cloud-config
-              user: fedora
-              ssh_authorized_keys:
-                - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDS8NlAqokynVcGFvjKsBwXSl4R7z89KPpWmVaXAoCPwsI9T6W69TwwWyLRhiAIAFPV5mMMESkrKVU+EVDEu8miDtisp5Z6W6lc6Rx9TZ6Q3zPpUQv1gAgTYOwQURgqSP+XuUbMnHtrk4Ww6mz07vnSq5dXlWWaxbVY3/JBkn2NGUC/rsdQZwg7kIJtk5+47M2j3BTrzWCvuIs6pP/dUA8ioRsLJ6/ThfnWdFvcWqVI3KEGWG6wUCDTYPcETJ17zySlcmk5JLem9zsZiqdAJpDSpCrxxUTesPWax9Sqlyp0WOhza+yuM71Z2xyXE2MiqsmyEoNgvBRHvA9vi2yUJYQP
+              users:
+                - name: fedora
+                  sudo: ALL=(ALL) NOPASSWD:ALL
+                  shell: /bin/bash
+                  ssh_authorized_keys:
+                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDS8NlAqokynVcGFvjKsBwXSl4R7z89KPpWmVaXAoCPwsI9T6W69TwwWyLRhiAIAFPV5mMMESkrKVU+EVDEu8miDtisp5Z6W6lc6Rx9TZ6Q3zPpUQv1gAgTYOwQURgqSP+XuUbMnHtrk4Ww6mz07vnSq5dXlWWaxbVY3/JBkn2NGUC/rsdQZwg7kIJtk5+47M2j3BTrzWCvuIs6pP/dUA8ioRsLJ6/ThfnWdFvcWqVI3KEGWG6wUCDTYPcETJ17zySlcmk5JLem9zsZiqdAJpDSpCrxxUTesPWax9Sqlyp0WOhza+yuM71Z2xyXE2MiqsmyEoNgvBRHvA9vi2yUJYQP
               write_files:
                 - path: /home/fedora/.config/code-server/config.yaml
-                  owner: fedora:fedora
                   content: |
                     bind-addr: 0.0.0.0:8080
                     auth: none
                     cert: false
               runcmd:
+                - chown -R fedora:fedora /home/fedora/.config
                 - curl -fsSL https://code-server.dev/install.sh | sh
                 - systemctl enable --now code-server@fedora
