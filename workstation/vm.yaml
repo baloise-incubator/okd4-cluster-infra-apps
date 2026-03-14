@@ -15,9 +15,9 @@ spec:
         name: workstation-rootdisk
       spec:
         source:
-          pvc:
-            name: fedora-b37907f3bbf8
-            namespace: openshift-virtualization-os-images
+          registry:
+            url: docker://quay.io/containerdisks/fedora:latest
+            pullMethod: node
         storage:
           accessModes:
             - ReadWriteOnce
