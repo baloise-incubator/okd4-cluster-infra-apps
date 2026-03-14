@@ -19,8 +19,6 @@ readOnlyRootFilesystem: false
 requiredDropCapabilities:
   - KILL
   - MKNOD
-  - SETUID
-  - SETGID
 runAsUser:
   type: RunAsAny
 seLinuxContext:
