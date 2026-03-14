@@ -1,3 +1,7 @@
+# Reference only — not managed by Argo CD.
+# The LVMS operator Subscription is applied manually via `oc apply -f` so that
+# OLM handles lifecycle and channel upgrades. Update the channel below when the
+# cluster is upgraded to a new OKD minor version.
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -18,7 +22,7 @@ metadata:
   name: lvms-operator
   namespace: openshift-storage
 spec:
-  channel: stable-4.19
+  channel: stable-4.21
   installPlanApproval: Automatic
   name: lvms-operator
   source: redhat-operators

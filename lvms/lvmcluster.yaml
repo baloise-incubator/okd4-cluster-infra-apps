@@ -3,19 +3,12 @@ kind: LVMCluster
 metadata:
   name: lvmcluster
   namespace: openshift-storage
-  annotations:
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-    argocd.argoproj.io/sync-wave: "5"
 spec:
   storage:
     deviceClasses:
       - name: vg1
         default: true
         fstype: xfs
-        deviceSelector:
-          optionalPaths:
-            - /dev/nvme0n1
-          forceWipeDevicesAndDestroyAllData: true
         thinPoolConfig:
           name: thin-pool-1
           sizePercent: 90
