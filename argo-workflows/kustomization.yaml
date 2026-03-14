@@ -6,6 +6,9 @@ resources:
   - base/argo-server-route.yaml
   - base/argo-server-dnsendpoint.yaml
   - base/argo-default-crb.yaml
+  - base/argo-workflows-sso-rbac.yaml
+  - base/argo-workflows-sso-secretstore.yaml
+  - base/argo-workflows-sso-externalsecret.yaml
   - https://github.com/argoproj/argo-workflows/releases/download/v3.7.11/install.yaml
 
 patchesStrategicMerge:

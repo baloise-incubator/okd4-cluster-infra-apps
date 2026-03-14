@@ -1,0 +1,10 @@
+apiVersion: generators.external-secrets.io/v1alpha1
+kind: Password
+metadata:
+  name: argo-workflows-sso
+spec:
+  length: 42
+  digits: 10
+  symbols: 0
+  noUpper: false
+  allowRepeat: true

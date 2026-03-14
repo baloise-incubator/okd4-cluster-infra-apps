@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: eso-secret-reader
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: eso-secret-reader-token
+  annotations:
+    kubernetes.io/service-account.name: eso-secret-reader
+type: kubernetes.io/service-account-token

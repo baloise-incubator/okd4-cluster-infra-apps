@@ -9,6 +9,9 @@ resources:
   - base/servicemonitors.yaml
   - base/bootstrap-application.yaml
   - base/dex-sa-token-secret.yaml
+  - base/argo-workflows-sso-generator.yaml
+  - base/argo-workflows-sso-externalsecret.yaml
+  - base/argo-workflows-sso-rbac.yaml
 
 patchesStrategicMerge:
   - overlays/catalog-install.yaml
