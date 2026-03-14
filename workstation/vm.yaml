@@ -62,5 +62,5 @@ spec:
                     cert: false
               runcmd:
                 - chown -R fedora:fedora /home/fedora/.config
-                - curl -fsSL https://code-server.dev/install.sh | sh
+                - [bash, -c, "export HOME=/root && curl -fsSL https://code-server.dev/install.sh | sh"]
                 - systemctl enable --now code-server@fedora
