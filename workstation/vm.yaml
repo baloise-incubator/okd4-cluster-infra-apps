@@ -6,7 +6,7 @@ spec:
   running: true
   instancetype:
     kind: VirtualMachineClusterInstancetype
-    name: d1.xlarge
+    name: u1.xlarge
   preference:
     kind: VirtualMachineClusterPreference
     name: fedora
