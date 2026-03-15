@@ -23,6 +23,7 @@ data:
           clientID: system:serviceaccount:librechat:dex-sa
           clientSecret: $OPENSHIFT_SA_TOKEN
           redirectURI: https://librechat-dex.baloise.dev/callback
+          emailSuffix: baloise.dev
 
     oauth2:
       skipApprovalScreen: true
