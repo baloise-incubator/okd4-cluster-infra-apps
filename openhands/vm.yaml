@@ -40,6 +40,7 @@ spec:
             - name: default
               masquerade: {}
               ports:
+                - port: 22
                 - port: 3000
           disks:
             - name: rootdisk
