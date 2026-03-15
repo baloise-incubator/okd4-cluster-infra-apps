@@ -51,6 +51,8 @@ spec:
                   key: litellm-api-key
             - name: WORKSPACE_BASE
               value: /opt/workspace
+            - name: ENABLE_BROWSER
+              value: "false"
           volumeMounts:
             - name: workspace
               mountPath: /opt/workspace
