@@ -13,6 +13,7 @@ spec:
   dataVolumeTemplates:
     - metadata:
         name: workstation-rootdisk
+        creationTimestamp: null
       spec:
         source:
           registry:
@@ -28,6 +29,7 @@ spec:
           storageClassName: nfs
   template:
     metadata:
+      creationTimestamp: null
       labels:
         app: workstation
     spec:
