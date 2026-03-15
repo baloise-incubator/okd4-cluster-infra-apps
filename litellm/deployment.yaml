@@ -29,8 +29,6 @@ spec:
               containerPort: 4000
               protocol: TCP
           env:
-            - name: HOME
-              value: /tmp
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -73,6 +71,8 @@ spec:
               mountPath: /app/config.yaml
               subPath: config.yaml
               readOnly: true
+            - name: prisma-cache
+              mountPath: /.cache
           livenessProbe:
             httpGet:
               path: /health/liveliness
@@ -102,3 +102,5 @@ spec:
         - name: config
           configMap:
             name: litellm-config
+        - name: prisma-cache
+          emptyDir: {}
