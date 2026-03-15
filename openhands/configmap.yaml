@@ -8,7 +8,10 @@ data:
     workspace_base = "/opt/workspace"
     enable_browser = false
 
+    [sandbox]
+    runtime_container_image = "ghcr.io/all-hands-ai/runtime:oh_v0.59.0_image_nikolaik_s_python-nodejs_tag_python3.12-nodejs22"
+
     [llm]
     model = "claude-sonnet-4-6"
     base_url = "https://litellm.baloise.dev"
-    api_key_env = "LLM_API_KEY"
+    drop_params = true

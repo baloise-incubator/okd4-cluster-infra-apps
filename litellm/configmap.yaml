@@ -3,6 +3,21 @@ kind: ConfigMap
 metadata:
   name: litellm-config
 data:
+  strip_top_p.py: |
+    from litellm.integrations.custom_logger import CustomLogger
+    from litellm.llms.anthropic.chat.transformation import AnthropicConfig
+
+    _orig_map = AnthropicConfig.map_openai_params
+
+    def _patched_map(self, non_default_params, optional_params, model, drop_params):
+        result = _orig_map(self, non_default_params, optional_params, model, drop_params)
+        if "temperature" in result and "top_p" in result:
+            result.pop("top_p", None)
+        return result
+
+    AnthropicConfig.map_openai_params = _patched_map
+
+    strip_top_p = CustomLogger()
   config.yaml: |
     model_list:
       # Via Model Router
@@ -157,21 +172,27 @@ data:
       # Via Dedicated Claude endpoint
       - model_name: claude-haiku-4-5
         litellm_params:
-          model: azure_ai/claude-haiku-4-5
+          model: anthropic/claude-haiku-4-5
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ANTHROPIC_API_BASE
+        model_info:
+          base_model: claude-haiku-4-5
 
       - model_name: claude-sonnet-4-6
         litellm_params:
-          model: azure_ai/claude-sonnet-4-6
+          model: anthropic/claude-sonnet-4-6
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ANTHROPIC_API_BASE
+        model_info:
+          base_model: claude-sonnet-4-6
 
       - model_name: claude-opus-4-6
         litellm_params:
-          model: azure_ai/claude-opus-4-6
+          model: anthropic/claude-opus-4-6
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ANTHROPIC_API_BASE
+        model_info:
+          base_model: claude-opus-4-6
 
       # Via Dedicated OpenAI endpoint
       - model_name: gpt-5-mini
@@ -186,6 +207,8 @@ data:
     litellm_settings:
       drop_params: true
       num_retries: 3
+      success_callback:
+        - strip_top_p.strip_top_p
 
     general_settings:
       master_key: os.environ/LITELLM_MASTER_KEY
