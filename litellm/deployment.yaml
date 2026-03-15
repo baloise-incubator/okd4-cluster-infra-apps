@@ -29,6 +29,8 @@ spec:
               containerPort: 4000
               protocol: TCP
           env:
+            - name: HOME
+              value: /tmp
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
