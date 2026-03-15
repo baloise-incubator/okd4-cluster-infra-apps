@@ -24,6 +24,6 @@ data:
           baseURL: "http://litellm.litellm.svc.cluster.local:4000"
           models:
             default:
-              - "${LITELLM_MODEL}"
-            fetch: false
+              - "claude-sonnet-4-6"
+            fetch: true
 
