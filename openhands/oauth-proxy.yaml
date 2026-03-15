@@ -6,14 +6,6 @@ metadata:
     serviceaccounts.openshift.io/oauth-redirectreference.primary: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"openhands"}}'
 ---
 apiVersion: v1
-kind: Secret
-metadata:
-  name: openhands-oauth-proxy-cookie
-type: Opaque
-stringData:
-  cookie-secret: tCbg1u5zBQIIAoWyGN+TEXdZJuJI7yGZhkHDXER/Lxc=
----
-apiVersion: v1
 kind: Service
 metadata:
   name: openhands-oauth-proxy

@@ -53,8 +53,8 @@ spec:
               containerPort: 3000
               protocol: TCP
           env:
-            - name: RUNTIME
-              value: local
+            - name: DOCKER_HOST
+              value: tcp://localhost:2475
             - name: LLM_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -80,6 +80,28 @@ spec:
             limits:
               cpu: "2"
               memory: 4Gi
+        - name: kubedock
+          image: joyrex2001/kubedock:0.20.3
+          args:
+            - server
+            - --port-forward
+            - --namespace=openhands
+            - --service-account=openhands
+            - --request-cpu=500m
+            - --request-memory=512Mi
+            - --active-deadline-seconds=3600
+            - --timeout=5m
+            - --inspector
+          ports:
+            - name: kubedock
+              containerPort: 2475
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
       volumes:
         - name: config
           configMap:

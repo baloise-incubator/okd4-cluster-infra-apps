@@ -5,7 +5,6 @@ metadata:
 data:
   config.toml: |
     [core]
-    runtime = "local"
     workspace_base = "/opt/workspace"
     enable_browser = false
 
