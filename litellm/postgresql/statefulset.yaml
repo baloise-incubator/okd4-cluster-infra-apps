@@ -78,7 +78,7 @@ spec:
       spec:
         accessModes:
           - ReadWriteOnce
-        storageClassName: nfs
+        storageClassName: lvms-vg1
         resources:
           requests:
             storage: 10Gi
