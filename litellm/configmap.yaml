@@ -166,14 +166,6 @@ data:
         model_info:
           base_model: claude-haiku-4-5
 
-      - model_name: claude-sonnet-4-5
-        litellm_params:
-          model: anthropic/claude-sonnet-4-5
-          api_key: os.environ/AZURE_FOUNDRY_API_KEY
-          api_base: os.environ/AZURE_FOUNDRY_ANTHROPIC_API_BASE
-        model_info:
-          base_model: claude-sonnet-4-5
-
       - model_name: claude-sonnet-4-6
         litellm_params:
           model: anthropic/claude-sonnet-4-6
@@ -181,14 +173,6 @@ data:
           api_base: os.environ/AZURE_FOUNDRY_ANTHROPIC_API_BASE
         model_info:
           base_model: claude-sonnet-4-6
-
-      - model_name: claude-opus-4-1
-        litellm_params:
-          model: anthropic/claude-opus-4-1
-          api_key: os.environ/AZURE_FOUNDRY_API_KEY
-          api_base: os.environ/AZURE_FOUNDRY_ANTHROPIC_API_BASE
-        model_info:
-          base_model: claude-opus-4-1
 
       - model_name: claude-opus-4-6
         litellm_params:
