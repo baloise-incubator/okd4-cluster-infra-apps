@@ -33,19 +33,13 @@ spec:
               value: "0.0.0.0"
             - name: PORT
               value: "3080"
-            - name: MONGO_URI
-              value: ""
-            - name: POSTGRES_DB
-              value: librechat
-            - name: POSTGRES_USER
-              value: librechat
-            - name: POSTGRES_PASSWORD
+            - name: MONGODB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: librechat-secrets
-                  key: postgres-password
-            - name: DATABASE_URL
-              value: "postgresql://librechat:$(POSTGRES_PASSWORD)@postgresql:5432/librechat?sslmode=disable"
+                  key: mongodb-password
+            - name: MONGO_URI
+              value: "mongodb://librechat:$(MONGODB_PASSWORD)@mongodb:27017/librechat?authSource=admin"
             - name: LITELLM_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -56,11 +50,25 @@ spec:
                 secretKeyRef:
                   name: librechat-secrets
                   key: litellm-model
-            - name: OIDC_CLIENT_SECRET
+            - name: OPENID_CLIENT_ID
+              value: "librechat"
+            - name: OPENID_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: librechat-secrets
                   key: oidc-client-secret
+            - name: OPENID_ISSUER
+              value: "https://librechat-dex.baloise.dev"
+            - name: OPENID_SCOPE
+              value: "openid profile email groups"
+            - name: OPENID_CALLBACK_URL
+              value: "https://librechat.baloise.dev/oauth/openid/callback"
+            - name: OPENID_BUTTON_LABEL
+              value: "Login with OpenShift"
+            - name: ALLOW_SOCIAL_LOGIN
+              value: "true"
+            - name: ALLOW_SOCIAL_REGISTRATION
+              value: "true"
             - name: CREDS_KEY
               valueFrom:
                 secretKeyRef:

@@ -17,3 +17,23 @@ metadata:
   annotations:
     kubernetes.io/service-account.name: dex-sa
 type: kubernetes.io/service-account-token
+---
+# ServiceAccount for MongoDB. Needs anyuid SCC because the official mongo:7
+# image runs as root (uid=999 internally) — OKD's random UID assignment breaks it.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mongodb-sa
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: librechat-mongodb-anyuid
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:openshift:scc:anyuid
+subjects:
+  - kind: ServiceAccount
+    name: mongodb-sa
+    namespace: librechat

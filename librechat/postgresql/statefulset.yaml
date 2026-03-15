@@ -1,49 +1,44 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgresql
+  name: mongodb
   labels:
-    app: postgresql
+    app: mongodb
 spec:
-  serviceName: postgresql
+  serviceName: mongodb
   replicas: 1
   selector:
     matchLabels:
-      app: postgresql
+      app: mongodb
   template:
     metadata:
       labels:
-        app: postgresql
+        app: mongodb
     spec:
-      securityContext:
-        runAsNonRoot: true
+      serviceAccountName: mongodb-sa
       containers:
-        - name: postgresql
-          image: postgres:16
+        - name: mongodb
+          image: docker.io/library/mongo:7
           ports:
-            - name: postgres
-              containerPort: 5432
+            - name: mongo
+              containerPort: 27017
               protocol: TCP
           env:
-            - name: POSTGRES_DB
+            - name: MONGO_INITDB_ROOT_USERNAME
               value: librechat
-            - name: POSTGRES_USER
-              value: librechat
-            - name: POSTGRES_PASSWORD
+            - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: librechat-secrets
-                  key: postgres-password
-            - name: PGDATA
-              value: /var/lib/postgresql/data/pgdata
+                  key: mongodb-password
+            - name: MONGO_INITDB_DATABASE
+              value: librechat
           livenessProbe:
             exec:
               command:
-                - pg_isready
-                - -U
-                - librechat
-                - -d
-                - librechat
+                - mongosh
+                - --eval
+                - "db.adminCommand('ping')"
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
@@ -51,12 +46,10 @@ spec:
           readinessProbe:
             exec:
               command:
-                - pg_isready
-                - -U
-                - librechat
-                - -d
-                - librechat
-            initialDelaySeconds: 5
+                - mongosh
+                - --eval
+                - "db.adminCommand('ping')"
+            initialDelaySeconds: 10
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
@@ -71,7 +64,7 @@ spec:
               memory: 1Gi
           volumeMounts:
             - name: data
-              mountPath: /var/lib/postgresql/data
+              mountPath: /data/db
   volumeClaimTemplates:
     - metadata:
         name: data
