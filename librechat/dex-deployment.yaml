@@ -23,9 +23,12 @@ spec:
         - name: dex
           image: ghcr.io/dexidp/dex:v2.41.1
           command:
-            - /usr/local/bin/dex
-            - serve
-            - /etc/dex/config.yaml
+            - /bin/sh
+            - -c
+            - |
+              sed "s|\$OPENSHIFT_SA_TOKEN|${OPENSHIFT_SA_TOKEN}|g; s|\$LIBRECHAT_CLIENT_SECRET|${LIBRECHAT_CLIENT_SECRET}|g" \
+                /etc/dex/config.yaml > /tmp/dex-config.yaml
+              exec /usr/local/bin/dex serve /tmp/dex-config.yaml
           ports:
             - name: http
               containerPort: 5556
