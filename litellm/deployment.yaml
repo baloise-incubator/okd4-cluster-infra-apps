@@ -69,7 +69,7 @@ spec:
                   name: litellm-secrets
                   key: postgres-password
             - name: DATABASE_URL
-              value: "postgresql://litellm:$(POSTGRES_PASSWORD)@postgresql:5432/litellm"
+              value: "postgresql://litellm:$(POSTGRES_PASSWORD)@postgresql:5432/litellm?sslmode=disable"
           volumeMounts:
             - name: config
               mountPath: /app/config.yaml
