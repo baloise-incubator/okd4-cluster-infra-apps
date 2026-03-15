@@ -36,6 +36,11 @@ spec:
         kubernetes.io/hostname: masterp001.baloise.dev
       domain:
         devices:
+          interfaces:
+            - name: default
+              masquerade: {}
+              ports:
+                - port: 3000
           disks:
             - name: rootdisk
               disk:
@@ -49,6 +54,9 @@ spec:
             - name: cloudinit
               disk:
                 bus: virtio
+      networks:
+        - name: default
+          pod: {}
       volumes:
         - name: rootdisk
           dataVolume:
