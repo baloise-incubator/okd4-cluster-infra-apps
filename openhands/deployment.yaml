@@ -53,6 +53,8 @@ spec:
               containerPort: 3000
               protocol: TCP
           env:
+            - name: RUNTIME
+              value: local
             - name: LLM_API_KEY
               valueFrom:
                 secretKeyRef:
