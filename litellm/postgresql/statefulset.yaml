@@ -17,8 +17,6 @@ spec:
     spec:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 999
-        fsGroup: 999
       containers:
         - name: postgresql
           image: postgres:16
