@@ -33,6 +33,12 @@ spec:
               value: "0.0.0.0"
             - name: PORT
               value: "3080"
+            - name: DOMAIN_CLIENT
+              value: "https://librechat.baloise.dev"
+            - name: DOMAIN_SERVER
+              value: "https://librechat.baloise.dev"
+            - name: TRUST_PROXY
+              value: "1"
             - name: MONGODB_PASSWORD
               valueFrom:
                 secretKeyRef:
