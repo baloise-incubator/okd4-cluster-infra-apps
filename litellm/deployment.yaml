@@ -31,31 +31,26 @@ spec:
           env:
             - name: LITELLM_MIGRATION_DIR
               value: /tmp/migrations
-            - name: OPENAI_API_KEY
+            - name: AZURE_FOUNDRY_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: litellm-secrets
-                  key: openai-api-key
-            - name: AZURE_OPENAI_API_KEY
+                  key: azure-foundry-api-key
+            - name: AZURE_FOUNDRY_ROUTER_API_BASE
               valueFrom:
                 secretKeyRef:
                   name: litellm-secrets
-                  key: azure-openai-api-key
-            - name: AZURE_OPENAI_API_BASE
+                  key: azure-foundry-router-api-base
+            - name: AZURE_FOUNDRY_ANTHROPIC_API_BASE
               valueFrom:
                 secretKeyRef:
                   name: litellm-secrets
-                  key: azure-openai-api-base
-            - name: AZURE_OPENAI_API_VERSION
+                  key: azure-foundry-anthropic-api-base
+            - name: AZURE_FOUNDRY_OPENAI_API_BASE
               valueFrom:
                 secretKeyRef:
                   name: litellm-secrets
-                  key: azure-openai-api-version
-            - name: ANTHROPIC_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: litellm-secrets
-                  key: anthropic-api-key
+                  key: azure-foundry-openai-api-base
             - name: LITELLM_MASTER_KEY
               valueFrom:
                 secretKeyRef:
