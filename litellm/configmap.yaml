@@ -11,102 +11,136 @@ data:
           model: azure_ai/gpt-4o
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: gpt-4o
 
       - model_name: gpt-4o-mini
         litellm_params:
           model: azure_ai/gpt-4o-mini
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: gpt-4o-mini
 
       - model_name: gpt-4.1-nano
         litellm_params:
           model: azure_ai/gpt-4.1-nano
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: gpt-4.1-nano
 
       - model_name: gpt-4.1-mini
         litellm_params:
           model: azure_ai/gpt-4.1-mini
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: gpt-4.1-mini
 
       - model_name: gpt-4.1
         litellm_params:
           model: azure_ai/gpt-4.1
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: gpt-4.1
 
       - model_name: o4-mini
         litellm_params:
           model: azure_ai/o4-mini
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: o4-mini
 
       - model_name: gpt-5-nano
         litellm_params:
           model: azure_ai/gpt-5-nano
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: gpt-5-nano
 
       - model_name: gpt-5-chat
         litellm_params:
           model: azure_ai/gpt-5-chat
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: gpt-5-chat
 
       - model_name: gpt-5
         litellm_params:
           model: azure_ai/gpt-5
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: gpt-5
 
       - model_name: gpt-5.2-chat
         litellm_params:
           model: azure_ai/gpt-5.2-chat
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: gpt-5.2-chat
 
       - model_name: gpt-5.2
         litellm_params:
           model: azure_ai/gpt-5.2
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: gpt-5.2
 
       - model_name: gpt-oss-120b
         litellm_params:
           model: azure_ai/gpt-oss-120b
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: gpt-oss-120b
 
       - model_name: Llama-4-Maverick-17B-128E-Instruct-FP8
         litellm_params:
           model: azure_ai/Llama-4-Maverick-17B-128E-Instruct-FP8
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: Llama-4-Maverick-17B-128E-Instruct-FP8
 
       - model_name: DeepSeek-V3.1
         litellm_params:
           model: azure_ai/DeepSeek-V3.1
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: DeepSeek-V3.1
 
       - model_name: DeepSeek-V3.2
         litellm_params:
           model: azure_ai/DeepSeek-V3.2
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: DeepSeek-V3.2
 
       - model_name: grok-4
         litellm_params:
           model: azure_ai/grok-4
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: grok-4
 
       - model_name: grok-4-fast-reasoning
         litellm_params:
           model: azure_ai/grok-4-fast-reasoning
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_ROUTER_API_BASE
+        model_info:
+          base_model: grok-4-fast-reasoning
 
       - model_name: claude-sonnet-4-5
         litellm_params:
@@ -146,6 +180,8 @@ data:
           api_key: os.environ/AZURE_FOUNDRY_API_KEY
           api_base: os.environ/AZURE_FOUNDRY_OPENAI_API_BASE
           api_version: "2025-01-01-preview"
+        model_info:
+          base_model: gpt-5-mini
 
     litellm_settings:
       drop_params: true
