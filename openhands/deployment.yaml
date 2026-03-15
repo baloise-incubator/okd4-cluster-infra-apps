@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openhands
+  labels:
+    app: openhands
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openhands
+  template:
+    metadata:
+      labels:
+        app: openhands
+      annotations:
+        reloader.stakater.com/auto: "true"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: openhands
+          image: ghcr.io/all-hands-ai/openhands:main
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          env:
+            - name: RUNTIME
+              value: local
+            - name: LLM_MODEL
+              value: claude-sonnet-4-6
+            - name: LLM_BASE_URL
+              value: http://litellm.litellm.svc.cluster.local:4000
+            - name: LLM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openhands-secrets
+                  key: litellm-api-key
+            - name: WORKSPACE_BASE
+              value: /opt/workspace
+          volumeMounts:
+            - name: workspace
+              mountPath: /opt/workspace
+            - name: tmp
+              mountPath: /tmp
+            - name: cache
+              mountPath: /.cache
+          securityContext:
+            allowPrivilegeEscalation: false
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: "2"
+              memory: 4Gi
+      volumes:
+        - name: workspace
+          persistentVolumeClaim:
+            claimName: openhands-workspace
+        - name: tmp
+          emptyDir: {}
+        - name: cache
+          emptyDir: {}
