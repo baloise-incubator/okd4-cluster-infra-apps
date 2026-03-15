@@ -3,12 +3,10 @@ kind: Kustomization
 
 resources:
   - configmap.yaml
-  - deployment.yaml
+  - vm.yaml
   - service.yaml
   - external-secret.yaml
   - oauth-proxy.yaml
   - route.yaml
   - dnsendpoint.yaml
   - rbac.yaml
-  - pvc.yaml
-  - scc.yaml

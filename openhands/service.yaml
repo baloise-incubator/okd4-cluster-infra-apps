@@ -4,10 +4,10 @@ metadata:
   name: openhands
 spec:
   selector:
-    app: openhands
+    vm.kubevirt.io/name: openhands
   ports:
     - name: http
       port: 3000
-      targetPort: http
+      targetPort: 3000
       protocol: TCP
   type: ClusterIP

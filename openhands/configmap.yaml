@@ -10,5 +10,5 @@ data:
 
     [llm]
     model = "claude-sonnet-4-6"
-    base_url = "http://litellm.litellm.svc.cluster.local:4000"
+    base_url = "https://litellm.baloise.dev"
     api_key_env = "LLM_API_KEY"

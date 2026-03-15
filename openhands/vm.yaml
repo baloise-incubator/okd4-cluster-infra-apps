@@ -1,0 +1,174 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: openhands
+spec:
+  running: true
+  instancetype:
+    kind: VirtualMachineClusterInstancetype
+    name: u1.xlarge
+  preference:
+    kind: VirtualMachineClusterPreference
+    name: fedora
+  dataVolumeTemplates:
+    - metadata:
+        name: openhands-rootdisk
+      spec:
+        source:
+          registry:
+            url: docker://quay.io/containerdisks/fedora:latest
+            pullMethod: node
+        storage:
+          accessModes:
+            - ReadWriteOnce
+          volumeMode: Filesystem
+          resources:
+            requests:
+              storage: 100Gi
+          storageClassName: lvms-vg1
+  template:
+    metadata:
+      labels:
+        app: openhands
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: masterp001.baloise.dev
+      domain:
+        devices:
+          disks:
+            - name: rootdisk
+              disk:
+                bus: virtio
+            - name: secrets
+              disk:
+                bus: virtio
+            - name: config
+              disk:
+                bus: virtio
+            - name: cloudinit
+              disk:
+                bus: virtio
+      volumes:
+        - name: rootdisk
+          dataVolume:
+            name: openhands-rootdisk
+        - name: secrets
+          secret:
+            secretName: openhands-secrets
+            volumeLabel: secrets
+        - name: config
+          configMap:
+            name: openhands-config
+            volumeLabel: config
+        - name: cloudinit
+          cloudInitNoCloud:
+            userData: |
+              #cloud-config
+              users:
+                - name: fedora
+                  sudo: ALL=(ALL) NOPASSWD:ALL
+                  shell: /bin/bash
+                  ssh_authorized_keys:
+                    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDS8NlAqokynVcGFvjKsBwXSl4R7z89KPpWmVaXAoCPwsI9T6W69TwwWyLRhiAIAFPV5mMMESkrKVU+EVDEu8miDtisp5Z6W6lc6Rx9TZ6Q3zPpUQv1gAgTYOwQURgqSP+XuUbMnHtrk4Ww6mz07vnSq5dXlWWaxbVY3/JBkn2NGUC/rsdQZwg7kIJtk5+47M2j3BTrzWCvuIs6pP/dUA8ioRsLJ6/ThfnWdFvcWqVI3KEGWG6wUCDTYPcETJ17zySlcmk5JLem9zsZiqdAJpDSpCrxxUTesPWax9Sqlyp0WOhza+yuM71Z2xyXE2MiqsmyEoNgvBRHvA9vi2yUJYQP
+              write_files:
+                - path: /opt/openhands/start.sh
+                  permissions: "0755"
+                  content: |
+                    #!/bin/bash
+                    set -euo pipefail
+
+                    SECRETS_DIR=/opt/openhands/secrets
+                    CONFIG_DIR=/opt/openhands/config
+                    STORE_DIR=/opt/openhands/store
+
+                    # Mount secret and config disks by label
+                    mkdir -p "$SECRETS_DIR" "$CONFIG_DIR" "$STORE_DIR"
+
+                    SECRETS_DEV=$(blkid -L secrets 2>/dev/null || echo "")
+                    if [ -n "$SECRETS_DEV" ]; then
+                      mount "$SECRETS_DEV" "$SECRETS_DIR"
+                    else
+                      # Fallback: try /dev/vdb
+                      mount /dev/vdb "$SECRETS_DIR" 2>/dev/null || true
+                    fi
+
+                    CONFIG_DEV=$(blkid -L config 2>/dev/null || echo "")
+                    if [ -n "$CONFIG_DEV" ]; then
+                      mount "$CONFIG_DEV" "$CONFIG_DIR"
+                    else
+                      # Fallback: try /dev/vdc
+                      mount /dev/vdc "$CONFIG_DIR" 2>/dev/null || true
+                    fi
+
+                    # Read secrets
+                    LLM_API_KEY=""
+                    GITHUB_TOKEN=""
+                    if [ -f "$SECRETS_DIR/litellm-api-key" ]; then
+                      LLM_API_KEY=$(cat "$SECRETS_DIR/litellm-api-key")
+                    fi
+                    if [ -f "$SECRETS_DIR/github-token" ]; then
+                      GITHUB_TOKEN=$(cat "$SECRETS_DIR/github-token")
+                    fi
+
+                    # Seed settings.json from config.toml values
+                    cat > "$STORE_DIR/settings.json" <<SETTINGS
+                    {
+                      "llm_model": "claude-sonnet-4-6",
+                      "llm_api_key": "$LLM_API_KEY",
+                      "llm_base_url": "https://litellm.baloise.dev",
+                      "agent": "CodeActAgent",
+                      "language": "en",
+                      "enable_default_condenser": true
+                    }
+                    SETTINGS
+
+                    # Seed secrets.json with GitHub token
+                    if [ -n "$GITHUB_TOKEN" ]; then
+                      cat > "$STORE_DIR/secrets.json" <<SECRETS
+                    {
+                      "provider_tokens": {
+                        "github": {
+                          "token": "$GITHUB_TOKEN",
+                          "host": "github.com",
+                          "user_id": null
+                        }
+                      },
+                      "custom_secrets": {}
+                    }
+                    SECRETS
+                    fi
+
+                    # Run OpenHands if not already running (Docker restart policy handles reboots)
+                    if docker ps -a --format '{{.Names}}' | grep -q '^openhands$'; then
+                      echo "OpenHands container already exists, Docker restart policy will manage it"
+                      # Ensure disks stay mounted
+                      exit 0
+                    fi
+
+                    docker run -d --name openhands --restart=always \
+                      --network=host \
+                      -e LLM_API_KEY="$LLM_API_KEY" \
+                      -e GITHUB_TOKEN="$GITHUB_TOKEN" \
+                      -v "$CONFIG_DIR/config.toml:/app/config.toml:ro" \
+                      -v "$STORE_DIR:/.openhands" \
+                      -v /opt/workspace:/opt/workspace \
+                      -v /var/run/docker.sock:/var/run/docker.sock \
+                      ghcr.io/all-hands-ai/openhands:main
+                - path: /etc/systemd/system/openhands.service
+                  content: |
+                    [Unit]
+                    Description=OpenHands AI Assistant
+                    After=docker.service
+                    Requires=docker.service
+
+                    [Service]
+                    Type=oneshot
+                    RemainAfterExit=yes
+                    ExecStart=/opt/openhands/start.sh
+
+                    [Install]
+                    WantedBy=multi-user.target
+              runcmd:
+                - dnf install -y moby-engine
+                - systemctl enable --now docker
+                - systemctl enable --now openhands
