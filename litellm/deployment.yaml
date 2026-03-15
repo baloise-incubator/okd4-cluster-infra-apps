@@ -29,6 +29,10 @@ spec:
               containerPort: 4000
               protocol: TCP
           env:
+            - name: PRISMA_PY_DEBUG
+              value: "1"
+            - name: LITELLM_MIGRATION_DIR
+              value: /tmp/migrations
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
