@@ -68,7 +68,7 @@ spec:
             - name: OPENID_SCOPE
               value: "openid profile email groups"
             - name: OPENID_CALLBACK_URL
-              value: "https://librechat.baloise.dev/oauth/openid/callback"
+              value: "/oauth/openid/callback"
             - name: OPENID_BUTTON_LABEL
               value: "Login with OpenShift"
             - name: OPENID_SESSION_SECRET
