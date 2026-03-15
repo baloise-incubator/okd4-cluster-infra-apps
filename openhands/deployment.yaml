@@ -23,13 +23,16 @@ spec:
     spec:
       serviceAccountName: openhands
       securityContext:
-        runAsUser: 42420
-        runAsGroup: 42420
-        fsGroup: 42420
+        runAsUser: 0
+        fsGroup: 0
       containers:
         - name: openhands
           image: ghcr.io/all-hands-ai/openhands:main
-          command: ["python", "-m", "openhands.server"]
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              apt-get update -qq && apt-get install -y -qq tmux > /dev/null 2>&1
+              exec python -m openhands.server
           ports:
             - name: http
               containerPort: 3000
@@ -53,12 +56,6 @@ spec:
               mountPath: /opt/workspace
             - name: tmp
               mountPath: /tmp
-            - name: cache
-              mountPath: /.cache
-            - name: openhands-data
-              mountPath: /.openhands
-          securityContext:
-            allowPrivilegeEscalation: false
           resources:
             requests:
               cpu: 500m
@@ -71,8 +68,4 @@ spec:
           persistentVolumeClaim:
             claimName: openhands-workspace
         - name: tmp
-          emptyDir: {}
-        - name: cache
-          emptyDir: {}
-        - name: openhands-data
           emptyDir: {}
