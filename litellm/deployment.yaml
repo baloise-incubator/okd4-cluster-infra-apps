@@ -13,6 +13,8 @@ spec:
     metadata:
       labels:
         app: litellm
+      annotations:
+        reloader.stakater.com/auto: "true"
     spec:
       securityContext:
         runAsNonRoot: true
