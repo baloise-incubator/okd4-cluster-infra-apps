@@ -57,7 +57,7 @@ spec:
                   name: librechat-secrets
                   key: litellm-model
             - name: ALLOW_REGISTRATION
-              value: "true"
+              value: "false"
             - name: CREDS_KEY
               valueFrom:
                 secretKeyRef:
