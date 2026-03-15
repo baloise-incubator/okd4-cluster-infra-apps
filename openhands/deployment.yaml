@@ -32,28 +32,31 @@ spec:
           args:
             - |
               apt-get update -qq && apt-get install -y -qq tmux > /dev/null 2>&1
+              python -c "
+              from openhands.storage.data_models.settings import Settings
+              import os, json
+              s = Settings.from_config()
+              if s:
+                  path = '/.openhands/settings.json'
+                  os.makedirs(os.path.dirname(path), exist_ok=True)
+                  with open(path, 'w') as f:
+                      f.write(s.model_dump_json(context={'expose_secrets': True}))
+              "
               exec python -m openhands.server
           ports:
             - name: http
               containerPort: 3000
               protocol: TCP
           env:
-            - name: RUNTIME
-              value: local
-            - name: LLM_MODEL
-              value: claude-sonnet-4-6
-            - name: LLM_BASE_URL
-              value: http://litellm.litellm.svc.cluster.local:4000
             - name: LLM_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: openhands-secrets
                   key: litellm-api-key
-            - name: WORKSPACE_BASE
-              value: /opt/workspace
-            - name: ENABLE_BROWSER
-              value: "false"
           volumeMounts:
+            - name: config
+              mountPath: /app/config.toml
+              subPath: config.toml
             - name: workspace
               mountPath: /opt/workspace
             - name: tmp
@@ -66,6 +69,9 @@ spec:
               cpu: "2"
               memory: 4Gi
       volumes:
+        - name: config
+          configMap:
+            name: openhands-config
         - name: workspace
           persistentVolumeClaim:
             claimName: openhands-workspace

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openhands-config
+data:
+  config.toml: |
+    [core]
+    runtime = "local"
+    workspace_base = "/opt/workspace"
+    enable_browser = false
+
+    [llm]
+    model = "claude-sonnet-4-6"
+    base_url = "http://litellm.litellm.svc.cluster.local:4000"
+    api_key_env = "LLM_API_KEY"
