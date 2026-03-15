@@ -10,3 +10,4 @@ resources:
   - dnsendpoint.yaml
   - rbac.yaml
   - pvc.yaml
+  - scc.yaml

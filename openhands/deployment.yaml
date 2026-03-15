@@ -1,3 +1,8 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: openhands
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,11 +21,15 @@ spec:
       annotations:
         reloader.stakater.com/auto: "true"
     spec:
+      serviceAccountName: openhands
       securityContext:
-        runAsNonRoot: true
+        runAsUser: 42420
+        runAsGroup: 42420
+        fsGroup: 42420
       containers:
         - name: openhands
           image: ghcr.io/all-hands-ai/openhands:main
+          command: ["python", "-m", "openhands.server"]
           ports:
             - name: http
               containerPort: 3000
