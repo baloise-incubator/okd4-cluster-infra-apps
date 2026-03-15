@@ -55,6 +55,8 @@ spec:
               mountPath: /tmp
             - name: cache
               mountPath: /.cache
+            - name: openhands-data
+              mountPath: /.openhands
           securityContext:
             allowPrivilegeEscalation: false
           resources:
@@ -71,4 +73,6 @@ spec:
         - name: tmp
           emptyDir: {}
         - name: cache
+          emptyDir: {}
+        - name: openhands-data
           emptyDir: {}
