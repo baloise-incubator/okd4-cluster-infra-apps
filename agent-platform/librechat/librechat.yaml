@@ -21,7 +21,7 @@ endpoints:
 
 # OIDC SSO via Dex
 openid:
-  issuerURL: "https://dex.librechat.baloise.dev"
+  issuerURL: "https://librechat-dex.baloise.dev"
   clientId: "librechat"
   clientSecret: "${OIDC_CLIENT_SECRET}"
   callbackUrl: "https://librechat.baloise.dev/oauth/openid/callback"

@@ -3,7 +3,7 @@ kind: Route
 metadata:
   name: dex
 spec:
-  host: dex.librechat.baloise.dev
+  host: librechat-dex.baloise.dev
   port:
     targetPort: http
   tls:

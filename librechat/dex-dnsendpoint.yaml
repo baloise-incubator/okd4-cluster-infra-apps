@@ -4,6 +4,6 @@ metadata:
   name: dex-librechat
 spec:
   endpoints:
-    - dnsName: dex.librechat.baloise.dev
+    - dnsName: librechat-dex.baloise.dev
       recordType: A
       targets: [""]

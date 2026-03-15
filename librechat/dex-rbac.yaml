@@ -6,7 +6,7 @@ kind: ServiceAccount
 metadata:
   name: dex-sa
   annotations:
-    serviceaccounts.openshift.io/oauth-redirecturi.dex: https://dex.librechat.baloise.dev/callback
+    serviceaccounts.openshift.io/oauth-redirecturi.dex: https://librechat-dex.baloise.dev/callback
 ---
 # Long-lived token for dex-sa. OKD auto-populates the `token` field.
 # Dex uses it as the OAuth client secret when authenticating with OpenShift.

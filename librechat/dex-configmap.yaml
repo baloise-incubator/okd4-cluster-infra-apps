@@ -4,7 +4,7 @@ metadata:
   name: dex-config
 data:
   config.yaml: |
-    issuer: https://dex.librechat.baloise.dev
+    issuer: https://librechat-dex.baloise.dev
 
     storage:
       type: memory
@@ -22,7 +22,7 @@ data:
           # The redirect URI is registered via the SA annotation in dex-rbac.yaml.
           clientID: system:serviceaccount:librechat:dex-sa
           clientSecret: $OPENSHIFT_SA_TOKEN
-          redirectURI: https://dex.librechat.baloise.dev/callback
+          redirectURI: https://librechat-dex.baloise.dev/callback
 
     oauth2:
       skipApprovalScreen: true
