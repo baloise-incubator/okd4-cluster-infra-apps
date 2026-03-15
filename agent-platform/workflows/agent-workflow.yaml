@@ -1,0 +1,87 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: agent-workflow
+spec:
+  entrypoint: run-recipe
+  serviceAccountName: goose-runner-sa
+  arguments:
+    parameters:
+      - name: recipe
+        description: "Recipe filename without .yaml extension, e.g. update-and-pr"
+      - name: parameters
+        description: "JSON object of key/value pairs matching the recipe's parameter definitions"
+        value: "{}"
+
+  templates:
+    - name: run-recipe
+      inputs:
+        parameters:
+          - name: recipe
+          - name: parameters
+      script:
+        # goose:latest ships bash + perl — no python, no jq.
+        # Perl parses the JSON parameters blob into --params key=value flags.
+        image: ghcr.io/block/goose:latest
+        command: [bash]
+        source: |
+          set -euo pipefail
+          RECIPE="{{inputs.parameters.recipe}}"
+          PARAMS_JSON='{{inputs.parameters.parameters}}'
+
+          # Parse simple flat JSON {"k1":"v1","k2":"v2"} into --params k=v args.
+          # Perl handles any string values; nested JSON is not supported (recipe params are always flat).
+          mapfile -t PAIRS < <(perl -e '
+            my $j = $ENV{PARAMS_JSON};
+            while ($j =~ /"([^"]+)"\s*:\s*"([^"]*)"/g) {
+              print "$1=$2\n";
+            }
+          ' PARAMS_JSON="$PARAMS_JSON")
+
+          PARAMS_ARGS=()
+          for pair in "${PAIRS[@]}"; do
+            [[ -n "$pair" ]] && PARAMS_ARGS+=("--params" "$pair")
+          done
+
+          exec goose run \
+            --recipe "/recipes/${RECIPE}.yaml" \
+            "${PARAMS_ARGS[@]}"
+        env:
+          - name: GOOSE_PROVIDER
+            value: "openai"
+          - name: GOOSE_MODEL
+            valueFrom:
+              secretKeyRef:
+                name: llm-creds
+                key: model
+          - name: OPENAI_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: llm-creds
+                key: api-key
+          - name: OPENAI_HOST
+            valueFrom:
+              secretKeyRef:
+                name: llm-creds
+                key: base-url
+        securityContext:
+          allowPrivilegeEscalation: false
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "512Mi"
+          limits:
+            cpu: "2"
+            memory: "2Gi"
+        volumeMounts:
+          - name: recipes
+            mountPath: /recipes
+            readOnly: true
+          - name: workspace
+            mountPath: /workspace
+      volumes:
+        - name: recipes
+          configMap:
+            name: agent-recipes
+        - name: workspace
+          emptyDir: {}

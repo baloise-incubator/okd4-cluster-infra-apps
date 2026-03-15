@@ -1,0 +1,46 @@
+# Allow argo-dispatch to reach the Argo Workflows server only.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: argo-dispatch-egress
+spec:
+  podSelector:
+    matchLabels:
+      app: argo-dispatch
+  policyTypes:
+    - Egress
+  egress:
+    # Argo Workflows server
+    - ports:
+        - port: 2746
+          protocol: TCP
+    # DNS
+    - ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+---
+# Workflow pods: allow egress to LiteLLM and DNS only.
+# Extend this policy when adding GitHub/Jira MCP servers.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: agent-workflow-pod-egress
+spec:
+  podSelector:
+    matchLabels:
+      workflows.argoproj.io/workflow: ""
+  policyTypes:
+    - Egress
+  egress:
+    # LiteLLM
+    - ports:
+        - port: 4000
+          protocol: TCP
+    # DNS
+    - ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP

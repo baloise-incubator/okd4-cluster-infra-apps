@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: librechat
+  labels:
+    app: librechat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: librechat
+  template:
+    metadata:
+      labels:
+        app: librechat
+      annotations:
+        reloader.stakater.com/auto: "true"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: librechat
+          # NOTE: verify non-root OKD compatibility before going live (open question #3).
+          # If the official image fails due to root-owned paths, apply emptyDir mounts
+          # for /app/uploads, /app/logs, /app/client/dist and /app/.env equivalents.
+          image: ghcr.io/danny-avila/librechat:latest
+          ports:
+            - name: http
+              containerPort: 3080
+              protocol: TCP
+          env:
+            - name: HOST
+              value: "0.0.0.0"
+            - name: PORT
+              value: "3080"
+            - name: MONGO_URI
+              value: ""
+            - name: POSTGRES_DB
+              value: librechat
+            - name: POSTGRES_USER
+              value: librechat
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: librechat-secrets
+                  key: postgres-password
+            - name: DATABASE_URL
+              value: "postgresql://librechat:$(POSTGRES_PASSWORD)@postgresql:5432/librechat?sslmode=disable"
+            - name: LITELLM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: librechat-secrets
+                  key: litellm-api-key
+            - name: LITELLM_MODEL
+              valueFrom:
+                secretKeyRef:
+                  name: librechat-secrets
+                  key: litellm-model
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: librechat-secrets
+                  key: oidc-client-secret
+            - name: CREDS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: librechat-secrets
+                  key: creds-key
+            - name: CREDS_IV
+              valueFrom:
+                secretKeyRef:
+                  name: librechat-secrets
+                  key: creds-iv
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: librechat-secrets
+                  key: jwt-secret
+            - name: JWT_REFRESH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: librechat-secrets
+                  key: jwt-refresh-secret
+          volumeMounts:
+            - name: config
+              mountPath: /app/librechat.yaml
+              subPath: librechat.yaml
+              readOnly: true
+            - name: uploads
+              mountPath: /app/uploads
+            - name: logs
+              mountPath: /app/logs
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 2Gi
+      volumes:
+        - name: config
+          configMap:
+            name: librechat-config
+        - name: uploads
+          emptyDir: {}
+        - name: logs
+          emptyDir: {}

@@ -1,0 +1,42 @@
+version: "1.0.0"
+title: "Update dependencies and open PR"
+description: "Updates all dependencies in a repository, runs tests, and opens a PR with the changes."
+
+parameters:
+  - key: repo
+    input_type: string
+    requirement: required
+    description: "Repository to update, e.g. org/my-repo"
+  - key: task
+    input_type: string
+    requirement: optional
+    default: "Update all dependencies to their latest compatible versions"
+    description: "Specific update instruction"
+
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 300
+    bundled: true
+
+instructions: |
+  You are an autonomous engineer. Your job is to update dependencies in a
+  repository and open a pull request with the changes.
+
+  Rules:
+  - Clone the repo first, work in /workspace
+  - Run the existing test suite before and after changes
+  - If tests fail after changes, attempt to fix — maximum 2 attempts
+  - If still failing after 2 attempts, open the PR anyway with a clear note
+  - Keep the PR description factual: what changed, test status
+  - Do not modify any logic, only dependencies
+
+prompt: |
+  Repository: {{ repo }}
+  Task: {{ task }}
+
+  Complete this task autonomously. Open a PR when done.
+
+activities:
+  - "Update all npm/pip/go dependencies in {{ repo }}"
+  - "Bump a specific dependency version in {{ repo }}"

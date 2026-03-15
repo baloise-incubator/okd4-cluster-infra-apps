@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - rbac.yaml
+  - external-secret.yaml
+  - networkpolicy.yaml
+  - workflows/agent-workflow.yaml
+
+configMapGenerator:
+  - name: agent-recipes
+    files:
+      - recipes/update-and-pr.yaml
+    options:
+      disableNameSuffixHash: true

@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - configmap.yaml
+  - external-secret.yaml
+  - route.yaml
+  - dnsendpoint.yaml
+  - postgresql/statefulset.yaml
+  - postgresql/service.yaml
+  - dex-configmap.yaml
+  - dex-deployment.yaml
+  - dex-service.yaml
+  - dex-route.yaml
+  - dex-dnsendpoint.yaml
+  - dex-external-secret.yaml
+  - dex-rbac.yaml

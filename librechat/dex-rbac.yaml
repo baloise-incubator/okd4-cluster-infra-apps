@@ -1,0 +1,19 @@
+# ServiceAccount for the Dex pod.
+# Acts as the OpenShift OAuth client — no OAuthClient CRD needed.
+# OKD treats a SA as an OAuth client when it has the redirect URI annotation.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: dex-sa
+  annotations:
+    serviceaccounts.openshift.io/oauth-redirecturi.dex: https://dex.librechat.baloise.dev/callback
+---
+# Long-lived token for dex-sa. OKD auto-populates the `token` field.
+# Dex uses it as the OAuth client secret when authenticating with OpenShift.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dex-sa-token
+  annotations:
+    kubernetes.io/service-account.name: dex-sa
+type: kubernetes.io/service-account-token

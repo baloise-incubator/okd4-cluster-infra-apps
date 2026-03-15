@@ -1,0 +1,83 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: agent-workflow
+spec:
+  entrypoint: run-recipe
+  serviceAccountName: goose-runner-sa
+  arguments:
+    parameters:
+      - name: recipe
+        description: "Recipe filename without .yaml extension"
+      - name: parameters
+        description: "JSON object of key/value pairs"
+        value: "{}"
+
+  templates:
+    - name: run-recipe
+      inputs:
+        parameters:
+          - name: recipe
+          - name: parameters
+      script:
+        image: {{ .Values.gooseRunner.image }}
+        command: [bash]
+        source: |
+          set -euo pipefail
+          RECIPE="{{`{{inputs.parameters.recipe}}`}}"
+          PARAMS_JSON='{{`{{inputs.parameters.parameters}}`}}'
+
+          mapfile -t PAIRS < <(perl -e '
+            my $j = $ENV{PARAMS_JSON};
+            while ($j =~ /"([^"]+)"\s*:\s*"([^"]*)"/g) {
+              print "$1=$2\n";
+            }
+          ' PARAMS_JSON="$PARAMS_JSON")
+
+          PARAMS_ARGS=()
+          for pair in "${PAIRS[@]}"; do
+            [[ -n "$pair" ]] && PARAMS_ARGS+=("--params" "$pair")
+          done
+
+          exec goose run \
+            --recipe "/recipes/${RECIPE}.yaml" \
+            "${PARAMS_ARGS[@]}"
+        env:
+          - name: GOOSE_PROVIDER
+            value: "openai"
+          - name: GOOSE_MODEL
+            valueFrom:
+              secretKeyRef:
+                name: llm-creds
+                key: model
+          - name: OPENAI_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: llm-creds
+                key: api-key
+          - name: OPENAI_HOST
+            valueFrom:
+              secretKeyRef:
+                name: llm-creds
+                key: base-url
+        securityContext:
+          allowPrivilegeEscalation: false
+        resources:
+          requests:
+            cpu: {{ .Values.gooseRunner.resources.requests.cpu | quote }}
+            memory: {{ .Values.gooseRunner.resources.requests.memory | quote }}
+          limits:
+            cpu: {{ .Values.gooseRunner.resources.limits.cpu | quote }}
+            memory: {{ .Values.gooseRunner.resources.limits.memory | quote }}
+        volumeMounts:
+          - name: recipes
+            mountPath: /recipes
+            readOnly: true
+          - name: workspace
+            mountPath: /workspace
+      volumes:
+        - name: recipes
+          configMap:
+            name: agent-recipes
+        - name: workspace
+          emptyDir: {}

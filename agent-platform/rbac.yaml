@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: argo-dispatch-sa
+---
+# ServiceAccount for Goose workflow pods.
+# goose:latest runs as uid=1000; OKD assigns a random UID by default, making
+# /home/goose unwritable. The ClusterRoleBinding below grants anyuid SCC so
+# the pod runs as the image's declared uid=1000.
+#
+# The ClusterRoleBinding is cluster-scoped. Argo CD will only manage it if the
+# agent-platform Application has ClusterRoleBinding in its clusterResourceWhitelist.
+# If not, apply once with:
+#   oc adm policy add-scc-to-user anyuid -z goose-runner-sa -n agent-platform
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: goose-runner-sa
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: agent-platform-goose-anyuid
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:openshift:scc:anyuid
+subjects:
+  - kind: ServiceAccount
+    name: goose-runner-sa
+    namespace: agent-platform
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: argo-dispatch
+rules:
+  - apiGroups: ["argoproj.io"]
+    resources: ["workflows", "workflowtemplates"]
+    verbs: ["get", "list", "create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: argo-dispatch
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: argo-dispatch
+subjects:
+  - kind: ServiceAccount
+    name: argo-dispatch-sa
+---
+# Allow workflow pods to write task results (required by Argo Workflows executor)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: argo-workflow-executor
+rules:
+  - apiGroups: ["argoproj.io"]
+    resources: ["workflowtaskresults"]
+    verbs: ["create", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: argo-workflow-executor
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: argo-workflow-executor
+subjects:
+  - kind: ServiceAccount
+    name: argo-dispatch-sa

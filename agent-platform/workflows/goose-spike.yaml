@@ -1,0 +1,47 @@
+# Step 0 — Goose OKD compatibility spike
+#
+# Purpose: verify that ghcr.io/block/goose:latest starts under OKD's arbitrary non-root UID
+# and that the goose CLI accepts --non-interactive mode.
+#
+# Submit manually:
+#   oc create -f workflows/goose-spike.yaml -n argo-workflows
+#
+# Then watch logs:
+#   argo logs -n argo-workflows @latest
+#
+# Gate: only proceed to Step 3 if this workflow Succeeds.
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: goose-spike-
+  namespace: argo-workflows
+spec:
+  entrypoint: spike
+  templates:
+    - name: spike
+      container:
+        image: ghcr.io/block/goose:latest
+        # Validates: container starts, correct UID (anyuid SCC required), bash/perl available.
+        # Provider config is NOT validated here — that's Step 3 once llm-creds ExternalSecret is synced.
+        command: [bash]
+        args:
+          - -c
+          - |
+            set -e
+            echo "=== uid check ==="
+            id
+            echo "=== goose binary ==="
+            goose --version
+            echo "=== bash + perl available ==="
+            bash --version | head -1
+            perl --version | head -1
+            echo "=== SPIKE_OK ==="
+        securityContext:
+          allowPrivilegeEscalation: false
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+          limits:
+            cpu: "1"
+            memory: "1Gi"

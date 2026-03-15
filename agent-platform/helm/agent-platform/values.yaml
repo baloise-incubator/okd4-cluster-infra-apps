@@ -1,0 +1,22 @@
+argoDispatch:
+  image: docker.io/niiku/argo-dispatch:latest
+  argoServerUrl: http://argo-server.argo-workflows.svc.cluster.local:2746
+  argoNamespace: agent-platform
+  port: 8080
+
+gooseRunner:
+  # Replace with a custom non-root-verified image after Step 0 spike passes.
+  image: ghcr.io/block/goose:latest
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "512Mi"
+    limits:
+      cpu: "2"
+      memory: "2Gi"
+
+externalSecrets:
+  # Akeyless paths for LLM credentials used by workflow pods.
+  litelmApiKeyPath: /cluster-infra/agent-platform/litellm-api-key
+  litelmModelPath: /cluster-infra/agent-platform/litellm-model
+  litelmBaseUrlPath: /cluster-infra/agent-platform/litellm-base-url

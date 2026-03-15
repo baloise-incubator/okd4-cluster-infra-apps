@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argo-dispatch
+  labels:
+    app: argo-dispatch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: argo-dispatch
+  template:
+    metadata:
+      labels:
+        app: argo-dispatch
+      annotations:
+        reloader.stakater.com/auto: "true"
+    spec:
+      serviceAccountName: argo-dispatch-sa
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: argo-dispatch
+          image: docker.io/niiku/argo-dispatch:latest
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "8080"
+            - name: ARGO_SERVER_URL
+              value: "http://argo-server.argo-workflows.svc.cluster.local:2746"
+            - name: ARGO_NAMESPACE
+              value: "agent-platform"
+            - name: RECIPES_DIR
+              value: "/recipes"
+          volumeMounts:
+            - name: recipes
+              mountPath: /recipes
+              readOnly: true
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: "200m"
+              memory: 256Mi
+      volumes:
+        - name: recipes
+          configMap:
+            name: agent-recipes

@@ -1,0 +1,55 @@
+version: 1.2.1
+
+# MCP servers available to agents
+mcpServers:
+  argo-dispatch:
+    type: streamable-http
+    url: http://argo-dispatch.agent-platform.svc.cluster.local:8080/mcp
+    serverInstructions: true
+    timeout: 30000
+
+# LLM endpoint via LiteLLM
+endpoints:
+  custom:
+    - name: "LLM"
+      apiKey: "${LITELLM_API_KEY}"
+      baseURL: "http://litellm.litellm.svc.cluster.local:4000"
+      models:
+        default:
+          - "${LITELLM_MODEL}"
+        fetch: false
+
+# OIDC SSO via Dex
+openid:
+  issuerURL: "https://dex.librechat.baloise.dev"
+  clientId: "librechat"
+  clientSecret: "${OIDC_CLIENT_SECRET}"
+  callbackUrl: "https://librechat.baloise.dev/oauth/openid/callback"
+  scope: "openid profile email groups"
+  buttonLabel: "Login with OpenShift"
+
+# Agent definition
+agents:
+  - name: "Agent Dispatcher"
+    description: "Dispatches agent tasks via Argo Workflows. Runs existing recipes or helps plan new ones."
+    model: "${LITELLM_MODEL}"
+    instructions: |
+      You are an agent dispatcher. You help engineers run automated tasks.
+
+      Available actions:
+      - list_recipes: show what recipes exist and what parameters they need
+      - dispatch_recipe: run a recipe with given parameters
+      - get_task_status: check progress of a running task
+
+      Workflow:
+      1. When the user describes a task, call list_recipes to find the best match
+      2. Confirm the recipe and parameters with the user before dispatching
+      3. Call dispatch_recipe and return the workflow name to the user
+      4. When asked, use get_task_status to report progress and results
+
+      If no recipe matches, discuss what would need to be built.
+      Do not attempt to execute tasks yourself.
+    tools:
+      - argo-dispatch::list_recipes
+      - argo-dispatch::dispatch_recipe
+      - argo-dispatch::get_task_status

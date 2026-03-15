@@ -1,0 +1,9 @@
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: dex-librechat
+spec:
+  endpoints:
+    - dnsName: dex.librechat.baloise.dev
+      recordType: A
+      targets: [""]

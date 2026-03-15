@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argo-dispatch
+  labels:
+    app: argo-dispatch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: argo-dispatch
+  template:
+    metadata:
+      labels:
+        app: argo-dispatch
+      annotations:
+        reloader.stakater.com/auto: "true"
+    spec:
+      serviceAccountName: argo-dispatch-sa
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: argo-dispatch
+          image: {{ .Values.argoDispatch.image }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.argoDispatch.port }}
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "{{ .Values.argoDispatch.port }}"
+            - name: ARGO_SERVER_URL
+              value: {{ .Values.argoDispatch.argoServerUrl | quote }}
+            - name: ARGO_NAMESPACE
+              value: {{ .Values.argoDispatch.argoNamespace | quote }}
+            - name: RECIPES_DIR
+              value: "/recipes"
+          volumeMounts:
+            - name: recipes
+              mountPath: /recipes
+              readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: "200m"
+              memory: 256Mi
+      volumes:
+        - name: recipes
+          configMap:
+            name: agent-recipes
