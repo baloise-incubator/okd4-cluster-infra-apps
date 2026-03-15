@@ -6,6 +6,10 @@ data:
   librechat.yaml: |
     version: 1.2.1
 
+    mcpSettings:
+      allowedDomains:
+        - "argo-dispatch.agent-platform.svc.cluster.local"
+
     mcpServers:
       argo-dispatch:
         type: streamable-http
