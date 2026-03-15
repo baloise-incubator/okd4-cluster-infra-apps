@@ -18,7 +18,7 @@ spec:
         runAsNonRoot: true
       containers:
         - name: litellm
-          image: ghcr.io/berriai/litellm:main-stable
+          image: ghcr.io/berriai/litellm-database:main-stable
           args:
             - --config
             - /app/config.yaml
