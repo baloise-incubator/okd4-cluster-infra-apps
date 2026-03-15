@@ -31,6 +31,7 @@ spec:
       labels:
         app: workstation
     spec:
+      architecture: amd64
       domain:
         devices:
           disks:
@@ -40,6 +41,12 @@ spec:
             - name: cloudinit
               disk:
                 bus: virtio
+        firmware:
+          serial: 99fe6651-436d-404f-b732-84b4a8885823
+          uuid: c2c0ba36-1091-49b3-8764-22a446311bc4
+        machine:
+          type: pc-q35-rhel9.6.0
+        resources: {}
       volumes:
         - name: rootdisk
           dataVolume:
