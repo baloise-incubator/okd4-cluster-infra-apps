@@ -33,14 +33,19 @@ spec:
             - |
               apt-get update -qq && apt-get install -y -qq tmux > /dev/null 2>&1
               python -c "
-              from openhands.storage.data_models.settings import Settings
               import os, json
+              store = '/.openhands'
+              os.makedirs(store, exist_ok=True)
+              from openhands.storage.data_models.settings import Settings
               s = Settings.from_config()
               if s:
-                  path = '/.openhands/settings.json'
-                  os.makedirs(os.path.dirname(path), exist_ok=True)
-                  with open(path, 'w') as f:
+                  with open(os.path.join(store, 'settings.json'), 'w') as f:
                       f.write(s.model_dump_json(context={'expose_secrets': True}))
+              gh = os.environ.get('GITHUB_TOKEN', '')
+              if gh:
+                  secrets = {'provider_tokens': {'github': {'token': gh, 'host': 'github.com', 'user_id': None}}, 'custom_secrets': {}}
+                  with open(os.path.join(store, 'secrets.json'), 'w') as f:
+                      json.dump(secrets, f)
               "
               exec python -m openhands.server
           ports:
@@ -53,6 +58,11 @@ spec:
                 secretKeyRef:
                   name: openhands-secrets
                   key: litellm-api-key
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: openhands-secrets
+                  key: github-token
           volumeMounts:
             - name: config
               mountPath: /app/config.toml
