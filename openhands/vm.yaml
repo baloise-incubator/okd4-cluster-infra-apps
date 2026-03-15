@@ -12,6 +12,7 @@ spec:
     name: fedora
   dataVolumeTemplates:
     - metadata:
+        creationTimestamp: null
         name: openhands-rootdisk
       spec:
         source:
