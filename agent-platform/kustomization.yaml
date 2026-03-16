@@ -13,5 +13,6 @@ configMapGenerator:
   - name: agent-recipes
     files:
       - recipes/update-and-pr.yaml
+      - recipes/hello-world.yaml
     options:
       disableNameSuffixHash: true

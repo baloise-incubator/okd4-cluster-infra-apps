@@ -1,0 +1,48 @@
+version: "1.0.0"
+title: "Hello World — smoke test"
+description: "Adds a timestamped line to a repo's README and opens a PR. Use this to verify the agent platform works end-to-end."
+
+parameters:
+  - key: repo
+    input_type: string
+    requirement: required
+    description: "GitHub repository, e.g. baloise-incubator/some-repo"
+
+extensions:
+  - type: builtin
+    name: developer
+    timeout: 120
+    bundled: true
+
+instructions: |
+  You are an autonomous engineer running a quick smoke test.
+
+  Environment:
+  - GITHUB_TOKEN is set and can be used for git and GitHub API auth.
+  - You have git and curl available. You do NOT have the gh CLI.
+  - Use https://github.com/ URLs with the token for git operations:
+      git clone https://x-access-token:${GITHUB_TOKEN}@github.com/OWNER/REPO.git
+  - To open a PR, use the GitHub REST API with curl.
+
+  Task:
+  1. Clone {{ repo }} into /workspace
+  2. Create a branch named `hello-world-<short-timestamp>` (e.g. hello-world-20260316-2245)
+  3. Append a single line to README.md: `> Hello from Goose agent platform — <ISO 8601 timestamp>`
+  4. If README.md does not exist, create it with that line
+  5. Commit with message: "test: hello from goose agent platform"
+  6. Push the branch
+  7. Open a PR via the GitHub API (POST /repos/OWNER/REPO/pulls)
+     - Title: "test: hello from goose agent platform"
+     - Body: "Automated smoke test from the agent platform."
+  8. Print the PR URL
+
+  Rules:
+  - Do NOT modify any files other than README.md
+  - Keep the change minimal — one line only
+
+prompt: |
+  Repository: {{ repo }}
+  Run the smoke test now.
+
+activities:
+  - "Smoke-test the agent platform on {{ repo }}"

@@ -20,3 +20,4 @@ externalSecrets:
   litelmApiKeyPath: /cluster-infra/agent-platform/litellm-api-key
   litelmModelPath: /cluster-infra/agent-platform/litellm-model
   litelmBaseUrlPath: /cluster-infra/agent-platform/litellm-base-url
+  githubTokenPath: /github/token

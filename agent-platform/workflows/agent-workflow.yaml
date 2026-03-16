@@ -65,6 +65,11 @@ spec:
               secretKeyRef:
                 name: llm-creds
                 key: base-url
+          - name: GITHUB_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: github-creds
+                key: token
         securityContext:
           allowPrivilegeEscalation: false
         resources:
