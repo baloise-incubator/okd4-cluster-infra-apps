@@ -17,7 +17,7 @@ spec:
             - server
             - --secure=false
             - --auth-mode
-            - sso
+            - "sso,server"
           name: argo-server
           readinessProbe:
             httpGet:

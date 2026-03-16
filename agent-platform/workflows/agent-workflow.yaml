@@ -31,12 +31,13 @@ spec:
 
           # Parse simple flat JSON {"k1":"v1","k2":"v2"} into --params k=v args.
           # Perl handles any string values; nested JSON is not supported (recipe params are always flat).
+          export PARAMS_JSON
           mapfile -t PAIRS < <(perl -e '
             my $j = $ENV{PARAMS_JSON};
             while ($j =~ /"([^"]+)"\s*:\s*"([^"]*)"/g) {
               print "$1=$2\n";
             }
-          ' PARAMS_JSON="$PARAMS_JSON")
+          ')
 
           PARAMS_ARGS=()
           for pair in "${PAIRS[@]}"; do

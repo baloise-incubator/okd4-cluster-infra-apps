@@ -71,4 +71,4 @@ roleRef:
   name: argo-workflow-executor
 subjects:
   - kind: ServiceAccount
-    name: argo-dispatch-sa
+    name: goose-runner-sa

@@ -27,12 +27,13 @@ spec:
           RECIPE="{{`{{inputs.parameters.recipe}}`}}"
           PARAMS_JSON='{{`{{inputs.parameters.parameters}}`}}'
 
+          export PARAMS_JSON
           mapfile -t PAIRS < <(perl -e '
             my $j = $ENV{PARAMS_JSON};
             while ($j =~ /"([^"]+)"\s*:\s*"([^"]*)"/g) {
               print "$1=$2\n";
             }
-          ' PARAMS_JSON="$PARAMS_JSON")
+          ')
 
           PARAMS_ARGS=()
           for pair in "${PAIRS[@]}"; do
