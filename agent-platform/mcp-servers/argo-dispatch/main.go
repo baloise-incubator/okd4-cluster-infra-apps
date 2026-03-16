@@ -20,9 +20,16 @@ func main() {
 	srv := mcp.NewServer(&mcp.Implementation{Name: "argo-dispatch", Version: "1.0.0"}, nil)
 	registerTools(srv, client, recipesDir)
 
-	http.Handle("/mcp", mcp.NewStreamableHTTPHandler(func(_ *http.Request) *mcp.Server {
+	mcpHandler := mcp.NewStreamableHTTPHandler(func(_ *http.Request) *mcp.Server {
 		return srv
-	}, nil))
+	}, nil)
+	http.HandleFunc("/mcp", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodGet {
+			w.WriteHeader(http.StatusMethodNotAllowed)
+			return
+		}
+		mcpHandler.ServeHTTP(w, r)
+	})
 	http.HandleFunc("/healthz", func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	})
