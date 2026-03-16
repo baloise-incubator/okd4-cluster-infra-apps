@@ -14,15 +14,18 @@ spec:
     - ports:
         - port: 2746
           protocol: TCP
-    # DNS
+    # DNS (port 53 for service IP, 5353 for OVN-Kubernetes DNAT to CoreDNS pods)
     - ports:
         - port: 53
           protocol: UDP
         - port: 53
           protocol: TCP
+        - port: 5353
+          protocol: UDP
+        - port: 5353
+          protocol: TCP
 ---
-# Workflow pods: allow egress to LiteLLM and DNS only.
-# Extend this policy when adding GitHub/Jira MCP servers.
+# Workflow pods: allow egress to LiteLLM, GitHub (HTTPS), and DNS.
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -38,9 +41,17 @@ spec:
     - ports:
         - port: 4000
           protocol: TCP
-    # DNS
+    # GitHub HTTPS (git clone/push, API calls)
+    - ports:
+        - port: 443
+          protocol: TCP
+    # DNS (port 53 for service IP, 5353 for OVN-Kubernetes DNAT to CoreDNS pods)
     - ports:
         - port: 53
           protocol: UDP
         - port: 53
+          protocol: TCP
+        - port: 5353
+          protocol: UDP
+        - port: 5353
           protocol: TCP
