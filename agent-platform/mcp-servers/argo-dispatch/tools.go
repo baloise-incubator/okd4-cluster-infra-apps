@@ -37,7 +37,7 @@ func errResult(text string) *mcp.CallToolResultFor[any] {
 	}
 }
 
-func registerTools(srv *mcp.Server, client *argoClient, recipesDir string) {
+func registerTools(srv *mcp.Server, client *argoClient, recipesDir, argoExternalURL, argoNS string) {
 	mcp.AddTool(srv, &mcp.Tool{
 		Name:        "list_recipes",
 		Description: "List all available agent recipes with names, descriptions, and required parameters.",
@@ -57,7 +57,7 @@ func registerTools(srv *mcp.Server, client *argoClient, recipesDir string) {
 		if err != nil {
 			return errResult(fmt.Sprintf("invalid parameters: %v", err)), nil
 		}
-		return dispatchRecipe(client, recipesDir, p.Arguments.Recipe, string(paramsJSON))
+		return dispatchRecipe(client, recipesDir, p.Arguments.Recipe, string(paramsJSON), argoExternalURL, argoNS)
 	})
 
 	type statusArgs struct {
@@ -100,7 +100,7 @@ func listRecipes(dir string) (*mcp.CallToolResultFor[any], error) {
 	return textResult(sb.String()), nil
 }
 
-func dispatchRecipe(client *argoClient, recipesDir, recipe, paramsJSON string) (*mcp.CallToolResultFor[any], error) {
+func dispatchRecipe(client *argoClient, recipesDir, recipe, paramsJSON, argoExternalURL, argoNS string) (*mcp.CallToolResultFor[any], error) {
 	if _, err := os.Stat(filepath.Join(recipesDir, recipe+".yaml")); os.IsNotExist(err) {
 		return errResult(fmt.Sprintf("unknown recipe %q — call list_recipes to see available options", recipe)), nil
 	}
@@ -108,7 +108,13 @@ func dispatchRecipe(client *argoClient, recipesDir, recipe, paramsJSON string) (
 	if err != nil {
 		return errResult(fmt.Sprintf("workflow submission failed: %v", err)), nil
 	}
-	return textResult(fmt.Sprintf("Workflow dispatched: %s\nUse get_task_status with workflow_name=%q to check progress.", wfName, wfName)), nil
+	var sb strings.Builder
+	sb.WriteString(fmt.Sprintf("Workflow dispatched: %s\n", wfName))
+	if argoExternalURL != "" {
+		sb.WriteString(fmt.Sprintf("View: %s/workflows/%s/%s\n", argoExternalURL, argoNS, wfName))
+	}
+	sb.WriteString(fmt.Sprintf("\nThe workflow is running in the background. Use get_task_status with workflow_name=%q to check progress.", wfName))
+	return textResult(sb.String()), nil
 }
 
 func getTaskStatus(client *argoClient, workflowName string) (*mcp.CallToolResultFor[any], error) {

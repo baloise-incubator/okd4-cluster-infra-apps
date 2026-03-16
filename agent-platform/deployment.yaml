@@ -35,6 +35,8 @@ spec:
               value: "agent-platform"
             - name: RECIPES_DIR
               value: "/recipes"
+            - name: ARGO_EXTERNAL_URL
+              value: "https://workflows.baloise.dev"
           volumeMounts:
             - name: recipes
               mountPath: /recipes

@@ -15,10 +15,12 @@ func main() {
 	argoNS := getEnv("ARGO_NAMESPACE", "agent-platform")
 	recipesDir := getEnv("RECIPES_DIR", "/recipes")
 
+	argoExternalURL := getEnv("ARGO_EXTERNAL_URL", "")
+
 	client := newArgoClient(argoURL, argoNS)
 
 	srv := mcp.NewServer(&mcp.Implementation{Name: "argo-dispatch", Version: "1.0.0"}, nil)
-	registerTools(srv, client, recipesDir)
+	registerTools(srv, client, recipesDir, argoExternalURL, argoNS)
 
 	mcpHandler := mcp.NewStreamableHTTPHandler(func(_ *http.Request) *mcp.Server {
 		return srv
