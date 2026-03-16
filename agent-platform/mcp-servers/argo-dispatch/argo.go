@@ -68,10 +68,10 @@ func (c *argoClient) submitWorkflow(recipe, parametersJSON string) (string, erro
 		"resourceKind": "WorkflowTemplate",
 		"resourceName": "agent-workflow",
 		"namespace":    c.namespace,
-		"arguments": map[string]any{
-			"parameters": []map[string]string{
-				{"name": "recipe", "value": recipe},
-				{"name": "parameters", "value": parametersJSON},
+		"submitOptions": map[string]any{
+			"parameters": []string{
+				"recipe=" + recipe,
+				"parameters=" + parametersJSON,
 			},
 		},
 	}
