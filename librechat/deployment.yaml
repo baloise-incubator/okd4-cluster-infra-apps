@@ -56,6 +56,30 @@ spec:
                 secretKeyRef:
                   name: librechat-secrets
                   key: litellm-model
+            - name: OPENID_CLIENT_ID
+              value: "librechat"
+            - name: OPENID_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: librechat-secrets
+                  key: oidc-client-secret
+            - name: OPENID_ISSUER
+              value: "https://librechat-dex.baloise.dev"
+            - name: OPENID_SCOPE
+              value: "openid profile email groups"
+            - name: OPENID_CALLBACK_URL
+              value: "https://librechat.baloise.dev/oauth/openid/callback"
+            - name: OPENID_BUTTON_LABEL
+              value: "Login with OpenShift"
+            - name: OPENID_SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: librechat-secrets
+                  key: openid-session-secret
+            - name: ALLOW_SOCIAL_LOGIN
+              value: "true"
+            - name: ALLOW_SOCIAL_REGISTRATION
+              value: "true"
             - name: ALLOW_REGISTRATION
               value: "false"
             - name: CREDS_KEY
