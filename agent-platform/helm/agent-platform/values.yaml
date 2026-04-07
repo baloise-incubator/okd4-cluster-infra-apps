@@ -17,7 +17,7 @@ gooseRunner:
 
 externalSecrets:
   # Akeyless paths for LLM credentials used by workflow pods.
-  litelmApiKeyPath: /cluster-infra/agent-platform/litellm-api-key
-  litelmModelPath: /cluster-infra/agent-platform/litellm-model
-  litelmBaseUrlPath: /cluster-infra/agent-platform/litellm-base-url
-  githubTokenPath: /github/token
+  litelmApiKeyPath: /baloise-incubator/cluster-infra/agent-platform/litellm-api-key
+  litelmModelPath: /baloise-incubator/cluster-infra/agent-platform/litellm-model
+  litelmBaseUrlPath: /baloise-incubator/cluster-infra/agent-platform/litellm-base-url
+  githubTokenPath: /baloise-incubator/github/token
